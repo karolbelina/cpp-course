@@ -1,10 +1,12 @@
 #include <string>
 
+#pragma once
+
 class Table {
 public:
-	Table();
+	Table(int* error);
 	Table(std::string name, int tableLength, int* error);
-	Table(const Table &other);
+	Table(const Table &other, int* error);
 	~Table();
 
 	void setName(std::string name);
@@ -12,7 +14,7 @@ public:
 	void setElement(int offset, int value, int* error);
 	int getElement(int offset, int* error);
 	Table* clone();
-	void setTable(const Table &other);
+	void setTable(const Table &other, int* error);
 	std::string getStatus();
 
 private:

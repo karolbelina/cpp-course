@@ -1,44 +1,35 @@
 #include <iostream>
 #include <string>
 #include <new>			// std::nothrow
+
 #include "table.h"
 #include "constants.h"
 
-Table::Table() {
+Table::Table(int* error) {
 	name = DEFAULT_NAME;
+	setTableLength(DEFAULT_LENGTH, error);
 
-	arraySize = DEFAULT_LENGTH;
-	array = new int[arraySize];
-	for(int i = 0; i < arraySize; i++) {
-		array[i] = DEFAULT_VALUE;
-	}
-
-	std::cout << "bezp: " + name;
+	std::cout << "bezp: " + name << std::endl;
 }
 
 Table::Table(std::string name, int tableLength, int* error) {
 	this->name = name;
-	
-	arraySize = tableLength;
-	array = new int[arraySize];
-	for(int i = 0; i < arraySize; i++) {
-		array[i] = DEFAULT_VALUE;
-	}
+	setTableLength(tableLength, error);
 
-	std::cout << "parametr: " + this->name;
+	std::cout << "parametr: " + this->name << std::endl;
 }
 
-Table::Table(const Table &other) {
+Table::Table(const Table &other, int* error) {
 	name = other.name + "_copy";
-	setTable(other);
+	setTable(other, error);
 
-	std::cout << "kopiuj: " + name;
+	std::cout << "kopiuj: " + name << std::endl;
 }
 
 Table::~Table() {
-	std::cout << "usuwam: " + name;
-
 	delete[] array;
+
+	std::cout << "usuwam: " + name << std::endl;
 }
 
 void Table::setName(std::string name) {
@@ -58,22 +49,32 @@ void Table::setTableLength(int tableLength, int* error) {
 		return;
 	}
 
-	if(tableLength < arraySize) {
-		for(int i = 0; i < tableLength; i++) {
-			temp[i] = array[i];
+	if(array) { // array has been already initialized
+		if(tableLength < arraySize) {
+			for(int i = 0; i < tableLength; i++) {
+				temp[i] = array[i];
+			}
+		}
+		else if(tableLength > arraySize) {
+			for(int i = 0; i < arraySize; i++) {
+				temp[i] = array[i];
+			}
+
+			for(int i = arraySize; i < tableLength; i++) {
+				temp[i] = DEFAULT_VALUE;
+			}
 		}
 	}
-	else if(tableLength > arraySize) {
-		for(int i = 0; i < arraySize; i++) {
-			temp[i] = array[i];
-		}
-
-		for(int i = arraySize; i < tableLength; i++) {
+	else { // array is being initialized for the first time
+		for(int i = 0; i < tableLength; i++) {
 			temp[i] = DEFAULT_VALUE;
 		}
 	}
 
-	delete[] array;
+	if(array) {
+		delete[] array;
+	}
+
 	array = temp;
 	arraySize = tableLength;
 
@@ -102,8 +103,28 @@ Table* Table::clone() {
 	return new Table(*this);
 }
 
-void Table::setTable(const Table &other) {
-	array = other.array;			// ????
+void Table::setTable(const Table &other, int* error) {
+	int length = other.arraySize;
+	int* otherArray = other.array;
+	int* temp = new (std::nothrow) int[length];
+
+	if(!temp) {
+		*error = 1;
+		return;
+	}
+
+	for(int i = 0; i < length; i++) {
+		temp[i] = otherArray[i];
+	}
+
+	if(array) {
+		delete[] array;
+	}
+
+	array = temp;
+	arraySize = length;
+
+	*error = 0;
 }
 
 std::string Table::getStatus() {
