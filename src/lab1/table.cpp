@@ -6,21 +6,21 @@
 #include "table.h"
 #include "constants.h"
 
-Table::Table(int &error) {
+Table::Table(Error &error) {
 	name = DEFAULT_NAME;
 	setTableLength(DEFAULT_LENGTH, error);
 
 	std::cout << "\tbezp: " + name << std::endl;
 }
 
-Table::Table(std::string name, int tableLength, int &error) {
+Table::Table(std::string name, int tableLength, Error &error) {
 	this->name = name;
 	setTableLength(tableLength, error);
 
 	std::cout << "\tparametr: " + this->name << std::endl;
 }
 
-Table::Table(const Table &other, int &error) {
+Table::Table(const Table &other, Error &error) {
 	name = other.name + "_copy";
 	setTable(other, error);
 
@@ -28,7 +28,9 @@ Table::Table(const Table &other, int &error) {
 }
 
 Table::~Table() {
-	delete[] array;
+	if(array != NULL) {
+		delete[] array;
+	}
 
 	std::cout << "\tusuwam: " + name << std::endl;
 }
@@ -37,16 +39,16 @@ void Table::setName(std::string name) {
 	this->name = name;
 }
 
-void Table::setTableLength(int tableLength, int &error) {
+void Table::setTableLength(int tableLength, Error &error) {
 	if(tableLength < 0) {
-		error = 1;
+		error = IndexOutOfBounds;
 		return;
 	}
 
 	int* temp = new (std::nothrow) int[tableLength];
 
 	if(temp == NULL) {
-		error = 2;
+		error = OutOfMemory;
 		return;
 	}
 
@@ -79,38 +81,38 @@ void Table::setTableLength(int tableLength, int &error) {
 	array = temp;
 	arraySize = tableLength;
 
-	error = 0;
+	error = NoError;
 }
 
-void Table::setElement(int offset, int value, int &error) {
+void Table::setElement(int offset, int value, Error &error) {
 	if(offset < 0 || offset > arraySize - 1) {
-		error = 1;
+		error = IndexOutOfBounds;
 		return;
 	}
-	error = 0;
+	error = NoError;
 	array[offset] = value;
 }
 
-int Table::getElement(int offset, int &error) {
+int Table::getElement(int offset, Error &error) {
 	if(offset < 0 || offset > arraySize - 1) {
-		error = 1;
+		error = IndexOutOfBounds;
 		return NULL;
 	}
-	error = 0;
+	error = NoError;
 	return array[offset];
 }
 
-Table* Table::clone() {
-	return new Table(*this); // todo: error
+Table* Table::clone(Error &error) {
+	return new Table(*this, error);
 }
 
-void Table::setTable(const Table &other, int &error) {
+void Table::setTable(const Table &other, Error &error) {
 	int length = other.arraySize;
 	int* otherArray = other.array;
 	int* temp = new (std::nothrow) int[length];
 
-	if(!temp) {
-		error = 1;
+	if(temp == NULL) {
+		error = OutOfMemory;
 		return;
 	}
 
@@ -118,14 +120,14 @@ void Table::setTable(const Table &other, int &error) {
 		temp[i] = otherArray[i];
 	}
 
-	if(array) {
+	if(array != NULL) {
 		delete[] array;
 	}
 
 	array = temp;
 	arraySize = length;
 
-	error = 0;
+	error = NoError;
 }
 
 std::ostream& operator<<(std::ostream &stream, const Table &table) {

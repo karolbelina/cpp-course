@@ -1,21 +1,23 @@
 #include <string>
 #include <iostream>
 
+#include "error.h"
+
 #pragma once
 
 class Table {
 public:
-	Table(int &error);
-	Table(std::string name, int tableLength, int &error);
-	Table(const Table &other, int &error);
+	Table(Error &error);
+	Table(std::string name, int tableLength, Error &error);
+	Table(const Table &other, Error &error);
 	~Table();
 
 	void setName(std::string name);
-	void setTableLength(int tableLength, int &error);
-	void setElement(int offset, int value, int &error);
-	int getElement(int offset, int &error);
-	Table* clone();
-	void setTable(const Table &other, int &error);
+	void setTableLength(int tableLength, Error &error);
+	void setElement(int offset, int value, Error &error);
+	int getElement(int offset, Error &error);
+	Table* clone(Error &error);
+	void setTable(const Table &other, Error &error);
 	friend std::ostream& operator<<(std::ostream &stream, const Table &table);
 
 private:
