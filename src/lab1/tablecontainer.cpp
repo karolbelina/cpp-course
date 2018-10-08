@@ -41,6 +41,15 @@ void TableContainer::renameTable(int tableIndex, std::string name, Error &error)
 	error = NoError;
 }
 
+void TableContainer::resizeTable(int tableIndex, int tableLength, Error &error) {
+	if(tableIndex < 0 || tableIndex > tables.size() - 1) {
+		error = IndexOutOfBounds;
+		return;
+	}
+
+	tables[tableIndex]->setTableLength(tableLength, error);
+}
+
 void TableContainer::cloneTable(int tableIndex, Error &error) {
 	if(tableIndex < 0 || tableIndex > tables.size() - 1) {
 		error = IndexOutOfBounds;

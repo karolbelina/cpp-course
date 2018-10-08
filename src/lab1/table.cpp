@@ -134,14 +134,16 @@ void Table::setTable(const Table &other, Error &error) {
 	error = NoError;
 }
 
-std::ostream& operator<<(std::ostream &stream, const Table &table) {
-	stream << "(" << table.name << " len: " << table.arraySize << " values: ";
+std::string Table::getStatus() {
+	std::ostringstream stream;
 
-	for(int i = 0; i < table.arraySize - 1; i++) {
-		stream << table.array[i] << ", ";
+	stream << "(" << name << " len: " << arraySize << " values: ";
+
+	for(int i = 0; i < arraySize - 1; i++) {
+		stream << array[i] << ", ";
 	}
 
-	stream << table.array[table.arraySize - 1] << ")";
+	stream << array[arraySize - 1] << ")";
 
-	return stream;
+	return stream.str();
 }

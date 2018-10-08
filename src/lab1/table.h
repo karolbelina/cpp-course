@@ -19,7 +19,7 @@ public:
 	int getElement(int offset, Error &error);
 	Table* clone(Error &error);
 	void setTable(const Table &other, Error &error);
-	friend std::ostream& operator<<(std::ostream &stream, const Table &table);
+	std::string getStatus();
 
 private:
 	std::string name;
