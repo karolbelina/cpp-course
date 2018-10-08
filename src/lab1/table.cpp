@@ -143,7 +143,11 @@ std::string Table::getStatus() {
 		stream << array[i] << ", ";
 	}
 
-	stream << array[arraySize - 1] << ")";
+	if(arraySize > 0) {
+		stream << array[arraySize - 1];
+	}
+
+	stream << ")";
 
 	return stream.str();
 }

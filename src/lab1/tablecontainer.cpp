@@ -15,7 +15,7 @@ void TableContainer::addTable(std::string name, int tableLength, Error &error) {
 }
 
 void TableContainer::removeTable(int tableIndex, Error &error) {
-	if(tableIndex < 0 || tableIndex > tables.size() - 1) {
+	if(tableIndex < 0 || tableIndex >= tables.size()) {
 		error = IndexOutOfBounds;
 		return;
 	}
@@ -34,7 +34,7 @@ void TableContainer::removeAllTables() {
 }
 
 void TableContainer::renameTable(int tableIndex, std::string name, Error &error) {
-	if(tableIndex < 0 || tableIndex > tables.size() - 1) {
+	if(tableIndex < 0 || tableIndex >= tables.size()) {
 		error = IndexOutOfBounds;
 		return;
 	}
@@ -44,7 +44,7 @@ void TableContainer::renameTable(int tableIndex, std::string name, Error &error)
 }
 
 void TableContainer::resizeTable(int tableIndex, int tableLength, Error &error) {
-	if(tableIndex < 0 || tableIndex > tables.size() - 1) {
+	if(tableIndex < 0 || tableIndex >= tables.size()) {
 		error = IndexOutOfBounds;
 		return;
 	}
@@ -53,7 +53,7 @@ void TableContainer::resizeTable(int tableIndex, int tableLength, Error &error) 
 }
 
 void TableContainer::cloneTable(int tableIndex, Error &error) {
-	if(tableIndex < 0 || tableIndex > tables.size() - 1) {
+	if(tableIndex < 0 || tableIndex >= tables.size()) {
 		error = IndexOutOfBounds;
 		return;
 	}
@@ -66,9 +66,9 @@ void TableContainer::cloneTable(int tableIndex, Error &error) {
 }
 
 std::string TableContainer::getTableStatus(int tableIndex, Error & error) {
-	if(tableIndex < 0 || tableIndex > tables.size() - 1) {
+	if(tableIndex < 0 || tableIndex >= tables.size()) {
 		error = IndexOutOfBounds;
-		return NULL;
+		return "";
 	}
 
 	error = NoError;
@@ -80,17 +80,21 @@ std::string TableContainer::getStatus() {
 
 	stream << "(";
 
-	for(int i = 0; i < tables.size() - 1; i++) {
+	for(int i = 0; i < (int)(tables.size()) - 1; i++) {
 		stream << tables[i]->getName() << ", ";
 	}
 
-	stream << tables[tables.size() - 1]->getName() << ")";
+	if(tables.size() > 0) {
+		stream << tables[tables.size() - 1]->getName();
+	}
+
+	stream << ")";
 
 	return stream.str();
 }
 
 void TableContainer::editTable(int tableIndex, int cellIndex, int value, Error &error) {
-	if(tableIndex < 0 || tableIndex > tables.size() - 1) {
+	if(tableIndex < 0 || tableIndex >= tables.size()) {
 		error = IndexOutOfBounds;
 		return;
 	}
