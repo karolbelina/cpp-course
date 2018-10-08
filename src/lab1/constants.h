@@ -1,6 +1,6 @@
 #include <string>
 
-const char * const DEFAULT_NAME = "untitled";
+const char* const DEFAULT_NAME = "untitled";
 const int DEFAULT_LENGTH = 10;
 const int DEFAULT_VALUE = 0;
 

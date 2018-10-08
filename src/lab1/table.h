@@ -13,6 +13,7 @@ public:
 	~Table();
 
 	void setName(std::string name);
+	std::string getName();
 	void setTableLength(int tableLength, Error &error);
 	void setElement(int offset, int value, Error &error);
 	int getElement(int offset, Error &error);

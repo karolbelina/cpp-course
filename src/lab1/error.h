@@ -1,5 +1,5 @@
 #pragma once
 
 enum Error {
-	NoError, IndexOutOfBounds, OutOfMemory
+	NoError, IndexOutOfBounds, InvalidArgument, OutOfMemory
 };

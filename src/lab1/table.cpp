@@ -39,9 +39,13 @@ void Table::setName(std::string name) {
 	this->name = name;
 }
 
+std::string Table::getName() {
+	return name;
+}
+
 void Table::setTableLength(int tableLength, Error &error) {
 	if(tableLength < 0) {
-		error = IndexOutOfBounds;
+		error = InvalidArgument;
 		return;
 	}
 
