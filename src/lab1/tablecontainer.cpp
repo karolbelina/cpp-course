@@ -1,3 +1,5 @@
+#include <sstream>
+
 #include "tablecontainer.h"
 
 TableContainer::~TableContainer() {
@@ -18,9 +20,9 @@ void TableContainer::removeTable(int tableIndex, Error &error) {
 		return;
 	}
 
+	error = NoError;
 	delete tables[tableIndex];
 	tables.erase(tables.begin() + tableIndex);
-	error = NoError;
 }
 
 void TableContainer::removeAllTables() {
@@ -37,8 +39,8 @@ void TableContainer::renameTable(int tableIndex, std::string name, Error &error)
 		return;
 	}
 
-	tables[tableIndex]->setName(name);
 	error = NoError;
+	tables[tableIndex]->setName(name);
 }
 
 void TableContainer::resizeTable(int tableIndex, int tableLength, Error &error) {
@@ -69,16 +71,22 @@ std::string TableContainer::getTableStatus(int tableIndex, Error & error) {
 		return;
 	}
 
-	std::cout << *tables[tableIndex] << std::endl;
 	error = NoError;
+	return tables[tableIndex]->getStatus();
 }
 
 std::string TableContainer::getStatus() {
-	std::cout << "(";
-	for(int j = 0; j < tables.size() - 1; j++) {
-		std::cout << tables[j]->getName() << ", ";
+	std::ostringstream stream;
+
+	stream << "(";
+
+	for(int i = 0; i < tables.size() - 1; i++) {
+		stream << tables[i]->getName() << ", ";
 	}
-	std::cout << tables[tables.size() - 1]->getName() << ")" << std::endl;
+
+	stream << tables[tables.size() - 1]->getName() << ")";
+
+	return stream.str();
 }
 
 void TableContainer::editTable(int tableIndex, int cellIndex, int value, Error &error) {
