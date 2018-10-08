@@ -10,21 +10,21 @@ Table::Table(Error &error) {
 	name = DEFAULT_NAME;
 	setTableLength(DEFAULT_LENGTH, error);
 
-	std::cout << "\tbezp: " + name << std::endl;
+	std::cout << NOARG_CONSTRUCTOR_MESSAGE + name << std::endl;
 }
 
 Table::Table(std::string name, int tableLength, Error &error) {
 	this->name = name;
 	setTableLength(tableLength, error);
 
-	std::cout << "\tparametr: " + this->name << std::endl;
+	std::cout << PARAM_CONSTRUCTOR_MESSAGE + this->name << std::endl;
 }
 
 Table::Table(const Table &other, Error &error) {
-	name = other.name + "_copy";
+	name = other.name + COPY_STRING;
 	setTable(other, error);
 
-	std::cout << "\tkopiuj: " + name << std::endl;
+	std::cout << COPYING_CONSTRUCTOR_MESSAGE + name << std::endl;
 }
 
 Table::~Table() {
@@ -32,7 +32,7 @@ Table::~Table() {
 		delete[] array;
 	}
 
-	std::cout << "\tusuwam: " + name << std::endl;
+	std::cout << DESTRUCTOR_MESSAGE + name << std::endl;
 }
 
 void Table::setName(std::string name) {

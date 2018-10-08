@@ -68,7 +68,7 @@ void TableContainer::cloneTable(int tableIndex, Error &error) {
 std::string TableContainer::getTableStatus(int tableIndex, Error & error) {
 	if(tableIndex < 0 || tableIndex > tables.size() - 1) {
 		error = IndexOutOfBounds;
-		return;
+		return NULL;
 	}
 
 	error = NoError;
