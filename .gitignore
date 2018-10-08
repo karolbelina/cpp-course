@@ -269,3 +269,5 @@ pch.cpp
 pch.h
 
 ~AutoRecover.*
+
+enc_temp_folder/

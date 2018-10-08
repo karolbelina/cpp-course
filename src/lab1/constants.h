@@ -17,8 +17,18 @@ const std::string COLON = ": ";
 
 
 
+// commands
 const std::string QUIT_COMMAND = "quit";
 const std::string CREATE_COMMAND = "create";
+const std::string REMOVE_COMMAND = "remove";
+const std::string ALL_COMMAND = "all";
+const std::string RESIZE_COMMAND = "resize";
+const std::string RENAME_COMMAND = "rename";
+const std::string STATUS_COMMAND = "status";
+const std::string CLONE_COMMAND = "clone";
+const std::string EDIT_COMMAND = "edit";
+const std::string HELP_COMMAND = "help";
+
 
 const std::string NOARG_CONSTRUCTOR_MESSAGE = "\tbezp: ";
 const std::string PARAM_CONSTRUCTOR_MESSAGE = "\tparametr: ";
