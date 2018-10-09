@@ -5,7 +5,7 @@
 
 class TableContainer {
 public:
-	~TableContainer(); // kasuj tabelki z pamieci a pozniej wskazniki z wektora !!!!!!!!!!!!
+	~TableContainer();
 
 	void addTable(std::string name, int tableLength, Error &error);
 	void removeTable(int tableIndex, Error &error);

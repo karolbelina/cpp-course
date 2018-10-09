@@ -12,6 +12,9 @@ void TableContainer::addTable(std::string name, int tableLength, Error &error) {
 	if(error == NoError) {
 		tables.push_back(table);
 	}
+	else {
+		delete table;
+	}
 }
 
 void TableContainer::removeTable(int tableIndex, Error &error) {
