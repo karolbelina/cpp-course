@@ -1,6 +1,7 @@
 #include <sstream>
 
 #include "tablecontainer.h"
+#include "constants.h"
 
 TableContainer::~TableContainer() {
 	removeAllTables();
@@ -71,7 +72,7 @@ void TableContainer::cloneTable(int tableIndex, Error &error) {
 std::string TableContainer::getTableStatus(int tableIndex, Error & error) {
 	if(tableIndex < 0 || tableIndex >= tables.size()) {
 		error = IndexOutOfBounds;
-		return "";
+		return EMPTY_STRING;
 	}
 
 	error = NoError;
@@ -81,17 +82,17 @@ std::string TableContainer::getTableStatus(int tableIndex, Error & error) {
 std::string TableContainer::getStatus() {
 	std::ostringstream stream;
 
-	stream << "(";
+	stream << OPEN_PARENTHESIS;
 
 	for(int i = 0; i < (int)(tables.size()) - 1; i++) {
-		stream << tables[i]->getName() << ", ";
+		stream << tables[i]->getName() << COMMA;
 	}
 
 	if(tables.size() > 0) {
 		stream << tables[tables.size() - 1]->getName();
 	}
 
-	stream << ")";
+	stream << CLOSE_PARENTHESIS;
 
 	return stream.str();
 }

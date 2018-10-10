@@ -4,7 +4,6 @@ const std::string DEFAULT_NAME = "untitled";
 const int DEFAULT_LENGTH = 10;
 const int DEFAULT_VALUE = 0;
 
-
 // --- strings ---
 const std::string TITLE_MESSAGE = "table creator v1.0";
 const std::string HELP_MESSAGE = "available commands:\n\tcreate <amount>\n\trename <table index> <name>\n\t"
@@ -24,6 +23,8 @@ const std::string SET_TO_MESSAGE = " has been set to ";
 const std::string CLONED_TABLE_MESSAGE = "cloned table #";
 
 const std::string PROMPT_MESSAGE = "> ";
+
+const std::string EMPTY_STRING = "";
 
 // errors
 const std::string INDEX_OUT_OF_BOUNDS_MESSAGE = "index out of bounds";
@@ -60,3 +61,8 @@ const std::string PARAM_CONSTRUCTOR_MESSAGE = "\tparametr: ";
 const std::string COPYING_CONSTRUCTOR_MESSAGE = "\tkopiuj: ";
 const std::string DESTRUCTOR_MESSAGE = "\tusuwam: ";
 const std::string COPY_STRING = "_copy";
+const std::string OPEN_PARENTHESIS = "(";
+const std::string CLOSE_PARENTHESIS = ")";
+const std::string COMMA = ", ";
+const std::string LENGTH_STRING = " len: ";
+const std::string VALUES_STRING = " values: ";

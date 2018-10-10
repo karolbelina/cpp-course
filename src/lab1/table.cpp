@@ -137,17 +137,17 @@ void Table::setTable(const Table &other, Error &error) {
 std::string Table::getStatus() {
 	std::ostringstream stream;
 
-	stream << "(" << name << " len: " << arraySize << " values: ";
+	stream << OPEN_PARENTHESIS << name << LENGTH_STRING << arraySize << VALUES_STRING;
 
 	for(int i = 0; i < arraySize - 1; i++) {
-		stream << array[i] << ", ";
+		stream << array[i] << COMMA;
 	}
 
 	if(arraySize > 0) {
 		stream << array[arraySize - 1];
 	}
 
-	stream << ")";
+	stream << CLOSE_PARENTHESIS;
 
 	return stream.str();
 }
