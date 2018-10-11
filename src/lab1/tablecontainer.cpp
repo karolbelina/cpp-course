@@ -19,8 +19,7 @@ void TableContainer::addTable(std::string name, int tableLength, Error &error) {
 }
 
 void TableContainer::removeTable(int tableIndex, Error &error) {
-	if(tableIndex < 0 || tableIndex >= tables.size()) {
-		error = IndexOutOfBounds;
+	if(checkIndex(tableIndex, error)) {
 		return;
 	}
 
@@ -38,8 +37,7 @@ void TableContainer::removeAllTables() {
 }
 
 void TableContainer::renameTable(int tableIndex, std::string name, Error &error) {
-	if(tableIndex < 0 || tableIndex >= tables.size()) {
-		error = IndexOutOfBounds;
+	if(checkIndex(tableIndex, error)) {
 		return;
 	}
 
@@ -48,8 +46,7 @@ void TableContainer::renameTable(int tableIndex, std::string name, Error &error)
 }
 
 void TableContainer::resizeTable(int tableIndex, int tableLength, Error &error) {
-	if(tableIndex < 0 || tableIndex >= tables.size()) {
-		error = IndexOutOfBounds;
+	if(checkIndex(tableIndex, error)) {
 		return;
 	}
 
@@ -57,21 +54,17 @@ void TableContainer::resizeTable(int tableIndex, int tableLength, Error &error) 
 }
 
 void TableContainer::cloneTable(int tableIndex, Error &error) {
-	if(tableIndex < 0 || tableIndex >= tables.size()) {
-		error = IndexOutOfBounds;
+	if(checkIndex(tableIndex, error)) {
 		return;
 	}
 
-	Table* table = tables[tableIndex]->clone(error);
-
-	if(error == NoError) {
-		tables.push_back(table);
-	}
+	error = NoError;
+	Table* table = tables[tableIndex]->clone();
+	tables.push_back(table);
 }
 
 std::string TableContainer::getTableStatus(int tableIndex, Error & error) {
-	if(tableIndex < 0 || tableIndex >= tables.size()) {
-		error = IndexOutOfBounds;
+	if(checkIndex(tableIndex, error)) {
 		return EMPTY_STRING;
 	}
 
@@ -98,8 +91,7 @@ std::string TableContainer::getStatus() {
 }
 
 void TableContainer::editTable(int tableIndex, int cellIndex, int value, Error &error) {
-	if(tableIndex < 0 || tableIndex >= tables.size()) {
-		error = IndexOutOfBounds;
+	if(checkIndex(tableIndex, error)) {
 		return;
 	}
 
@@ -108,4 +100,22 @@ void TableContainer::editTable(int tableIndex, int cellIndex, int value, Error &
 
 int TableContainer::size() {
 	return tables.size();
+}
+
+void TableContainer::testTable(int tableIndex, Error &error) {
+	if(checkIndex(tableIndex, error)) {
+		return;
+	}
+
+	error = NoError;
+	Table::test(*tables[tableIndex]);
+}
+
+bool TableContainer::checkIndex(int tableIndex, Error &error) {
+	if(tableIndex < 0 || tableIndex >= tables.size()) {
+		error = IndexOutOfBounds;
+		return true;
+	}
+
+	return false;
 }

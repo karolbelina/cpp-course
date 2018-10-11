@@ -6,8 +6,9 @@
 #include "table.h"
 #include "constants.h"
 
-Table::Table(Error &error) {
+Table::Table() {
 	name = DEFAULT_NAME;
+	Error error;
 	setTableLength(DEFAULT_LENGTH, error);
 
 	std::cout << NOARG_CONSTRUCTOR_MESSAGE + name << std::endl;
@@ -20,8 +21,9 @@ Table::Table(std::string name, int tableLength, Error &error) {
 	std::cout << PARAM_CONSTRUCTOR_MESSAGE + this->name << std::endl;
 }
 
-Table::Table(const Table &other, Error &error) {
+Table::Table(const Table &other) {
 	name = other.name + COPY_STRING;
+	Error error;
 	setTable(other, error);
 
 	std::cout << COPYING_CONSTRUCTOR_MESSAGE + name << std::endl;
@@ -106,8 +108,8 @@ int Table::getElement(int offset, Error &error) {
 	return array[offset];
 }
 
-Table* Table::clone(Error &error) {
-	return new Table(*this, error);
+Table* Table::clone() {
+	return new Table(*this);
 }
 
 void Table::setTable(const Table &other, Error &error) {
@@ -150,4 +152,9 @@ std::string Table::getStatus() {
 	stream << CLOSE_PARENTHESIS;
 
 	return stream.str();
+}
+
+void Table::test(Table table) {
+	Error error;
+	table.setTableLength(1, error);
 }

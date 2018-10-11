@@ -7,9 +7,9 @@
 
 class Table {
 public:
-	Table(Error &error);
+	Table();
 	Table(std::string name, int tableLength, Error &error);
-	Table(const Table &other, Error &error);
+	Table(const Table &other);
 	~Table();
 
 	void setName(std::string name);
@@ -17,9 +17,10 @@ public:
 	void setTableLength(int tableLength, Error &error);
 	void setElement(int offset, int value, Error &error);
 	int getElement(int offset, Error &error);
-	Table* clone(Error &error);
+	Table* clone();
 	void setTable(const Table &other, Error &error);
 	std::string getStatus();
+	static void test(Table table);
 
 private:
 	std::string name;

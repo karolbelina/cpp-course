@@ -17,7 +17,9 @@ public:
 	std::string getStatus();
 	void editTable(int tableIndex, int cellIndex, int value, Error &error);
 	int size();
+	void testTable(int tableIndex, Error &error);
 
 private:
 	std::vector<Table*> tables;
+	bool checkIndex(int tableIndex, Error &error);
 };

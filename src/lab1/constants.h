@@ -18,9 +18,10 @@ const std::string REMOVED_ALL_TABLES_MESSAGE = "removed all tables";
 const std::string TABLE_LENGTH_MESSAGE = "the length of table #";
 const std::string TABLE_NAME_MESSAGE = "the name of table #";
 const std::string CELL_VALUE_MESSAGE = "the value of cell #";
-const std::string OF_TABLE_MESSAGE = "of table #";
+const std::string OF_TABLE_MESSAGE = " of table #";
 const std::string SET_TO_MESSAGE = " has been set to ";
 const std::string CLONED_TABLE_MESSAGE = "cloned table #";
+const std::string TESTED_TABLE_MESSAGE = "tested table #";
 
 const std::string PROMPT_MESSAGE = "> ";
 
@@ -54,6 +55,7 @@ const std::string STATUS_COMMAND = "status";
 const std::string CLONE_COMMAND = "clone";
 const std::string EDIT_COMMAND = "edit";
 const std::string HELP_COMMAND = "help";
+const std::string TEST_COMMAND = "test";
 
 // tables
 const std::string NOARG_CONSTRUCTOR_MESSAGE = "\tbezp: ";
