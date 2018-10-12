@@ -3,11 +3,9 @@
 
 #pragma once
 
-class MenuCommand : MenuItem {
+class MenuCommand : public MenuItem {
 public:
-	void run() {
-
-	}
+	void run();
 
 private:
 	Command* command;

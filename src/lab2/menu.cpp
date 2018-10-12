@@ -1,10 +1,12 @@
 #include "menu.h"
+#include "constants.h"
 
 void Menu::run() {
 	std::cout << name << std::endl;
 
 	for(int i = 0; i < menuItems.size(); i++) {
-		std::cout << "  " << menuItems[i].name << " (" << menuItems[i].command << ")" << std::endl;
+		std::cout << std::string(PADDING, SPACE);
+		std::cout << menuItems[i].getName() << " (" << menuItems[i].getCommand() << ")" << std::endl;
 	}
 
 	std::string input;
@@ -17,7 +19,7 @@ void Menu::run() {
 			bool foundValidCommand = false;
 
 			for(int i = 0; i < menuItems.size(); i++) {
-				if(input == menuItems[i].command) {
+				if(input == menuItems[i].getCommand()) {
 					menuItems[i].run();
 
 					foundValidCommand = true;

@@ -10,5 +10,5 @@ public:
 	void run();
 
 private:
-	std::vector<MenuItem> menuItems;
+	std::vector<MenuItem> menuItems; //*
 };

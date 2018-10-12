@@ -4,8 +4,9 @@
 
 class MenuItem {
 public:
-	friend class Menu;
 	virtual void run() = 0;
+	std::string getName();
+	std::string getCommand();
 
 protected:
 	std::string name;

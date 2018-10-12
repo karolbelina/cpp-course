@@ -4,7 +4,5 @@
 
 class Command {
 public:
-	virtual void runCommand() {
-		std::cout << "default command" << std::endl;
-	}
+	virtual void runCommand();
 };
