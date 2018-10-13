@@ -6,7 +6,7 @@ void Menu::run() {
 
 	for(int i = 0; i < menuItems.size(); i++) {
 		std::cout << std::string(PADDING, SPACE);
-		std::cout << menuItems[i].getName() << " (" << menuItems[i].getCommand() << ")" << std::endl;
+		std::cout << menuItems[i].getName() << SPACE << OPEN_PARENTHESIS << menuItems[i].getCommand() << CLOSE_PARENTHESIS << std::endl;
 	}
 
 	std::string input;
@@ -15,7 +15,7 @@ void Menu::run() {
 	do {
 		std::getline(std::cin, input);
 
-		if(input != "back") {
+		if(input != BACK_COMMAND) {
 			bool foundValidCommand = false;
 
 			for(int i = 0; i < menuItems.size(); i++) {
@@ -27,7 +27,7 @@ void Menu::run() {
 			}
 
 			if(!foundValidCommand) {
-				std::cout << "invalid command" << std::endl;
+				std::cout << INVALID_COMMAND_MESSAGE << std::endl;
 			}
 		}
 		else {

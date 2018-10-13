@@ -1,5 +1,6 @@
 #include "command.h"
+#include "constants.h"
 
 void Command::runCommand() {
-	std::cout << "default command" << std::endl;
+	std::cout << DEFAULT_COMMAND_MESSAGE << std::endl;
 }
