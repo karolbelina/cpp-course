@@ -6,7 +6,7 @@ void Menu::run() {
 
 	for(int i = 0; i < menuItems.size(); i++) {
 		std::cout << std::string(PADDING, SPACE);
-		std::cout << menuItems[i].getName() << SPACE << OPEN_PARENTHESIS << menuItems[i].getCommand() << CLOSE_PARENTHESIS << std::endl;
+		std::cout << menuItems[i]->getName() << SPACE << OPEN_PARENTHESIS << menuItems[i]->getCommand() << CLOSE_PARENTHESIS << std::endl;
 	}
 
 	std::string input;
@@ -19,8 +19,8 @@ void Menu::run() {
 			bool foundValidCommand = false;
 
 			for(int i = 0; i < menuItems.size(); i++) {
-				if(input == menuItems[i].getCommand()) {
-					menuItems[i].run();
+				if(input == menuItems[i]->getCommand()) {
+					menuItems[i]->run();
 
 					foundValidCommand = true;
 				}
