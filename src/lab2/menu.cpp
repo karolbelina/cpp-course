@@ -13,6 +13,7 @@ void Menu::run() {
 	bool retryInput = true;
 
 	do {
+		std::cout << PROMPT << SPACE;
 		std::getline(std::cin, input);
 
 		if(input != BACK_COMMAND) {

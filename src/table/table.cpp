@@ -1,10 +1,11 @@
+#include "stdafx.h"
+#include "constants.h"
+#include "table.h"
+
 #include <iostream>
 #include <string>
 #include <sstream>
 #include <new>			// std::nothrow
-
-#include "table.h"
-#include "constants.h"
 
 Table::Table() {
 	name = DEFAULT_NAME;

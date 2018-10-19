@@ -1,7 +1,8 @@
-#include <sstream>
-
-#include "tablecontainer.h"
+#include "stdafx.h"
 #include "constants.h"
+#include "tablecontainer.h"
+
+#include <sstream>
 
 TableContainer::~TableContainer() {
 	removeAllTables();

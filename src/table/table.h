@@ -1,7 +1,7 @@
+#include "error.h"
+
 #include <string>
 #include <iostream>
-
-#include "error.h"
 
 #pragma once
 

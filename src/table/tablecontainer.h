@@ -1,7 +1,7 @@
-#include <vector>
-
 #include "table.h"
 #include "error.h"
+
+#include <vector>
 
 class TableContainer {
 public:
