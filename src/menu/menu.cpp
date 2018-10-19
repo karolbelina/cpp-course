@@ -1,6 +1,8 @@
 #include "menu.h"
 #include "constants.h"
 
+#include <string>
+
 void Menu::run() {
 	std::cout << name << std::endl;
 
