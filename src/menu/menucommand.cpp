@@ -1,6 +1,8 @@
 #include "menucommand.h"
 #include "constants.h"
 
+#include <iostream>
+
 void MenuCommand::run() {
 	if(command != NULL) {
 		command->runCommand();

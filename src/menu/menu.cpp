@@ -1,6 +1,7 @@
 #include "menu.h"
 #include "constants.h"
 
+#include <iostream>
 #include <string>
 
 void Menu::run() {
