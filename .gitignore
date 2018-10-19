@@ -267,6 +267,9 @@ __pycache__/
 
 pch.cpp
 pch.h
+stdafx.cpp
+stdafx.h
+targetver.h
 
 ~AutoRecover.*
 
