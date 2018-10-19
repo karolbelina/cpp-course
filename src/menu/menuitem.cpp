@@ -1,9 +1,9 @@
 #include "menuitem.h"
 
-std::string MenuItem::getName() {
+std::string MenuItem::getName() const {
 	return name;
 }
 
-std::string MenuItem::getCommand() {
+std::string MenuItem::getCommand() const {
 	return command;
 }

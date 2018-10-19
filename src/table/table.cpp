@@ -1,4 +1,3 @@
-#include "stdafx.h"
 #include "constants.h"
 #include "table.h"
 
