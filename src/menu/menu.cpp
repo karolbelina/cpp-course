@@ -4,6 +4,8 @@
 #include <iostream>
 #include <string>
 
+Menu::Menu(std::string name, std::string commandString, std::vector<MenuItem*> menuItems) : MenuItem(name, commandString), menuItems(menuItems) {}
+
 void Menu::run() {
 	std::cout << name << std::endl;
 

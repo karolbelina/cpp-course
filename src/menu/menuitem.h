@@ -4,11 +4,12 @@
 
 class MenuItem {
 public:
+	MenuItem(std::string name, std::string commandString);
 	virtual void run() = 0;
 	std::string getName() const;
 	std::string getCommand() const;
 
 protected:
 	std::string name;
-	std::string command;
+	std::string commandString;
 };
