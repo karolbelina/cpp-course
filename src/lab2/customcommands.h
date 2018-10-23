@@ -8,6 +8,8 @@ public:
 	CustomCommand(TableContainer* tableContainer);
 
 protected:
+	void getString(std::string &destination);
+	bool getInt(int &destination);
 	TableContainer* tableContainer;
 };
 

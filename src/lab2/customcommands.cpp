@@ -2,18 +2,34 @@
 #include "error.h"
 
 #include <iostream>
+#include <sstream>
 
 CustomCommand::CustomCommand(TableContainer* tableContainer) : Command(), tableContainer(tableContainer) {}
+
+void CustomCommand::getString(std::string &destination) {
+	std::cout << "> ";
+
+	std::getline(std::cin, destination);
+}
+
+bool CustomCommand::getInt(int &destination) {
+	std::cout << "> ";
+
+	std::string input;
+	std::getline(std::cin, input);
+	std::istringstream stream(input);
+
+	return (bool)(stream >> destination);
+}
 
 CreateCommand::CreateCommand(TableContainer* tableContainer) : CustomCommand(tableContainer) {}
 
 void CreateCommand::runCommand() {
 	std::cout << "enter the amount:" << std::endl;
-	std::cout << "> ";
 
 	int amount;
 
-	if(std::cin >> amount) {
+	if(getInt(amount)) {
 		int i = 0;
 
 		if(amount > 0) {
@@ -21,18 +37,15 @@ void CreateCommand::runCommand() {
 				int index = tableContainer->size();
 
 				std::cout << "enter the name of table #" << index << ":" << std::endl;
-				std::cout << "> ";
 
 				std::string name;
-
-				std::cin >> name;
+				getString(name);
 
 				std::cout << "enter the length of table #" << index << ":" << std::endl;
-				std::cout << "> ";
 
 				int length;
 
-				if(std::cin >> length) {
+				if(getInt(length)) {
 					Error error;
 					tableContainer->addTable(name, length, error);
 
@@ -68,11 +81,10 @@ RemoveCommand::RemoveCommand(TableContainer* tableContainer): CustomCommand(tabl
 
 void RemoveCommand::runCommand() {
 	std::cout << "enter the table index:" << std::endl;
-	std::cout << "> ";
 
 	int tableIndex;
 
-	if(std::cin >> tableIndex) {
+	if(getInt(tableIndex)) {
 		// wczytalo liczbe
 		// usun tabele o numerze
 		Error error;
@@ -105,18 +117,16 @@ ResizeCommand::ResizeCommand(TableContainer* tableContainer): CustomCommand(tabl
 
 void ResizeCommand::runCommand() {
 	std::cout << "enter the table index:" << std::endl;
-	std::cout << "> ";
 
 	int tableIndex;
 
-	if(std::cin >> tableIndex) {
+	if(getInt(tableIndex)) {
 		// wczytalo pierwsza liczbe
 		std::cout << "enter the table length:" << std::endl;
-		std::cout << "> ";
 
 		int tableLength;
 
-		if(std::cin >> tableLength) {
+		if(getInt(tableLength)) {
 			// wczytalo druga liczbe
 			Error error;
 			tableContainer->resizeTable(tableIndex, tableLength, error);
@@ -150,17 +160,15 @@ RenameCommand::RenameCommand(TableContainer* tableContainer): CustomCommand(tabl
 
 void RenameCommand::runCommand() {
 	std::cout << "enter the table index:" << std::endl;
-	std::cout << "> ";
 
 	int tableIndex;
 
-	if(std::cin >> tableIndex) {
+	if(getInt(tableIndex)) {
 		// wczytalo liczbe
 		std::cout << "enter the table name:" << std::endl;
-		std::cout << "> ";
 
 		std::string name;
-		std::cin >> name;
+		getString(name);
 
 		Error error;
 		tableContainer->renameTable(tableIndex, name, error);
@@ -184,11 +192,10 @@ StatusCommand::StatusCommand(TableContainer* tableContainer): CustomCommand(tabl
 
 void StatusCommand::runCommand() {
 	std::cout << "enter the table index:" << std::endl;
-	std::cout << "> ";
 
 	int tableIndex;
 
-	if(std::cin >> tableIndex) {
+	if(getInt(tableIndex)) {
 		// wczytalo liczbe
 		Error error;
 		std::string status = tableContainer->getTableStatus(tableIndex, error);
@@ -218,11 +225,10 @@ CloneCommand::CloneCommand(TableContainer* tableContainer): CustomCommand(tableC
 
 void CloneCommand::runCommand() {
 	std::cout << "enter the table index:" << std::endl;
-	std::cout << "> ";
 
 	int tableIndex;
 
-	if(std::cin >> tableIndex) {
+	if(getInt(tableIndex)) {
 		// an int has been successfully loaded
 		Error error;
 		tableContainer->cloneTable(tableIndex, error);
@@ -249,23 +255,22 @@ EditCommand::EditCommand(TableContainer* tableContainer): CustomCommand(tableCon
 
 void EditCommand::runCommand() {
 	std::cout << "enter the table index:" << std::endl;
-	std::cout << "> ";
 
 	int tableIndex;
 
-	if(std::cin >> tableIndex) {
+	if(getInt(tableIndex)) {
 		std::cout << "enter the cell length:" << std::endl;
 		std::cout << "> ";
 
 		int cellIndex;
 
-		if(std::cin >> cellIndex) {
+		if(getInt(cellIndex)) {
 			std::cout << "enter the value:" << std::endl;
 			std::cout << "> ";
 
 			int value;
 
-			if(std::cin >> value) {
+			if(getInt(value)) {
 				// success
 				Error error;
 				tableContainer->editTable(tableIndex, cellIndex, value, error);
