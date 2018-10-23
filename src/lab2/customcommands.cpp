@@ -67,7 +67,7 @@ void CreateCommand::runCommand() {
 RemoveCommand::RemoveCommand(TableContainer* tableContainer): CustomCommand(tableContainer) {}
 
 void RemoveCommand::runCommand() {
-	std::cout << "enter the table index or type \"all\":" << std::endl;
+	std::cout << "enter the table index:" << std::endl;
 	std::cout << "> ";
 
 	int tableIndex;
@@ -89,20 +89,16 @@ void RemoveCommand::runCommand() {
 		}
 	}
 	else {
-		// nie liczba
-		std::string allFlag;
-		std::cin >> allFlag;
-
-		if(allFlag == "all") {
-			// usun wszystkie tabele
-			tableContainer->removeAllTables();
-
-			std::cout << "removed all tables" << std::endl;
-		}
-		else {
-			std::cout << "invalid command" << std::endl;
-		}
+		std::cout << "invalid table index" << std::endl;
 	}
+}
+
+RemoveAllCommand::RemoveAllCommand(TableContainer* tableContainer): CustomCommand(tableContainer) {}
+
+void RemoveAllCommand::runCommand() {
+	tableContainer->removeAllTables();
+
+	std::cout << "removed all tables" << std::endl;
 }
 
 ResizeCommand::ResizeCommand(TableContainer* tableContainer): CustomCommand(tableContainer) {}
@@ -210,6 +206,12 @@ void StatusCommand::runCommand() {
 	else {
 		std::cout << "invalid table index" << std::endl;
 	}
+}
+
+StatusAllCommand::StatusAllCommand(TableContainer* tableContainer): CustomCommand(tableContainer) {}
+
+void StatusAllCommand::runCommand() {
+	std::cout << tableContainer->getStatus() << std::endl;
 }
 
 CloneCommand::CloneCommand(TableContainer* tableContainer): CustomCommand(tableContainer) {}

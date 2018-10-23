@@ -14,41 +14,53 @@ protected:
 class CreateCommand : public CustomCommand {
 public:
 	CreateCommand(TableContainer* tableContainer);
-	virtual void runCommand();
+	void runCommand();
 };
 
 class RemoveCommand : public CustomCommand {
 public:
 	RemoveCommand(TableContainer* tableContainer);
-	virtual void runCommand();
+	void runCommand();
+};
+
+class RemoveAllCommand : public CustomCommand {
+public:
+	RemoveAllCommand(TableContainer* tableContainer);
+	void runCommand();
 };
 
 class ResizeCommand : public CustomCommand {
 public:
 	ResizeCommand(TableContainer* tableContainer);
-	virtual void runCommand();
+	void runCommand();
 };
 
 class RenameCommand : public CustomCommand {
 public:
 	RenameCommand(TableContainer* tableContainer);
-	virtual void runCommand();
+	void runCommand();
 };
 
 class StatusCommand : public CustomCommand {
 public:
 	StatusCommand(TableContainer* tableContainer);
-	virtual void runCommand();
+	void runCommand();
+};
+
+class StatusAllCommand : public CustomCommand {
+public:
+	StatusAllCommand(TableContainer* tableContainer);
+	void runCommand();
 };
 
 class CloneCommand : public CustomCommand {
 public:
 	CloneCommand(TableContainer* tableContainer);
-	virtual void runCommand();
+	void runCommand();
 };
 
 class EditCommand : public CustomCommand {
 public:
 	EditCommand(TableContainer* tableContainer);
-	virtual void runCommand();
+	void runCommand();
 };

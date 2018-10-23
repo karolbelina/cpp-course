@@ -10,6 +10,8 @@ const char CLOSE_PARENTHESIS = ')';
 
 const char PROMPT = '>';
 
+const std::string EMPTY_STRING = "";
+
 const std::string BACK_COMMAND = "..";
 
 const std::string INVALID_COMMAND_MESSAGE = "invalid command";
