@@ -5,7 +5,8 @@
 
 class MenuCommand : public MenuItem {
 public:
-	MenuCommand(std::string name, std::string commandString, Command* command);
+	MenuCommand(const std::string name, const std::string commandString, Command* command);
+	~MenuCommand();
 	void run();
 
 private:

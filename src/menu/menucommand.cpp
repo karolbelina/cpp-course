@@ -5,6 +5,10 @@
 
 MenuCommand::MenuCommand(std::string name, std::string commandString, Command* command) : MenuItem(name, commandString), command(command) {}
 
+MenuCommand::~MenuCommand() {
+	delete command;
+}
+
 void MenuCommand::run() {
 	if(command != NULL) {
 		command->runCommand();

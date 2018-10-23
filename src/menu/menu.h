@@ -6,7 +6,8 @@
 
 class Menu : public MenuItem {
 public:
-	Menu(std::string name, std::string commandString, std::vector<MenuItem*> menuItems);
+	Menu(const std::string name, const std::string commandString, const std::vector<MenuItem*> menuItems);
+	~Menu();
 	void run();
 
 private:

@@ -4,7 +4,8 @@
 
 class MenuItem {
 public:
-	MenuItem(std::string name, std::string commandString);
+	MenuItem(const std::string name, const std::string commandString);
+	virtual ~MenuItem();
 	virtual void run() = 0;
 	std::string getName() const;
 	std::string getCommand() const;

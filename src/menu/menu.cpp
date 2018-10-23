@@ -4,7 +4,16 @@
 #include <iostream>
 #include <string>
 
-Menu::Menu(std::string name, std::string commandString, std::vector<MenuItem*> menuItems) : MenuItem(name, commandString), menuItems(menuItems) {}
+Menu::Menu(std::string name, std::string commandString, std::vector<MenuItem*> menuItems) : MenuItem(name, commandString) {
+	this->menuItems = menuItems;
+}
+
+Menu::~Menu() {
+	int size = menuItems.size();
+	for(int i = 0; i < size; i++) {
+		delete menuItems[i];
+	}
+}
 
 void Menu::run() {
 	std::cout << name << std::endl;
