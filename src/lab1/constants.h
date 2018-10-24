@@ -26,7 +26,7 @@ const std::string EMPTY_STRING = "";
 // errors
 const std::string INDEX_OUT_OF_BOUNDS_MESSAGE = "index out of bounds";
 const std::string INVALID_ARGUMENT_MESSAGE = "invalid argument";
-const std::string OUT_OF_MEMORY_MESSAGE = "invalid argument";
+const std::string OUT_OF_MEMORY_MESSAGE = "out of memory";
 const std::string INVALID_COMMAND_MESSAGE = "invalid command";
 const std::string INVALID_AMOUNT_MESSAGE = "invalid amount";
 const std::string INVALID_TABLE_LENGTH_MESSAGE = "invalid table length";
