@@ -15,9 +15,7 @@ Menu::~Menu() {
 
 bool Menu::addMenu(std::string name, std::string commandString) {
 	if(checkCommandString(commandString)) {
-		Menu* menu = new Menu(name, commandString);
-		items.push_back(menu);
-		menus.push_back(menu);
+		items.push_back(new Menu(name, commandString));
 
 		return true;
 	}
@@ -38,15 +36,7 @@ bool Menu::addCommand(std::string name, std::string commandString, Command* comm
 bool Menu::removeItem(std::string commandString) {
 	for(size_t i = 0, itemsSize = items.size(); i < itemsSize; i++) {
 		if(commandString == items[i]->getCommand()) {
-			MenuItem* item = items[i];
-
-			for(size_t j = 0, menusSize = menus.size(); j < menusSize; j++) {
-				if(menus[j] == item) {
-					menus.erase(menus.begin() + j);
-				}
-			}
-
-			delete item;
+			delete items[i];
 			items.erase(items.begin() + i);
 
 			return true;
@@ -54,16 +44,6 @@ bool Menu::removeItem(std::string commandString) {
 	}
 
 	return false;
-}
-
-Menu* Menu::getMenu(std::string commandString) {
-	for(size_t i = 0, size = menus.size(); i < size; i++) {
-		if(commandString == menus[i]->getCommand()) {
-			return menus[i];
-		}
-	}
-
-	return NULL;
 }
 
 void Menu::run() {
