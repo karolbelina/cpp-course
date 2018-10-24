@@ -86,8 +86,6 @@ void RemoveCommand::runCommand() {
 	int tableIndex;
 
 	if(getIntFromUserInput(tableIndex)) {
-		// wczytalo liczbe
-		// usun tabele o numerze
 		Error error;
 		tableContainer->removeTable(tableIndex, error);
 
@@ -122,13 +120,11 @@ void ResizeCommand::runCommand() {
 	int tableIndex;
 
 	if(getIntFromUserInput(tableIndex)) {
-		// wczytalo pierwsza liczbe
 		std::cout << ENTER_THE_TABLE_LENGTH_MESSAGE << COLON << std::endl;
 
 		int tableLength;
 
 		if(getIntFromUserInput(tableLength)) {
-			// wczytalo druga liczbe
 			Error error;
 			tableContainer->resizeTable(tableIndex, tableLength, error);
 
@@ -165,7 +161,6 @@ void RenameCommand::runCommand() {
 	int tableIndex;
 
 	if(getIntFromUserInput(tableIndex)) {
-		// wczytalo liczbe
 		std::cout << ENTER_THE_TABLE_NAME_MESSAGE << COLON << std::endl;
 
 		std::string name;
@@ -197,7 +192,6 @@ void StatusCommand::runCommand() {
 	int tableIndex;
 
 	if(getIntFromUserInput(tableIndex)) {
-		// wczytalo liczbe
 		Error error;
 		std::string status = tableContainer->getTableStatus(tableIndex, error);
 
@@ -230,7 +224,6 @@ void CloneCommand::runCommand() {
 	int tableIndex;
 
 	if(getIntFromUserInput(tableIndex)) {
-		// an int has been successfully loaded
 		Error error;
 		tableContainer->cloneTable(tableIndex, error);
 
@@ -270,7 +263,6 @@ void EditCommand::runCommand() {
 			int value;
 
 			if(getIntFromUserInput(value)) {
-				// success
 				Error error;
 				tableContainer->editTable(tableIndex, cellIndex, value, error);
 
