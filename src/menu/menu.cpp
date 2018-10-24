@@ -38,15 +38,18 @@ bool Menu::addCommand(std::string name, std::string commandString, Command* comm
 bool Menu::removeItem(std::string commandString) {
 	for(size_t i = 0, itemsSize = items.size(); i < itemsSize; i++) {
 		if(commandString == items[i]->getCommand()) {
-			for(size_t j = 0, menusSize = menus.size(); j < menusSize; j++) {
-				if(commandString == menus[j]->getCommand()) {
-					delete items[i];
-					items.erase(items.begin() + i);
-					menus.erase(menus.begin() + j);
+			MenuItem* item = items[i];
 
-					return true;
+			for(size_t j = 0, menusSize = menus.size(); j < menusSize; j++) {
+				if(menus[j] == item) {
+					menus.erase(menus.begin() + j);
 				}
 			}
+
+			delete item;
+			items.erase(items.begin() + i);
+
+			return true;
 		}
 	}
 
@@ -64,24 +67,23 @@ Menu* Menu::getMenu(std::string commandString) {
 }
 
 void Menu::run() {
-	std::cout << name << std::endl;
-
-	for(int i = 0; i < items.size(); i++) {
-		std::cout << std::string(PADDING, SPACE);
-		std::cout << items[i]->getName() << SPACE << OPEN_PARENTHESIS << items[i]->getCommand() << CLOSE_PARENTHESIS << std::endl;
-	}
-
-	std::string input;
 	bool retryInput = true;
 
 	do {
+		std::cout << std::endl << name << std::endl;
+		for(int i = 0; i < items.size(); i++) {
+			std::cout << std::string(PADDING, SPACE);
+			std::cout << items[i]->getName() << SPACE << OPEN_PARENTHESIS << items[i]->getCommand() << CLOSE_PARENTHESIS << std::endl;
+		}
 		std::cout << PROMPT << SPACE;
+
+		std::string input;
 		std::getline(std::cin, input);
 
 		if(input != BACK_COMMAND) {
 			bool foundValidCommand = false;
 
-			for(int i = 0; i < items.size(); i++) {
+			for(size_t i = 0, size = items.size(); i < size; i++) {
 				if(input == items[i]->getCommand()) {
 					items[i]->run();
 
