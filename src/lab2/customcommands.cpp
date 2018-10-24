@@ -5,23 +5,23 @@
 #include <iostream>
 #include <sstream>
 
-CustomCommand::CustomCommand(TableContainer* tableContainer) : Command(), tableContainer(tableContainer) {}
-
-void CustomCommand::getString(std::string &destination) {
+static void getStringFromUserInput(std::string &destination) {
 	std::cout << PROMPT << SPACE;
 
 	std::getline(std::cin, destination);
 }
 
-bool CustomCommand::getInt(int &destination) {
+static bool getIntFromUserInput(int &destination) {
 	std::cout << PROMPT << SPACE;
 
 	std::string input;
 	std::getline(std::cin, input);
 	std::istringstream stream(input);
 
-	return (bool)(stream >> destination);
+	return static_cast<bool>(stream >> destination);
 }
+
+CustomCommand::CustomCommand(TableContainer* tableContainer) : Command(), tableContainer(tableContainer) {}
 
 CreateCommand::CreateCommand(TableContainer* tableContainer) : CustomCommand(tableContainer) {}
 
@@ -30,7 +30,7 @@ void CreateCommand::runCommand() {
 
 	int amount;
 
-	if(getInt(amount)) {
+	if(getIntFromUserInput(amount)) {
 		int i = 0;
 
 		if(amount > 0) {
@@ -40,13 +40,13 @@ void CreateCommand::runCommand() {
 				std::cout << ENTER_THE_NAME_OF_TABLE_MESSAGE << SPACE << HASH << index << COLON << std::endl;
 
 				std::string name;
-				getString(name);
+				getStringFromUserInput(name);
 
 				std::cout << ENTER_THE_LENGTH_OF_TABLE_MESSAGE << SPACE << HASH << index << COLON << std::endl;
 
 				int length;
 
-				if(getInt(length)) {
+				if(getIntFromUserInput(length)) {
 					Error error;
 					tableContainer->addTable(name, length, error);
 
@@ -85,7 +85,7 @@ void RemoveCommand::runCommand() {
 
 	int tableIndex;
 
-	if(getInt(tableIndex)) {
+	if(getIntFromUserInput(tableIndex)) {
 		// wczytalo liczbe
 		// usun tabele o numerze
 		Error error;
@@ -121,13 +121,13 @@ void ResizeCommand::runCommand() {
 
 	int tableIndex;
 
-	if(getInt(tableIndex)) {
+	if(getIntFromUserInput(tableIndex)) {
 		// wczytalo pierwsza liczbe
 		std::cout << ENTER_THE_TABLE_LENGTH_MESSAGE << COLON << std::endl;
 
 		int tableLength;
 
-		if(getInt(tableLength)) {
+		if(getIntFromUserInput(tableLength)) {
 			// wczytalo druga liczbe
 			Error error;
 			tableContainer->resizeTable(tableIndex, tableLength, error);
@@ -164,12 +164,12 @@ void RenameCommand::runCommand() {
 
 	int tableIndex;
 
-	if(getInt(tableIndex)) {
+	if(getIntFromUserInput(tableIndex)) {
 		// wczytalo liczbe
 		std::cout << ENTER_THE_TABLE_NAME_MESSAGE << COLON << std::endl;
 
 		std::string name;
-		getString(name);
+		getStringFromUserInput(name);
 
 		Error error;
 		tableContainer->renameTable(tableIndex, name, error);
@@ -196,7 +196,7 @@ void StatusCommand::runCommand() {
 
 	int tableIndex;
 
-	if(getInt(tableIndex)) {
+	if(getIntFromUserInput(tableIndex)) {
 		// wczytalo liczbe
 		Error error;
 		std::string status = tableContainer->getTableStatus(tableIndex, error);
@@ -229,7 +229,7 @@ void CloneCommand::runCommand() {
 
 	int tableIndex;
 
-	if(getInt(tableIndex)) {
+	if(getIntFromUserInput(tableIndex)) {
 		// an int has been successfully loaded
 		Error error;
 		tableContainer->cloneTable(tableIndex, error);
@@ -259,17 +259,17 @@ void EditCommand::runCommand() {
 
 	int tableIndex;
 
-	if(getInt(tableIndex)) {
+	if(getIntFromUserInput(tableIndex)) {
 		std::cout << ENTER_THE_CELL_INDEX_MESSAGE << COLON << std::endl;
 
 		int cellIndex;
 
-		if(getInt(cellIndex)) {
+		if(getIntFromUserInput(cellIndex)) {
 			std::cout << ENTER_THE_VALUE_MESSAGE << COLON << std::endl;
 
 			int value;
 
-			if(getInt(value)) {
+			if(getIntFromUserInput(value)) {
 				// success
 				Error error;
 				tableContainer->editTable(tableIndex, cellIndex, value, error);

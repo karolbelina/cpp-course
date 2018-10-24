@@ -57,5 +57,5 @@ const std::string INVALID_TABLE_INDEX_MESSAGE = "invalid table index";
 const std::string INDEX_OUT_OF_BOUNDS_MESSAGE = "index out of bounds";
 const std::string INVALID_CELL_INDEX_MESSAGE = "invalid cell index";
 const std::string INVALID_VALUE_MESSAGE = "invalid value";
-const std::string OUT_OF_MEMORY_MESSAGE = "unknown error";
+const std::string OUT_OF_MEMORY_MESSAGE = "out of memory";
 const std::string UNKNOWN_ERROR_MESSAGE = "unknown error";

@@ -7,12 +7,12 @@
 
 class Menu : public MenuItem {
 public:
-	Menu(const std::string name, const std::string commandString);
+	Menu(std::string name, std::string commandString);
 	~Menu();
 	bool addMenu(std::string name, std::string commandString);
 	bool addCommand(std::string name, std::string commandString, Command* command);
 	bool removeItem(std::string commandString);
-	void run();
+	void run() override;
 
 private:
 	bool checkCommandString(std::string commandString);

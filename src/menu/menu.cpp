@@ -2,14 +2,15 @@
 #include "menucommand.h"
 #include "constants.h"
 
+#include <algorithm>
 #include <iostream>
 #include <string>
 
 Menu::Menu(std::string name, std::string commandString) : MenuItem(name, commandString) {}
 
 Menu::~Menu() {
-	for(size_t i = 0, size = items.size(); i < size; i++) {
-		delete items[i];
+	for(std::vector<MenuItem*>::iterator i = items.begin(); i != items.end(); i++) {
+		delete *i;
 	}
 }
 
@@ -34,10 +35,10 @@ bool Menu::addCommand(std::string name, std::string commandString, Command* comm
 }
 
 bool Menu::removeItem(std::string commandString) {
-	for(size_t i = 0, itemsSize = items.size(); i < itemsSize; i++) {
-		if(commandString == items[i]->getCommand()) {
-			delete items[i];
-			items.erase(items.begin() + i);
+	for(std::vector<MenuItem*>::iterator i = items.begin(); i != items.end(); i++) {
+		if(commandString == (*i)->getCommand()) {
+			delete *i;
+			items.erase(i);
 
 			return true;
 		}
@@ -51,22 +52,23 @@ void Menu::run() {
 
 	do {
 		std::cout << std::endl << name << std::endl;
-		std::cout << std::string(PADDING, SPACE) << BACK_COMMAND << std::endl;
-		for(size_t i = 0, size = items.size(); i < size; i++) {
+		std::cout << std::string(PADDING, SPACE);
+		std::cout << BACK_COMMAND_NAME << SPACE << OPENING_PARENTHESIS << BACK_COMMAND_STRING << CLOSING_PARENTHESIS << std::endl;
+		for(size_t i = 0; i < items.size(); i++) {
 			std::cout << std::string(PADDING, SPACE);
-			std::cout << items[i]->getName() << SPACE << OPEN_PARENTHESIS << items[i]->getCommand() << CLOSE_PARENTHESIS << std::endl;
+			std::cout << items[i]->getName() << SPACE << OPENING_PARENTHESIS << items[i]->getCommand() << CLOSING_PARENTHESIS << std::endl;
 		}
 		std::cout << PROMPT << SPACE;
 
 		std::string input;
 		std::getline(std::cin, input);
 
-		if(input != BACK_COMMAND) {
+		if(input != BACK_COMMAND_STRING) {
 			bool foundValidCommand = false;
 
-			for(size_t i = 0, size = items.size(); i < size; i++) {
-				if(input == items[i]->getCommand()) {
-					items[i]->run();
+			for(std::vector<MenuItem*>::iterator i = items.begin(); i != items.end(); i++) {
+				if(input == (*i)->getCommand()) {
+					(*i)->run();
 
 					foundValidCommand = true;
 				}
@@ -83,12 +85,12 @@ void Menu::run() {
 }
 
 bool Menu::checkCommandString(std::string commandString) {
-	if(commandString == EMPTY_STRING || commandString == BACK_COMMAND) {
+	if(commandString == EMPTY_STRING || commandString == BACK_COMMAND_STRING) {
 		return false;
 	}
 
-	for(size_t i = 0, size = items.size(); i < size; i++) {
-		if(commandString == items[i]->getCommand()) {
+	for(std::vector<MenuItem*>::iterator i = items.begin(); i != items.end(); i++) {
+		if(commandString == (*i)->getCommand()) {
 			return false;
 		}
 	}

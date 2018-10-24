@@ -5,9 +5,9 @@
 
 class MenuCommand : public MenuItem {
 public:
-	MenuCommand(const std::string name, const std::string commandString, Command* command);
+	MenuCommand(std::string name, std::string commandString, Command* command);
 	~MenuCommand();
-	void run();
+	void run() override;
 
 private:
 	Command* command;
