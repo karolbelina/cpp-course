@@ -29,7 +29,7 @@ void TableContainer::removeTable(int tableIndex, Error &error) {
 }
 
 void TableContainer::removeAllTables() {
-	for(int i = 0; i < tables.size(); i++) {
+	for(size_t i = 0, size = tables.size(); i < size; i++) {
 		delete tables[i];
 	}
 
@@ -112,7 +112,7 @@ void TableContainer::testTable(int tableIndex, Error &error) {
 }
 
 bool TableContainer::checkIndex(int tableIndex, Error &error) {
-	if(tableIndex < 0 || tableIndex >= tables.size()) {
+	if(tableIndex < 0 || tableIndex >= (int) tables.size()) {
 		error = IndexOutOfBounds;
 		return true;
 	}

@@ -71,7 +71,7 @@ void Menu::run() {
 
 	do {
 		std::cout << std::endl << name << std::endl;
-		for(int i = 0; i < items.size(); i++) {
+		for(size_t i = 0, size = items.size(); i < size; i++) {
 			std::cout << std::string(PADDING, SPACE);
 			std::cout << items[i]->getName() << SPACE << OPEN_PARENTHESIS << items[i]->getCommand() << CLOSE_PARENTHESIS << std::endl;
 		}
