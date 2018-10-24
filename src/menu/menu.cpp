@@ -9,7 +9,7 @@
 Menu::Menu(std::string name, std::string commandString) : MenuItem(name, commandString) {}
 
 Menu::~Menu() {
-	for(std::vector<MenuItem*>::iterator i = items.begin(); i != items.end(); i++) {
+	for(std::vector<MenuItem*>::iterator i = items.begin(); i != items.end(); ++i) {
 		delete *i;
 	}
 }
@@ -35,7 +35,7 @@ bool Menu::addCommand(std::string name, std::string commandString, Command* comm
 }
 
 bool Menu::removeItem(std::string commandString) {
-	for(std::vector<MenuItem*>::iterator i = items.begin(); i != items.end(); i++) {
+	for(std::vector<MenuItem*>::iterator i = items.begin(); i != items.end(); ++i) {
 		if(commandString == (*i)->getCommand()) {
 			delete *i;
 			items.erase(i);
@@ -66,7 +66,7 @@ void Menu::run() {
 		if(input != BACK_COMMAND_STRING) {
 			bool foundValidCommand = false;
 
-			for(std::vector<MenuItem*>::iterator i = items.begin(); i != items.end(); i++) {
+			for(std::vector<MenuItem*>::iterator i = items.begin(); i != items.end(); ++i) {
 				if(input == (*i)->getCommand()) {
 					(*i)->run();
 
@@ -89,7 +89,7 @@ bool Menu::checkCommandString(std::string commandString) {
 		return false;
 	}
 
-	for(std::vector<MenuItem*>::iterator i = items.begin(); i != items.end(); i++) {
+	for(std::vector<MenuItem*>::iterator i = items.begin(); i != items.end(); ++i) {
 		if(commandString == (*i)->getCommand()) {
 			return false;
 		}
