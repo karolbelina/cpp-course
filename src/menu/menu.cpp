@@ -16,7 +16,9 @@ Menu::~Menu() {
 
 bool Menu::addMenu(std::string name, std::string commandString) {
 	if(checkCommandString(commandString)) {
-		items.push_back(new Menu(name, commandString));
+		Menu* menu = new Menu(name, commandString);
+		items.push_back(menu);
+		menus.push_back(menu);
 
 		return true;
 	}
@@ -37,6 +39,12 @@ bool Menu::addCommand(std::string name, std::string commandString, Command* comm
 bool Menu::removeItem(std::string commandString) {
 	for(std::vector<MenuItem*>::iterator i = items.begin(); i != items.end(); ++i) {
 		if(commandString == (*i)->getCommand()) {
+			for(std::vector<Menu*>::iterator j = menus.begin(); j != menus.end(); ++j) {
+				if(*i == *j) {
+					menus.erase(j);
+				}
+			}
+
 			delete *i;
 			items.erase(i);
 
@@ -45,6 +53,21 @@ bool Menu::removeItem(std::string commandString) {
 	}
 
 	return false;
+}
+
+Menu* Menu::getMenu(std::string commandString) {
+	for(std::vector<Menu*>::iterator i = menus.begin(); i != menus.end(); ++i) {
+		if(commandString == (*i)->getCommand()) {
+			return *i;
+		}
+	}
+	return NULL;
+}
+
+void Menu::printLeaves() {
+	for(std::vector<MenuItem*>::iterator i = items.begin(); i != items.end(); ++i) {
+		(*i)->printLeaves();
+	}
 }
 
 void Menu::run() {
@@ -58,6 +81,8 @@ void Menu::run() {
 			std::cout << std::string(PADDING, SPACE);
 			std::cout << items[i]->getName() << SPACE << OPENING_PARENTHESIS << items[i]->getCommand() << CLOSING_PARENTHESIS << std::endl;
 		}
+		std::cout << std::string(PADDING, SPACE);
+		std::cout << PRINT_LEAVES_COMMAND_NAME << SPACE << OPENING_PARENTHESIS << PRINT_LEAVES_COMMAND_STRING << CLOSING_PARENTHESIS << std::endl;
 		std::cout << PROMPT << SPACE;
 
 		std::string input;
@@ -66,11 +91,18 @@ void Menu::run() {
 		if(input != BACK_COMMAND_STRING) {
 			bool foundValidCommand = false;
 
-			for(std::vector<MenuItem*>::iterator i = items.begin(); i != items.end(); ++i) {
-				if(input == (*i)->getCommand()) {
-					(*i)->run();
+			if(input == PRINT_LEAVES_COMMAND_STRING) {
+				printLeaves();
 
-					foundValidCommand = true;
+				foundValidCommand = true;
+			}
+			else {
+				for(std::vector<MenuItem*>::iterator i = items.begin(); i != items.end(); ++i) {
+					if(input == (*i)->getCommand()) {
+						(*i)->run();
+
+						foundValidCommand = true;
+					}
 				}
 			}
 

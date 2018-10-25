@@ -24,6 +24,11 @@ const std::string CLONE_TABLE_COMMAND_NAME = "clone table";
 const std::string CLONE_TABLE_COMMAND_STRING = "clone";
 const std::string EDIT_TABLE_COMMAND_NAME = "edit table";
 const std::string EDIT_TABLE_COMMAND_STRING = "edit";
+const std::string TEST_SUBMENU_NAME = "test submenu";
+const std::string TEST_SUBMENU_STRING = "testmenu";
+const std::string TEST_COMMAND_NAME = "test command";
+const std::string TEST_COMMAND_STRING = "testcom";
+
 
 const char SPACE = ' ';
 const char PROMPT = '>';

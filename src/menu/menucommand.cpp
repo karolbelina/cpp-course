@@ -17,3 +17,7 @@ void MenuCommand::run() {
 		std::cout << EMPTY_COMMAND_MESSAGE << std::endl;
 	}
 }
+
+void MenuCommand::printLeaves() {
+	std::cout << name << std::endl;
+}

@@ -8,6 +8,7 @@ public:
 	MenuCommand(std::string name, std::string commandString, Command* command);
 	~MenuCommand();
 	void run() override;
+	void printLeaves() override;
 
 private:
 	Command* command;
