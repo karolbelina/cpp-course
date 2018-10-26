@@ -8,7 +8,7 @@
 
 class Menu : public MenuItem {
 public:
-	Menu(std::string name, std::string commandString);
+	Menu();
 	~Menu();
 	Menu* addMenu(std::string name, std::string commandString);
 	MenuCommand* addCommand(std::string name, std::string commandString, Command* command);
@@ -17,6 +17,7 @@ public:
 	void printLeaves() override;
 
 private:
+	Menu(std::string name, std::string commandString, Menu* parent);
 	bool checkCommandString(std::string commandString);
 	std::vector<MenuItem*> items;
 };

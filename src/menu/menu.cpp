@@ -2,11 +2,12 @@
 #include "menucommand.h"
 #include "constants.h"
 
-#include <algorithm>
 #include <iostream>
 #include <string>
 
-Menu::Menu(std::string name, std::string commandString) : MenuItem(name, commandString) {}
+Menu::Menu() : MenuItem("main", "", nullptr) {}
+
+Menu::Menu(std::string name, std::string commandString, Menu* parent) : MenuItem(name, commandString, parent) {}
 
 Menu::~Menu() {
 	for(std::vector<MenuItem*>::iterator i = items.begin(); i != items.end(); ++i) {
@@ -16,7 +17,7 @@ Menu::~Menu() {
 
 Menu* Menu::addMenu(std::string name, std::string commandString) {
 	if(checkCommandString(commandString)) {
-		Menu* menu = new Menu(name, commandString);
+		Menu* menu = new Menu(name, commandString, this);
 		items.push_back(menu);
 
 		return menu;
@@ -27,7 +28,7 @@ Menu* Menu::addMenu(std::string name, std::string commandString) {
 
 MenuCommand* Menu::addCommand(std::string name, std::string commandString, Command* command) {
 	if(checkCommandString(commandString)) {
-		MenuCommand* menuCommand = new MenuCommand(name, commandString, command);
+		MenuCommand* menuCommand = new MenuCommand(name, commandString, this, command);
 		items.push_back(menuCommand);
 
 		return menuCommand;
@@ -62,9 +63,9 @@ void Menu::run() {
 		std::cout << std::endl << name << std::endl;
 		std::cout << std::string(PADDING, SPACE);
 		std::cout << BACK_COMMAND_NAME << SPACE << OPENING_PARENTHESIS << BACK_COMMAND_STRING << CLOSING_PARENTHESIS << std::endl;
-		for(size_t i = 0; i < items.size(); i++) {
+		for(std::vector<MenuItem*>::iterator i = items.begin(); i != items.end(); ++i) {
 			std::cout << std::string(PADDING, SPACE);
-			std::cout << items[i]->getName() << SPACE << OPENING_PARENTHESIS << items[i]->getCommand() << CLOSING_PARENTHESIS << std::endl;
+			std::cout << (*i)->getName() << SPACE << OPENING_PARENTHESIS << (*i)->getCommand() << CLOSING_PARENTHESIS << std::endl;
 		}
 		std::cout << std::string(PADDING, SPACE);
 		std::cout << PRINT_LEAVES_COMMAND_NAME << SPACE << OPENING_PARENTHESIS << PRINT_LEAVES_COMMAND_STRING << CLOSING_PARENTHESIS << std::endl;

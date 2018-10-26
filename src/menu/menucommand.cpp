@@ -1,16 +1,18 @@
 #include "menucommand.h"
+#include "menu.h"
 #include "constants.h"
 
 #include <iostream>
 
-MenuCommand::MenuCommand(std::string name, std::string commandString, Command* command) : MenuItem(name, commandString), command(command) {}
+MenuCommand::MenuCommand(std::string name, std::string commandString, Menu* parent, Command* command) : 
+	MenuItem(name, commandString, parent), command(command) {}
 
 MenuCommand::~MenuCommand() {
 	delete command;
 }
 
 void MenuCommand::run() {
-	if(command != NULL) {
+	if(command != nullptr) {
 		command->runCommand();
 	}
 	else {

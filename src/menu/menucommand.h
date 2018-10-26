@@ -5,11 +5,12 @@
 
 class MenuCommand : public MenuItem {
 public:
-	MenuCommand(std::string name, std::string commandString, Command* command);
 	~MenuCommand();
 	void run() override;
 	void printLeaves() override;
+	friend class Menu; // accessing the private constructor
 
 private:
+	MenuCommand(std::string name, std::string commandString, Menu* parent, Command* command);
 	Command* command;
 };
