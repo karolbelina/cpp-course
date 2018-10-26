@@ -14,37 +14,31 @@ Menu::~Menu() {
 	}
 }
 
-bool Menu::addMenu(std::string name, std::string commandString) {
+Menu* Menu::addMenu(std::string name, std::string commandString) {
 	if(checkCommandString(commandString)) {
 		Menu* menu = new Menu(name, commandString);
 		items.push_back(menu);
-		menus.push_back(menu);
 
-		return true;
+		return menu;
 	}
 
-	return false;
+	return nullptr;
 }
 
-bool Menu::addCommand(std::string name, std::string commandString, Command* command) {
+MenuCommand* Menu::addCommand(std::string name, std::string commandString, Command* command) {
 	if(checkCommandString(commandString)) {
-		items.push_back(new MenuCommand(name, commandString, command));
+		MenuCommand* menuCommand = new MenuCommand(name, commandString, command);
+		items.push_back(menuCommand);
 
-		return true;
+		return menuCommand;
 	}
 
-	return false;
+	return nullptr;
 }
 
 bool Menu::removeItem(std::string commandString) {
 	for(std::vector<MenuItem*>::iterator i = items.begin(); i != items.end(); ++i) {
 		if(commandString == (*i)->getCommand()) {
-			for(std::vector<Menu*>::iterator j = menus.begin(); j != menus.end(); ++j) {
-				if(*i == *j) {
-					menus.erase(j);
-				}
-			}
-
 			delete *i;
 			items.erase(i);
 
@@ -53,15 +47,6 @@ bool Menu::removeItem(std::string commandString) {
 	}
 
 	return false;
-}
-
-Menu* Menu::getMenu(std::string commandString) {
-	for(std::vector<Menu*>::iterator i = menus.begin(); i != menus.end(); ++i) {
-		if(commandString == (*i)->getCommand()) {
-			return *i;
-		}
-	}
-	return NULL;
 }
 
 void Menu::printLeaves() {
