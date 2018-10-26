@@ -26,9 +26,9 @@ Menu* Menu::addMenu(std::string name, std::string commandString) {
 	return nullptr;
 }
 
-MenuCommand* Menu::addCommand(std::string name, std::string commandString, Command* command) {
+MenuCommand* Menu::addCommand(std::string name, std::string commandString, std::string help, Command* command) {
 	if(checkCommandString(commandString)) {
-		MenuCommand* menuCommand = new MenuCommand(name, commandString, this, command);
+		MenuCommand* menuCommand = new MenuCommand(name, commandString, help, this, command);
 		items.push_back(menuCommand);
 
 		return menuCommand;
@@ -50,10 +50,22 @@ bool Menu::removeItem(std::string commandString) {
 	return false;
 }
 
-void Menu::printLeaves() {
+bool Menu::search(std::string &term, std::string path, std::ostream &stream) {
+	std::string currentPath = path + getCommand() + "/";
+	bool foundCommands = false;
+
 	for(std::vector<MenuItem*>::iterator i = items.begin(); i != items.end(); ++i) {
-		(*i)->printLeaves();
+		if((*i)->search(term, currentPath, stream)) {
+			stream << std::endl; // separator
+			foundCommands = true;
+		}
 	}
+
+	return foundCommands;
+}
+
+bool Menu::getHelp(std::string &destination) {
+	return false;
 }
 
 void Menu::run() {
@@ -78,7 +90,7 @@ void Menu::run() {
 			bool foundValidCommand = false;
 
 			if(input == PRINT_LEAVES_COMMAND_STRING) {
-				printLeaves();
+				//printLeaves();
 
 				foundValidCommand = true;
 			}

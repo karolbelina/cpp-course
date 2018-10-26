@@ -4,8 +4,8 @@
 
 #include <iostream>
 
-MenuCommand::MenuCommand(std::string name, std::string commandString, Menu* parent, Command* command) : 
-	MenuItem(name, commandString, parent), command(command) {}
+MenuCommand::MenuCommand(std::string name, std::string commandString, std::string help, Menu* parent, Command* command) : 
+	MenuItem(name, commandString, parent), help(help), command(command) {}
 
 MenuCommand::~MenuCommand() {
 	delete command;
@@ -20,6 +20,20 @@ void MenuCommand::run() {
 	}
 }
 
-void MenuCommand::printLeaves() {
-	std::cout << name << std::endl;
+bool MenuCommand::search(std::string &term, std::string path, std::ostream &stream) {
+	std::string command = getCommand();
+
+	if(term == command) {
+		stream << path << command;
+
+		return true;
+	}
+
+	return false;
+}
+
+bool MenuCommand::getHelp(std::string &destination) {
+	destination = help;
+
+	return true;
 }

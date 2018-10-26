@@ -13,3 +13,17 @@ std::string MenuItem::getName() const {
 std::string MenuItem::getCommand() const {
 	return commandString;
 }
+
+Menu* MenuItem::getParent() const {
+	return parent;
+}
+
+Menu* MenuItem::getRoot() const {
+	Menu* item = getParent();
+
+	while(item != nullptr) {
+		item->getParent();
+	}
+
+	return item;
+}

@@ -1,16 +1,18 @@
+#pragma once
+
 #include "menuitem.h"
 #include "command.h"
 
-#pragma once
-
 class MenuCommand : public MenuItem {
 public:
+	friend class Menu; // accessing the private constructor
 	~MenuCommand();
 	void run() override;
-	void printLeaves() override;
-	friend class Menu; // accessing the private constructor
-
+	bool search(std::string &term, std::string path, std::ostream &stream) override;
+	bool getHelp(std::string &destination) override;
+	
 private:
-	MenuCommand(std::string name, std::string commandString, Menu* parent, Command* command);
+	MenuCommand(std::string name, std::string commandString, std::string help, Menu* parent, Command* command);
+	std::string help;
 	Command* command;
 };
