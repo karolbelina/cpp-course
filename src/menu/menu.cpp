@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include <string>
+#include <sstream>
 
 Menu::Menu() : MenuItem("main", "", nullptr) {}
 
@@ -126,4 +127,13 @@ bool Menu::checkCommandString(std::string commandString) {
 	}
 
 	return true;
+}
+
+std::string Menu::validateCommandString(std::string commandString) {
+	std::istringstream stream(commandString);
+	std::string retVal;
+
+	stream >> retVal;
+
+	return retVal;
 }
