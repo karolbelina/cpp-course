@@ -16,11 +16,13 @@ public:
 	void run() override;
 	bool search(std::string &term, std::string path, std::ostream &stream) override;
 	bool getHelp(std::string &destination) override;
+	std::string exportToString() override;
 
 private:
 	Menu(std::string name, std::string commandString, Menu* parent);
 	std::string validateCommandString(std::string commandString);
 	bool checkKeywords(std::string commandString);
 	bool checkDuplicates(std::string commandString);
+	void importFromString(std::string &source, size_t position) override;
 	std::vector<MenuItem*> items;
 };

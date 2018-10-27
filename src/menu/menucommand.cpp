@@ -3,6 +3,7 @@
 #include "constants.h"
 
 #include <iostream>
+#include <sstream>
 
 MenuCommand::MenuCommand(std::string name, std::string commandString, std::string help, Menu* parent, Command* command) : 
 	MenuItem(name, commandString, parent), help(help), command(command) {}
@@ -36,4 +37,18 @@ bool MenuCommand::getHelp(std::string &destination) {
 	destination = help;
 
 	return true;
+}
+
+std::string MenuCommand::exportToString() {
+	std::ostringstream stream;
+
+	stream << LEFT_SQUARE_BRACKET << APOSTROPHE << name << APOSTROPHE << COMMA;
+	stream << APOSTROPHE << commandString << APOSTROPHE << COMMA;
+	stream << APOSTROPHE << help << APOSTROPHE << RIGHT_SQUARE_BRACKET;
+
+	return stream.str();
+}
+
+void MenuCommand::importFromString(std::string &source, size_t position) {
+
 }

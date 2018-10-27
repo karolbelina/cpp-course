@@ -5,8 +5,13 @@
 const char SPACE = ' ';
 const int PADDING = 2;
 
-const char OPENING_PARENTHESIS = '(';
-const char CLOSING_PARENTHESIS = ')';
+const char LEFT_PARENTHESIS = '(';
+const char RIGHT_PARENTHESIS = ')';
+const char LEFT_SQUARE_BRACKET = '[';
+const char RIGHT_SQUARE_BRACKET = ']';
+const char APOSTROPHE = '\'';
+const char COMMA = ',';
+const char SEMICOLON = ';';
 
 const char PROMPT = '>';
 

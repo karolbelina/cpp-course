@@ -6,6 +6,10 @@ MenuItem::MenuItem(const std::string name, const std::string commandString, Menu
 
 MenuItem::~MenuItem() {}
 
+void MenuItem::importFromString(std::string &source) {
+	importFromString(source, 0);
+}
+
 std::string MenuItem::getName() const {
 	return name;
 }

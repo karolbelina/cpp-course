@@ -73,19 +73,36 @@ bool Menu::getHelp(std::string &destination) {
 	return false;
 }
 
+std::string Menu::exportToString() {
+	std::ostringstream stream;
+
+	stream << LEFT_PARENTHESIS << APOSTROPHE << name << APOSTROPHE << COMMA;
+	stream << APOSTROPHE << commandString << APOSTROPHE << SEMICOLON;
+
+	std::string separator = "";
+	for(std::vector<MenuItem*>::iterator i = items.begin(); i != items.end(); ++i) {
+		stream << separator << (*i)->exportToString();
+		separator = COMMA;
+	}
+
+	stream << RIGHT_PARENTHESIS;
+
+	return stream.str();
+}
+
 void Menu::run() {
 	bool retryInput = true;
 
 	do {
 		std::cout << std::endl << name << std::endl;
 		std::cout << std::string(PADDING, SPACE);
-		std::cout << BACK_COMMAND_NAME << SPACE << OPENING_PARENTHESIS << BACK_COMMAND_STRING << CLOSING_PARENTHESIS << std::endl;
+		std::cout << BACK_COMMAND_NAME << SPACE << LEFT_PARENTHESIS << BACK_COMMAND_STRING << RIGHT_PARENTHESIS << std::endl;
 		for(std::vector<MenuItem*>::iterator i = items.begin(); i != items.end(); ++i) {
 			std::cout << std::string(PADDING, SPACE);
-			std::cout << (*i)->getName() << SPACE << OPENING_PARENTHESIS << (*i)->getCommand() << CLOSING_PARENTHESIS << std::endl;
+			std::cout << (*i)->getName() << SPACE << LEFT_PARENTHESIS << (*i)->getCommand() << RIGHT_PARENTHESIS << std::endl;
 		}
 		std::cout << std::string(PADDING, SPACE);
-		std::cout << PRINT_LEAVES_COMMAND_NAME << SPACE << OPENING_PARENTHESIS << PRINT_LEAVES_COMMAND_STRING << CLOSING_PARENTHESIS << std::endl;
+		std::cout << PRINT_LEAVES_COMMAND_NAME << SPACE << LEFT_PARENTHESIS << PRINT_LEAVES_COMMAND_STRING << RIGHT_PARENTHESIS << std::endl;
 		std::cout << PROMPT << SPACE;
 
 		std::string input;

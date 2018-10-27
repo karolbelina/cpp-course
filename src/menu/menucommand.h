@@ -10,9 +10,11 @@ public:
 	void run() override;
 	bool search(std::string &term, std::string path, std::ostream &stream) override;
 	bool getHelp(std::string &destination) override;
+	std::string exportToString() override;
 	
 private:
 	MenuCommand(std::string name, std::string commandString, std::string help, Menu* parent, Command* command);
+	void importFromString(std::string &source, size_t position) override;
 	std::string help;
 	Command* command;
 };
