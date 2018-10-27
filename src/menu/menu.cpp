@@ -8,7 +8,7 @@
 
 Menu::Menu() : MenuItem("main", "", nullptr) {}
 
-Menu::Menu(std::string name, std::string commandString, Menu* parent) : MenuItem(name, commandString, parent) {}
+Menu::Menu(const std::string name, const std::string commandString, Menu* parent) : MenuItem(name, commandString, parent) {}
 
 Menu::~Menu() {
 	for(std::vector<MenuItem*>::iterator i = items.begin(); i != items.end(); ++i) {
@@ -16,9 +16,11 @@ Menu::~Menu() {
 	}
 }
 
-Menu* Menu::addMenu(std::string name, std::string commandString) {
-	if(checkCommandString(commandString)) {
-		Menu* menu = new Menu(name, commandString, this);
+Menu* Menu::addMenu(const std::string name, const std::string commandString) {
+	const std::string validatedCommandString = validateCommandString(commandString);
+
+	if(checkKeywords(validatedCommandString) && checkDuplicates(validatedCommandString)) {
+		Menu* menu = new Menu(name, validatedCommandString, this);
 		items.push_back(menu);
 
 		return menu;
@@ -27,9 +29,11 @@ Menu* Menu::addMenu(std::string name, std::string commandString) {
 	return nullptr;
 }
 
-MenuCommand* Menu::addCommand(std::string name, std::string commandString, std::string help, Command* command) {
-	if(checkCommandString(commandString)) {
-		MenuCommand* menuCommand = new MenuCommand(name, commandString, help, this, command);
+MenuCommand* Menu::addCommand(const std::string name, const std::string commandString, const std::string help, Command* command) {
+	const std::string validatedCommandString = validateCommandString(commandString);
+
+	if(checkKeywords(validatedCommandString) && checkDuplicates(validatedCommandString)) {
+		MenuCommand* menuCommand = new MenuCommand(name, validatedCommandString, help, this, command);
 		items.push_back(menuCommand);
 
 		return menuCommand;
@@ -38,7 +42,7 @@ MenuCommand* Menu::addCommand(std::string name, std::string commandString, std::
 	return nullptr;
 }
 
-bool Menu::removeItem(std::string commandString) {
+bool Menu::removeItem(const std::string commandString) {
 	for(std::vector<MenuItem*>::iterator i = items.begin(); i != items.end(); ++i) {
 		if(commandString == (*i)->getCommand()) {
 			delete *i;
@@ -51,7 +55,7 @@ bool Menu::removeItem(std::string commandString) {
 	return false;
 }
 
-bool Menu::search(std::string &term, std::string path, std::ostream &stream) {
+bool Menu::search(std::string &term, const std::string path, std::ostream &stream) {
 	std::string currentPath = path + getCommand() + "/";
 	bool foundCommands = false;
 
@@ -115,11 +119,15 @@ void Menu::run() {
 	} while(retryInput);
 }
 
-bool Menu::checkCommandString(std::string commandString) {
+bool Menu::checkKeywords(const std::string commandString) {
 	if(commandString == EMPTY_STRING || commandString == BACK_COMMAND_STRING) {
 		return false;
 	}
 
+	return true;
+}
+
+bool Menu::checkDuplicates(const std::string commandString) {
 	for(std::vector<MenuItem*>::iterator i = items.begin(); i != items.end(); ++i) {
 		if(commandString == (*i)->getCommand()) {
 			return false;
@@ -129,7 +137,7 @@ bool Menu::checkCommandString(std::string commandString) {
 	return true;
 }
 
-std::string Menu::validateCommandString(std::string commandString) {
+std::string Menu::validateCommandString(const std::string commandString) {
 	std::istringstream stream(commandString);
 	std::string retVal;
 

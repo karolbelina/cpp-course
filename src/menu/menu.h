@@ -19,7 +19,8 @@ public:
 
 private:
 	Menu(std::string name, std::string commandString, Menu* parent);
-	bool checkCommandString(std::string commandString);
 	std::string validateCommandString(std::string commandString);
+	bool checkKeywords(std::string commandString);
+	bool checkDuplicates(std::string commandString);
 	std::vector<MenuItem*> items;
 };
