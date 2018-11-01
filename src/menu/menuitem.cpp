@@ -1,8 +1,10 @@
 #include "menu.h"
 #include "menuitem.h"
 
-menu::MenuItem::MenuItem(const std::string name, const std::string commandString, Menu* parent) :
-	name(name), commandString(commandString), parent(parent) {}
+/*menu::MenuItem::MenuItem(const std::string name, const std::string commandString, Menu* parent) :
+	name(name), commandString(commandString), parent(parent) {}*/
+
+menu::MenuItem::MenuItem() {}
 
 menu::MenuItem::~MenuItem() {}
 

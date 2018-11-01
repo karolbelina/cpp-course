@@ -12,7 +12,8 @@ namespace menu {
 		void run() override;
 
 	private:
-		MenuCommand(std::string name, std::string commandString, std::string help, Menu* parent, Command* command);
+		// MenuCommand(std::string name, std::string commandString, std::string help, Menu* parent, Command* command);
+		MenuCommand(Menu* parent, const std::string &source, size_t &position, Error &error);
 		bool search(std::string &term, std::string path, std::ostream &stream) override;
 		std::string getHelp() const override;
 		std::string exportItem() const override;

@@ -6,9 +6,13 @@
 #include <sstream>
 #include <string>
 
-menu::Menu::Menu() : MenuItem("main", "", nullptr) {}
+menu::Menu::Menu() : MenuItem() {
+	name = "main";
+	commandString = "";
+	parent = nullptr;
+}
 
-menu::Menu::Menu(const std::string name, const std::string commandString, Menu* parent) : MenuItem(name, commandString, parent) {}
+/*menu::Menu::Menu(const std::string name, const std::string commandString, Menu* parent) : MenuItem(name, commandString, parent) {}*/
 
 menu::Menu::~Menu() {
 	for(std::vector<MenuItem*>::iterator i = items.begin(); i != items.end(); ++i) {
@@ -16,7 +20,7 @@ menu::Menu::~Menu() {
 	}
 }
 
-menu::Menu* menu::Menu::addMenu(const std::string name, const std::string commandString) {
+/*menu::Menu* menu::Menu::addMenu(const std::string name, const std::string commandString) {
 	const std::string validatedCommandString = validateCommandString(commandString);
 
 	if(checkKeywords(validatedCommandString) && checkDuplicates(validatedCommandString)) {
@@ -53,7 +57,7 @@ bool menu::Menu::removeItem(const std::string commandString) {
 	}
 
 	return false;
-}
+}*/
 
 bool menu::Menu::search(std::string &term, const std::string path, std::ostream &stream) {
 	std::string currentPath = path + commandString + "/";
@@ -154,6 +158,10 @@ bool menu::Menu::checkDuplicates(const std::string commandString) {
 	}
 
 	return true;
+}
+
+menu::Menu::Menu(Menu* parent, const std::string &source, size_t &position, Error &error) {
+
 }
 
 std::string menu::Menu::validateCommandString(const std::string commandString) {
