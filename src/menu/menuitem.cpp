@@ -1,28 +1,28 @@
 #include "menuitem.h"
 #include "menu.h"
 
-MenuItem::MenuItem(const std::string name, const std::string commandString, Menu* parent) : 
+menu::MenuItem::MenuItem(const std::string name, const std::string commandString, Menu* parent) :
 	name(name), commandString(commandString), parent(parent) {}
 
-MenuItem::~MenuItem() {}
+menu::MenuItem::~MenuItem() {}
 
-void MenuItem::importFromString(std::string &source) {
-	importFromString(source, 0);
-}
+/*MenuItem* MenuItem::importFromString(const std::string &source) { // CONST!!!!!!!1
+	this->importFromString(source, 0);
+}*/
 
-std::string MenuItem::getName() const {
+std::string menu::MenuItem::getName() const {
 	return name;
 }
 
-std::string MenuItem::getCommand() const {
+std::string menu::MenuItem::getCommand() const {
 	return commandString;
 }
 
-Menu* MenuItem::getParent() const {
+menu::Menu* menu::MenuItem::getParent() const {
 	return parent;
 }
 
-Menu* MenuItem::getRoot() const {
+menu::Menu* menu::MenuItem::getRoot() const {
 	Menu* item = getParent();
 
 	while(item != nullptr) {

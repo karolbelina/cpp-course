@@ -6,7 +6,7 @@
 #include <sstream>
 #include <new>			// std::nothrow
 
-Table::Table() {
+table::Table::Table() {
 	name = DEFAULT_NAME;
 	Error error;
 	setTableLength(DEFAULT_LENGTH, error);
@@ -14,14 +14,14 @@ Table::Table() {
 	std::cout << NOARG_CONSTRUCTOR_MESSAGE + name << std::endl;
 }
 
-Table::Table(std::string name, int tableLength, Error &error) {
+table::Table::Table(std::string name, int tableLength, Error &error) {
 	this->name = name;
 	setTableLength(tableLength, error);
 
 	std::cout << PARAM_CONSTRUCTOR_MESSAGE + this->name << std::endl;
 }
 
-Table::Table(const Table &other) {
+table::Table::Table(const Table &other) {
 	name = other.name + COPY_STRING;
 	Error error;
 	setTable(other, error);
@@ -29,7 +29,7 @@ Table::Table(const Table &other) {
 	std::cout << COPYING_CONSTRUCTOR_MESSAGE + name << std::endl;
 }
 
-Table::~Table() {
+table::Table::~Table() {
 	if(array != NULL) {
 		delete[] array;
 	}
@@ -37,15 +37,15 @@ Table::~Table() {
 	std::cout << DESTRUCTOR_MESSAGE + name << std::endl;
 }
 
-void Table::setName(std::string name) {
+void table::Table::setName(std::string name) {
 	this->name = name;
 }
 
-std::string Table::getName() {
+std::string table::Table::getName() {
 	return name;
 }
 
-void Table::setTableLength(int tableLength, Error &error) {
+void table::Table::setTableLength(int tableLength, Error &error) {
 	if(tableLength < 0) {
 		error = InvalidArgument;
 		return;
@@ -90,7 +90,7 @@ void Table::setTableLength(int tableLength, Error &error) {
 	error = NoError;
 }
 
-void Table::setElement(int offset, int value, Error &error) {
+void table::Table::setElement(int offset, int value, Error &error) {
 	if(offset < 0 || offset > arraySize - 1) {
 		error = IndexOutOfBounds;
 		return;
@@ -99,7 +99,7 @@ void Table::setElement(int offset, int value, Error &error) {
 	array[offset] = value;
 }
 
-int Table::getElement(int offset, Error &error) {
+int table::Table::getElement(int offset, Error &error) {
 	if(offset < 0 || offset > arraySize - 1) {
 		error = IndexOutOfBounds;
 		return NULL;
@@ -108,11 +108,11 @@ int Table::getElement(int offset, Error &error) {
 	return array[offset];
 }
 
-Table* Table::clone() {
+table::Table* table::Table::clone() {
 	return new Table(*this);
 }
 
-void Table::setTable(const Table &other, Error &error) {
+void table::Table::setTable(const Table &other, Error &error) {
 	int length = other.arraySize;
 	int* otherArray = other.array;
 	int* temp = new (std::nothrow) int[length];
@@ -136,7 +136,7 @@ void Table::setTable(const Table &other, Error &error) {
 	error = NoError;
 }
 
-std::string Table::getStatus() {
+std::string table::Table::getStatus() {
 	std::ostringstream stream;
 
 	stream << OPEN_PARENTHESIS << name << LENGTH_STRING << arraySize << VALUES_STRING;
@@ -154,7 +154,7 @@ std::string Table::getStatus() {
 	return stream.str();
 }
 
-void Table::test(Table table) {
+void table::Table::test(Table table) {
 	Error error;
 	table.setTableLength(1, error);
 }

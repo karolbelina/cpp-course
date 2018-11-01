@@ -1,5 +1,7 @@
 #pragma once
 
-enum Error {
-	NoError, IndexOutOfBounds, InvalidArgument, OutOfMemory
-};
+namespace table {
+	enum Error {
+		NoError, IndexOutOfBounds, InvalidArgument, OutOfMemory
+	};
+}

@@ -1,6 +1,8 @@
 #pragma once
 
-class Command {
-public:
-	virtual void runCommand();
-};
+namespace menu {
+	class Command {
+	public:
+		virtual void runCommand();
+	};
+}

@@ -5,14 +5,14 @@
 #include <iostream>
 #include <sstream>
 
-MenuCommand::MenuCommand(std::string name, std::string commandString, std::string help, Menu* parent, Command* command) : 
+menu::MenuCommand::MenuCommand(std::string name, std::string commandString, std::string help, Menu* parent, Command* command) :
 	MenuItem(name, commandString, parent), help(help), command(command) {}
 
-MenuCommand::~MenuCommand() {
+menu::MenuCommand::~MenuCommand() {
 	delete command;
 }
 
-void MenuCommand::run() {
+void menu::MenuCommand::run() {
 	if(command != nullptr) {
 		command->runCommand();
 	}
@@ -21,7 +21,7 @@ void MenuCommand::run() {
 	}
 }
 
-bool MenuCommand::search(std::string &term, std::string path, std::ostream &stream) {
+bool menu::MenuCommand::search(std::string &term, std::string path, std::ostream &stream) {
 	std::string command = getCommand();
 
 	if(term == command) {
@@ -33,13 +33,13 @@ bool MenuCommand::search(std::string &term, std::string path, std::ostream &stre
 	return false;
 }
 
-bool MenuCommand::getHelp(std::string &destination) {
+bool menu::MenuCommand::getHelp(std::string &destination) {
 	destination = help;
 
 	return true;
 }
 
-std::string MenuCommand::exportToString() {
+std::string menu::MenuCommand::exportToString() {
 	std::ostringstream stream;
 
 	stream << LEFT_SQUARE_BRACKET << APOSTROPHE << name << APOSTROPHE << COMMA;
@@ -49,6 +49,74 @@ std::string MenuCommand::exportToString() {
 	return stream.str();
 }
 
-void MenuCommand::importFromString(std::string &source, size_t position) {
+/*MenuCommand* MenuCommand::importFromString(std::string &source, Error &error) {
+	if(source[position] != LEFT_SQUARE_BRACKET) {
+		// expected a [
+		return;
+	}
 
-}
+	++position;
+
+	if(source[position] != APOSTROPHE) {
+		// expected a '
+		return;
+	}
+
+	size_t nameBeginPosition = ++position;
+
+	while(source[position] != APOSTROPHE) {
+		++position;
+	}
+
+	std::string name = source.substr(nameBeginPosition, position - nameBeginPosition);
+	++position;
+
+	if(source[position] != COMMA) {
+		// expected a ,
+		return;
+	}
+
+	++position;
+
+	if(source[position] != APOSTROPHE) {
+		// expected a '
+		return;
+	}
+
+	size_t commandStringBeginPosition = ++position;
+
+	while(source[position] != APOSTROPHE) {
+		++position;
+	}
+
+	std::string commandString = source.substr(commandStringBeginPosition, position - commandStringBeginPosition);
+	++position;
+
+	if(source[position] != COMMA) {
+		// expected a ,
+		return;
+	}
+
+	++position;
+
+	if(source[position] != APOSTROPHE) {
+		// expected a '
+		return;
+	}
+
+	size_t helpBeginPosition = ++position;
+
+	while(source[position] != APOSTROPHE) {
+		++position;
+	}
+
+	std::string help = source.substr(helpBeginPosition, position - helpBeginPosition);
+	++position;
+
+	if(source[position] != RIGHT_SQUARE_BRACKET) {
+		// expected a ]
+		return;
+	}
+
+	return new MenuCommand(name, commandString, help, parent, new Command());
+}*/

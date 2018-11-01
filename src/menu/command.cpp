@@ -3,6 +3,6 @@
 
 #include <iostream>
 
-void Command::runCommand() {
+void menu::Command::runCommand() {
 	std::cout << DEFAULT_COMMAND_MESSAGE << std::endl;
 }

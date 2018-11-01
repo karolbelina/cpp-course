@@ -3,11 +3,11 @@
 
 #include <sstream>
 
-TableContainer::~TableContainer() {
+table::TableContainer::~TableContainer() {
 	removeAllTables();
 }
 
-void TableContainer::addTable(std::string name, int tableLength, Error &error) {
+void table::TableContainer::addTable(std::string name, int tableLength, Error &error) {
 	Table* table = new Table(name, tableLength, error);
 
 	if(error == NoError) {
@@ -18,7 +18,7 @@ void TableContainer::addTable(std::string name, int tableLength, Error &error) {
 	}
 }
 
-void TableContainer::removeTable(int tableIndex, Error &error) {
+void table::TableContainer::removeTable(int tableIndex, Error &error) {
 	if(checkIndex(tableIndex, error)) {
 		return;
 	}
@@ -28,7 +28,7 @@ void TableContainer::removeTable(int tableIndex, Error &error) {
 	tables.erase(tables.begin() + tableIndex);
 }
 
-void TableContainer::removeAllTables() {
+void table::TableContainer::removeAllTables() {
 	for(size_t i = 0, size = tables.size(); i < size; i++) {
 		delete tables[i];
 	}
@@ -36,7 +36,7 @@ void TableContainer::removeAllTables() {
 	tables.clear();
 }
 
-void TableContainer::renameTable(int tableIndex, std::string name, Error &error) {
+void table::TableContainer::renameTable(int tableIndex, std::string name, Error &error) {
 	if(checkIndex(tableIndex, error)) {
 		return;
 	}
@@ -45,7 +45,7 @@ void TableContainer::renameTable(int tableIndex, std::string name, Error &error)
 	tables[tableIndex]->setName(name);
 }
 
-void TableContainer::resizeTable(int tableIndex, int tableLength, Error &error) {
+void table::TableContainer::resizeTable(int tableIndex, int tableLength, Error &error) {
 	if(checkIndex(tableIndex, error)) {
 		return;
 	}
@@ -53,7 +53,7 @@ void TableContainer::resizeTable(int tableIndex, int tableLength, Error &error) 
 	tables[tableIndex]->setTableLength(tableLength, error);
 }
 
-void TableContainer::cloneTable(int tableIndex, Error &error) {
+void table::TableContainer::cloneTable(int tableIndex, Error &error) {
 	if(checkIndex(tableIndex, error)) {
 		return;
 	}
@@ -63,7 +63,7 @@ void TableContainer::cloneTable(int tableIndex, Error &error) {
 	tables.push_back(table);
 }
 
-std::string TableContainer::getTableStatus(int tableIndex, Error & error) {
+std::string table::TableContainer::getTableStatus(int tableIndex, Error & error) {
 	if(checkIndex(tableIndex, error)) {
 		return EMPTY_STRING;
 	}
@@ -72,7 +72,7 @@ std::string TableContainer::getTableStatus(int tableIndex, Error & error) {
 	return tables[tableIndex]->getStatus();
 }
 
-std::string TableContainer::getStatus() {
+std::string table::TableContainer::getStatus() {
 	std::ostringstream stream;
 
 	stream << OPEN_PARENTHESIS;
@@ -90,7 +90,7 @@ std::string TableContainer::getStatus() {
 	return stream.str();
 }
 
-void TableContainer::editTable(int tableIndex, int cellIndex, int value, Error &error) {
+void table::TableContainer::editTable(int tableIndex, int cellIndex, int value, Error &error) {
 	if(checkIndex(tableIndex, error)) {
 		return;
 	}
@@ -98,11 +98,11 @@ void TableContainer::editTable(int tableIndex, int cellIndex, int value, Error &
 	tables[tableIndex]->setElement(cellIndex, value, error);
 }
 
-int TableContainer::size() {
+int table::TableContainer::size() {
 	return tables.size();
 }
 
-void TableContainer::testTable(int tableIndex, Error &error) {
+void table::TableContainer::testTable(int tableIndex, Error &error) {
 	if(checkIndex(tableIndex, error)) {
 		return;
 	}
@@ -111,7 +111,7 @@ void TableContainer::testTable(int tableIndex, Error &error) {
 	Table::test(*tables[tableIndex]);
 }
 
-bool TableContainer::checkIndex(int tableIndex, Error &error) {
+bool table::TableContainer::checkIndex(int tableIndex, Error &error) {
 	if(tableIndex < 0 || tableIndex >= (int) tables.size()) {
 		error = IndexOutOfBounds;
 		return true;
