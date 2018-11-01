@@ -39,7 +39,7 @@ bool menu::MenuCommand::getHelp(std::string &destination) {
 	return true;
 }
 
-std::string menu::MenuCommand::exportToString() {
+std::string menu::MenuCommand::exportItem() const {
 	std::ostringstream stream;
 
 	stream << LEFT_SQUARE_BRACKET << APOSTROPHE << name << APOSTROPHE << COMMA;

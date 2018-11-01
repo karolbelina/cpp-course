@@ -74,15 +74,15 @@ bool menu::Menu::getHelp(std::string &destination) {
 	return false;
 }
 
-std::string menu::Menu::exportToString() {
+std::string menu::Menu::exportItem() const {
 	std::ostringstream stream;
 
 	stream << LEFT_PARENTHESIS << APOSTROPHE << name << APOSTROPHE << COMMA;
 	stream << APOSTROPHE << commandString << APOSTROPHE << SEMICOLON;
 
 	std::string separator = "";
-	for(std::vector<MenuItem*>::iterator i = items.begin(); i != items.end(); ++i) {
-		stream << separator << (*i)->exportToString();
+	for(std::vector<MenuItem*>::const_iterator i = items.begin(); i != items.end(); ++i) {
+		stream << separator << (*i)->exportItem();
 		separator = COMMA;
 	}
 

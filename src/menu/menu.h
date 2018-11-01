@@ -16,8 +16,6 @@ namespace menu {
 		MenuCommand* addCommand(std::string name, std::string commandString, std::string help, Command* command);
 		bool removeItem(std::string commandString);
 		void run() override;
-		std::string exportToString() override;
-		// static Menu* importFromString(std::string &source, Error &error);
 
 	private:
 		Menu(std::string name, std::string commandString, Menu* parent);
@@ -27,6 +25,8 @@ namespace menu {
 		bool checkDuplicates(std::string commandString);
 		bool search(std::string &term, std::string path, std::ostream &stream) override;
 		bool getHelp(std::string &destination) override;
+		// static Menu* importFromString(std::string &source, Error &error);
+		std::string exportItem() const override;
 		std::vector<MenuItem*> items;
 	};
 }
