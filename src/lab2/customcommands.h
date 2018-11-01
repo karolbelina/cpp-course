@@ -3,64 +3,64 @@
 #include "command.h"
 #include "tablecontainer.h"
 
-class CustomCommand : public Command {
+class CustomCommand : public menu::Command {
 public:
-	CustomCommand(TableContainer* tableContainer);
+	CustomCommand(table::TableContainer* tableContainer);
 
 protected:
-	TableContainer* tableContainer;
+	table::TableContainer* tableContainer;
 };
 
 class CreateCommand : public CustomCommand {
 public:
-	CreateCommand(TableContainer* tableContainer);
+	CreateCommand(table::TableContainer* tableContainer);
 	void runCommand() override final;
 };
 
 class RemoveCommand : public CustomCommand {
 public:
-	RemoveCommand(TableContainer* tableContainer);
+	RemoveCommand(table::TableContainer* tableContainer);
 	void runCommand() override final;
 };
 
 class RemoveAllCommand : public CustomCommand {
 public:
-	RemoveAllCommand(TableContainer* tableContainer);
+	RemoveAllCommand(table::TableContainer* tableContainer);
 	void runCommand() override final;
 };
 
 class ResizeCommand : public CustomCommand {
 public:
-	ResizeCommand(TableContainer* tableContainer);
+	ResizeCommand(table::TableContainer* tableContainer);
 	void runCommand() override final;
 };
 
 class RenameCommand : public CustomCommand {
 public:
-	RenameCommand(TableContainer* tableContainer);
+	RenameCommand(table::TableContainer* tableContainer);
 	void runCommand() override final;
 };
 
 class StatusCommand : public CustomCommand {
 public:
-	StatusCommand(TableContainer* tableContainer);
+	StatusCommand(table::TableContainer* tableContainer);
 	void runCommand() override final;
 };
 
 class StatusAllCommand : public CustomCommand {
 public:
-	StatusAllCommand(TableContainer* tableContainer);
+	StatusAllCommand(table::TableContainer* tableContainer);
 	void runCommand() override final;
 };
 
 class CloneCommand : public CustomCommand {
 public:
-	CloneCommand(TableContainer* tableContainer);
+	CloneCommand(table::TableContainer* tableContainer);
 	void runCommand() override final;
 };
 
 class EditCommand : public CustomCommand {
 public:
-	EditCommand(TableContainer* tableContainer);
+	EditCommand(table::TableContainer* tableContainer);
 	void runCommand() override final;
 };

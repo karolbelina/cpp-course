@@ -21,9 +21,9 @@ static bool getIntFromUserInput(int &destination) {
 	return static_cast<bool>(stream >> destination);
 }
 
-CustomCommand::CustomCommand(TableContainer* tableContainer) : Command(), tableContainer(tableContainer) {}
+CustomCommand::CustomCommand(table::TableContainer* tableContainer) : Command(), tableContainer(tableContainer) {}
 
-CreateCommand::CreateCommand(TableContainer* tableContainer) : CustomCommand(tableContainer) {}
+CreateCommand::CreateCommand(table::TableContainer* tableContainer) : CustomCommand(tableContainer) {}
 
 void CreateCommand::runCommand() {
 	std::cout << ENTER_THE_AMOUNT_MESSAGE << COLON << std::endl;
@@ -47,17 +47,17 @@ void CreateCommand::runCommand() {
 				int length;
 
 				if(getIntFromUserInput(length)) {
-					Error error;
+					table::Error error;
 					tableContainer->addTable(name, length, error);
 
-					if(error == NoError) {
+					if(error == table::NoError) {
 						i++;
 						std::cout << TABLE_CREATED_SUCCESSFULLY_MESSAGE << std::endl;
 					}
-					else if(error == InvalidArgument) {
+					else if(error == table::InvalidArgument) {
 						std::cout << LENGTH_CANNOT_BE_NEGATIVE_MESSAGE << std::endl;
 					}
-					else if(error == OutOfMemory) {
+					else if(error == table::OutOfMemory) {
 						std::cout << OUT_OF_MEMORY_MESSAGE << std::endl;
 					}
 					else {
@@ -78,7 +78,7 @@ void CreateCommand::runCommand() {
 	}
 }
 
-RemoveCommand::RemoveCommand(TableContainer* tableContainer): CustomCommand(tableContainer) {}
+RemoveCommand::RemoveCommand(table::TableContainer* tableContainer): CustomCommand(tableContainer) {}
 
 void RemoveCommand::runCommand() {
 	std::cout << ENTER_THE_TABLE_INDEX_MESSAGE << COLON << std::endl;
@@ -86,13 +86,13 @@ void RemoveCommand::runCommand() {
 	int tableIndex;
 
 	if(getIntFromUserInput(tableIndex)) {
-		Error error;
+		table::Error error;
 		tableContainer->removeTable(tableIndex, error);
 
-		if(error == NoError) {
+		if(error == table::NoError) {
 			std::cout << REMOVED_TABLE_MESSAGE << SPACE << HASH << tableIndex << std::endl;
 		}
-		else if(error == IndexOutOfBounds) {
+		else if(error == table::IndexOutOfBounds) {
 			std::cout << INDEX_OUT_OF_BOUNDS_MESSAGE << std::endl;
 		}
 		else {
@@ -104,7 +104,7 @@ void RemoveCommand::runCommand() {
 	}
 }
 
-RemoveAllCommand::RemoveAllCommand(TableContainer* tableContainer): CustomCommand(tableContainer) {}
+RemoveAllCommand::RemoveAllCommand(table::TableContainer* tableContainer): CustomCommand(tableContainer) {}
 
 void RemoveAllCommand::runCommand() {
 	tableContainer->removeAllTables();
@@ -112,7 +112,7 @@ void RemoveAllCommand::runCommand() {
 	std::cout << REMOVED_ALL_TABLES_MESSAGE << std::endl;
 }
 
-ResizeCommand::ResizeCommand(TableContainer* tableContainer): CustomCommand(tableContainer) {}
+ResizeCommand::ResizeCommand(table::TableContainer* tableContainer): CustomCommand(tableContainer) {}
 
 void ResizeCommand::runCommand() {
 	std::cout << ENTER_THE_TABLE_INDEX_MESSAGE << COLON << std::endl;
@@ -125,19 +125,19 @@ void ResizeCommand::runCommand() {
 		int tableLength;
 
 		if(getIntFromUserInput(tableLength)) {
-			Error error;
+			table::Error error;
 			tableContainer->resizeTable(tableIndex, tableLength, error);
 
-			if(error == NoError) {
+			if(error == table::NoError) {
 				std::cout << THE_LENGTH_OF_TABLE_MESSAGE << SPACE << HASH << tableIndex << SPACE << HAS_BEEN_SET_TO_MESSAGE << SPACE << tableLength << std::endl;
 			}
-			else if(error == IndexOutOfBounds) {
+			else if(error == table::IndexOutOfBounds) {
 				std::cout << INDEX_OUT_OF_BOUNDS_MESSAGE << std::endl;
 			}
-			else if(error == InvalidArgument) {
+			else if(error == table::InvalidArgument) {
 				std::cout << LENGTH_CANNOT_BE_NEGATIVE_MESSAGE << std::endl;
 			}
-			else if(error == OutOfMemory) {
+			else if(error == table::OutOfMemory) {
 				std::cout << OUT_OF_MEMORY_MESSAGE << std::endl;
 			}
 			else {
@@ -153,7 +153,7 @@ void ResizeCommand::runCommand() {
 	}
 }
 
-RenameCommand::RenameCommand(TableContainer* tableContainer): CustomCommand(tableContainer) {}
+RenameCommand::RenameCommand(table::TableContainer* tableContainer): CustomCommand(tableContainer) {}
 
 void RenameCommand::runCommand() {
 	std::cout << ENTER_THE_TABLE_INDEX_MESSAGE << COLON << std::endl;
@@ -166,13 +166,13 @@ void RenameCommand::runCommand() {
 		std::string name;
 		getStringFromUserInput(name);
 
-		Error error;
+		table::Error error;
 		tableContainer->renameTable(tableIndex, name, error);
 
-		if(error == NoError) {
+		if(error == table::NoError) {
 			std::cout << THE_NAME_OF_TABLE_MESSAGE << SPACE << HASH << tableIndex << SPACE << HAS_BEEN_SET_TO_MESSAGE << SPACE << name << std::endl;
 		}
-		else if(error == IndexOutOfBounds) {
+		else if(error == table::IndexOutOfBounds) {
 			std::cout << INDEX_OUT_OF_BOUNDS_MESSAGE << std::endl;
 		}
 		else {
@@ -184,7 +184,7 @@ void RenameCommand::runCommand() {
 	}
 }
 
-StatusCommand::StatusCommand(TableContainer* tableContainer): CustomCommand(tableContainer) {}
+StatusCommand::StatusCommand(table::TableContainer* tableContainer): CustomCommand(tableContainer) {}
 
 void StatusCommand::runCommand() {
 	std::cout << ENTER_THE_TABLE_INDEX_MESSAGE << COLON << std::endl;
@@ -192,13 +192,13 @@ void StatusCommand::runCommand() {
 	int tableIndex;
 
 	if(getIntFromUserInput(tableIndex)) {
-		Error error;
+		table::Error error;
 		std::string status = tableContainer->getTableStatus(tableIndex, error);
 
-		if(error == NoError) {
+		if(error == table::NoError) {
 			std::cout << status << std::endl;
 		}
-		else if(error == IndexOutOfBounds) {
+		else if(error == table::IndexOutOfBounds) {
 			std::cout << INDEX_OUT_OF_BOUNDS_MESSAGE << std::endl;
 		}
 		else {
@@ -210,13 +210,13 @@ void StatusCommand::runCommand() {
 	}
 }
 
-StatusAllCommand::StatusAllCommand(TableContainer* tableContainer): CustomCommand(tableContainer) {}
+StatusAllCommand::StatusAllCommand(table::TableContainer* tableContainer): CustomCommand(tableContainer) {}
 
 void StatusAllCommand::runCommand() {
 	std::cout << tableContainer->getStatus() << std::endl;
 }
 
-CloneCommand::CloneCommand(TableContainer* tableContainer): CustomCommand(tableContainer) {}
+CloneCommand::CloneCommand(table::TableContainer* tableContainer): CustomCommand(tableContainer) {}
 
 void CloneCommand::runCommand() {
 	std::cout << ENTER_THE_TABLE_INDEX_MESSAGE << COLON << std::endl;
@@ -224,16 +224,16 @@ void CloneCommand::runCommand() {
 	int tableIndex;
 
 	if(getIntFromUserInput(tableIndex)) {
-		Error error;
+		table::Error error;
 		tableContainer->cloneTable(tableIndex, error);
 
-		if(error == NoError) {
+		if(error == table::NoError) {
 			std::cout << CLONED_TABLE_MESSAGE << SPACE << HASH << tableIndex << std::endl;
 		}
-		else if(error == IndexOutOfBounds) {
+		else if(error == table::IndexOutOfBounds) {
 			std::cout << INDEX_OUT_OF_BOUNDS_MESSAGE << std::endl;
 		}
-		else if(error == OutOfMemory) {
+		else if(error == table::OutOfMemory) {
 			std::cout << OUT_OF_MEMORY_MESSAGE << std::endl;
 		}
 		else {
@@ -245,7 +245,7 @@ void CloneCommand::runCommand() {
 	}
 }
 
-EditCommand::EditCommand(TableContainer* tableContainer): CustomCommand(tableContainer) {}
+EditCommand::EditCommand(table::TableContainer* tableContainer): CustomCommand(tableContainer) {}
 
 void EditCommand::runCommand() {
 	std::cout << ENTER_THE_TABLE_INDEX_MESSAGE << COLON << std::endl;
@@ -263,14 +263,14 @@ void EditCommand::runCommand() {
 			int value;
 
 			if(getIntFromUserInput(value)) {
-				Error error;
+				table::Error error;
 				tableContainer->editTable(tableIndex, cellIndex, value, error);
 
-				if(error == NoError) {
+				if(error == table::NoError) {
 					std::cout << THE_VALUE_OF_CELL_MESSAGE << SPACE << HASH << cellIndex << SPACE << OF_TABLE_MESSAGE << SPACE << HASH;
 					std::cout << tableIndex << SPACE << HAS_BEEN_SET_TO_MESSAGE << SPACE << value << std::endl;
 				}
-				else if(error == IndexOutOfBounds) {
+				else if(error == table::IndexOutOfBounds) {
 					std::cout << INDEX_OUT_OF_BOUNDS_MESSAGE << std::endl;
 				}
 				else {

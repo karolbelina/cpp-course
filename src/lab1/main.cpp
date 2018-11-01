@@ -40,17 +40,17 @@ void nextString(std::istringstream &stream, std::string &destination) {
 	stream >> destination;
 }
 
-bool printError(Error &error) {
-	if(error == NoError) {
+bool printError(table::Error &error) {
+	if(error == table::NoError) {
 		return true;
 	}
-	else if(error == IndexOutOfBounds) {
+	else if(error == table::IndexOutOfBounds) {
 		std::cout << INDEX_OUT_OF_BOUNDS_MESSAGE << std::endl;
 	}
-	else if(error == InvalidArgument) {
+	else if(error == table::InvalidArgument) {
 		std::cout << INVALID_ARGUMENT_MESSAGE << std::endl;
 	}
-	else if(error == OutOfMemory) {
+	else if(error == table::OutOfMemory) {
 		std::cout << OUT_OF_MEMORY_MESSAGE << std::endl;
 	}
 	else {
@@ -61,7 +61,7 @@ bool printError(Error &error) {
 }
 
 int main() {
-	TableContainer tableContainer;
+	table::TableContainer tableContainer;
 	std::string input;
 	std::istringstream inputStream;
 	std::string command;
@@ -95,7 +95,7 @@ int main() {
 						getLine(inputStream);
 
 						if(nextInt(inputStream, length, NO_PARAMETERS_MESSAGE, INVALID_TABLE_LENGTH_MESSAGE)) {
-							Error error;
+							table::Error error;
 							tableContainer.addTable(name, length, error);
 
 							if(printError(error)) {
@@ -115,7 +115,7 @@ int main() {
 			int tableIndex;
 
 			if(nextInt(inputStream, tableIndex, NO_PARAMETERS_MESSAGE, EMPTY_STRING)) { // wczytalo liczbe
-				Error error;
+				table::Error error;
 				tableContainer.removeTable(tableIndex, error);
 
 				if(printError(error)) {
@@ -145,7 +145,7 @@ int main() {
 				int tableLength;
 
 				if(nextInt(inputStream, tableLength, NO_SECOND_PARAMETER_MESSAGE, INVALID_TABLE_LENGTH_MESSAGE)) { // read the second int
-					Error error;
+					table::Error error;
 					tableContainer.resizeTable(tableIndex, tableLength, error);
 
 					if(printError(error)) {
@@ -162,7 +162,7 @@ int main() {
 
 				nextString(inputStream, name); // read a string
 
-				Error error;
+				table::Error error;
 				tableContainer.renameTable(tableIndex, name, error);
 
 				if(printError(error)) {
@@ -174,7 +174,7 @@ int main() {
 			int tableIndex;
 
 			if(nextInt(inputStream, tableIndex, EMPTY_STRING, EMPTY_STRING)) { // read an int
-				Error error;
+				table::Error error;
 				std::string status = tableContainer.getTableStatus(tableIndex, error);
 
 				if(printError(error)) {
@@ -191,7 +191,7 @@ int main() {
 
 			if(nextInt(inputStream, tableIndex, NO_PARAMETERS_MESSAGE, INVALID_TABLE_INDEX_MESSAGE)) { // read an int
 				// an int has been successfully loaded
-				Error error;
+				table::Error error;
 				tableContainer.cloneTable(tableIndex, error);
 
 				if(printError(error)) {
@@ -209,7 +209,7 @@ int main() {
 					int value;
 
 					if(nextInt(inputStream, value, NO_THIRD_PARAMETER_MESSAGE, INVALID_VALUE_MESSAGE)) { // read the third int
-						Error error;
+						table::Error error;
 						tableContainer.editTable(tableIndex, cellIndex, value, error);
 
 						if(printError(error)) {
@@ -227,7 +227,7 @@ int main() {
 
 			if(nextInt(inputStream, tableIndex, NO_PARAMETERS_MESSAGE, INVALID_TABLE_INDEX_MESSAGE)) { // read an int
 				// an int has been successfully loaded
-				Error error;
+				table::Error error;
 				tableContainer.testTable(tableIndex, error);
 
 				if(printError(error)) {
