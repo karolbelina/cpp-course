@@ -6,5 +6,5 @@
 
 namespace menu {
 	std::string exportItem(const MenuItem &item);
-	MenuItem* importItem(const std::string &string);
+	MenuItem* importItem(const std::string &string, Error &error);
 }
