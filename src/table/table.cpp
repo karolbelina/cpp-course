@@ -2,9 +2,9 @@
 #include "table.h"
 
 #include <iostream>
-#include <string>
-#include <sstream>
 #include <new>			// std::nothrow
+#include <sstream>
+#include <string>
 
 table::Table::Table() {
 	name = DEFAULT_NAME;

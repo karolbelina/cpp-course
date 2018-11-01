@@ -1,7 +1,7 @@
 #include "constants.h"
+#include "error.h"
 #include "table.h"
 #include "tablecontainer.h"
-#include "error.h"
 
 #include <iostream>
 #include <vector>

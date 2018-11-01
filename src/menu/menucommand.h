@@ -1,8 +1,8 @@
 #pragma once
 
-#include "menuitem.h"
-#include "command.h"
 #include "error.h"
+#include "command.h"
+#include "menuitem.h"
 
 namespace menu {
 	class MenuCommand : public MenuItem {

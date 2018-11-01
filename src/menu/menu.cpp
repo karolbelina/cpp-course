@@ -1,10 +1,10 @@
+#include "constants.h"
 #include "menu.h"
 #include "menucommand.h"
-#include "constants.h"
 
 #include <iostream>
-#include <string>
 #include <sstream>
+#include <string>
 
 menu::Menu::Menu() : MenuItem("main", "", nullptr) {}
 

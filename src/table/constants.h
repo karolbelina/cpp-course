@@ -1,6 +1,6 @@
-#include <string>
-
 #pragma once
+
+#include <string>
 
 namespace table {
 	const std::string DEFAULT_NAME = "untitled";

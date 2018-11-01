@@ -1,9 +1,9 @@
+#pragma once
+
 #include "error.h"
 
-#include <string>
 #include <iostream>
-
-#pragma once
+#include <string>
 
 namespace table {
 	class Table {

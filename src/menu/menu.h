@@ -1,9 +1,9 @@
 #pragma once
 
-#include "menuitem.h"
-#include "menucommand.h"
 #include "command.h"
 #include "error.h"
+#include "menucommand.h"
+#include "menuitem.h"
 
 #include <vector>
 

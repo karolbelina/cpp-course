@@ -1,6 +1,6 @@
+#include "constants.h"
 #include "customcommands.h"
 #include "error.h"
-#include "constants.h"
 
 #include <iostream>
 #include <sstream>
