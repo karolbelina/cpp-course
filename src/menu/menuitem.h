@@ -21,6 +21,8 @@ namespace menu {
 		virtual bool search(std::string &term, std::string path, std::ostream &stream) = 0;
 		virtual std::string getHelp() const = 0;
 		virtual std::string exportItem() const = 0;
+		static bool parseElement(const std::string &source, size_t &position, std::string &destination, Error &error);
+		static bool parseCharacter(const std::string &source, size_t &position, const char character, Error &error);
 		std::string name;
 		std::string commandString;
 		Menu* parent;

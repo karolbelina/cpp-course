@@ -1,3 +1,4 @@
+#include "constants.h"
 #include "menu.h"
 #include "menuitem.h"
 
@@ -20,4 +21,38 @@ menu::Menu* menu::MenuItem::getRoot() const {
 	}
 
 	return item;
+}
+
+bool menu::MenuItem::parseElement(const std::string &source, size_t &position, std::string &destination, Error &error) {
+	if(source[position] != APOSTROPHE) {
+		error.occur(position, APOSTROPHE);
+		return false;
+	}
+
+	size_t beginPosition = ++position;
+
+	while(source[position] != APOSTROPHE) {
+		if(source[position] == NULL) { // end of string
+			error.occur(position, APOSTROPHE);
+			return false;
+		}
+
+		++position;
+	}
+
+	destination = source.substr(beginPosition, position - beginPosition);
+	++position;
+
+	return true;
+}
+
+bool menu::MenuItem::parseCharacter(const std::string &source, size_t &position, const char character, Error &error) {
+	if(source[position] != character) {
+		error.occur(position, character);
+		return false;
+	}
+
+	++position;
+
+	return true;
 }

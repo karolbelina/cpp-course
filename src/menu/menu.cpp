@@ -83,7 +83,7 @@ std::string menu::Menu::exportItem() const {
 	stream << LEFT_PARENTHESIS << APOSTROPHE << name << APOSTROPHE << COMMA;
 	stream << APOSTROPHE << commandString << APOSTROPHE << SEMICOLON;
 
-	std::string separator = "";
+	std::string separator = std::string();
 	for(std::vector<MenuItem*>::const_iterator i = items.begin(); i != items.end(); ++i) {
 		stream << separator << (*i)->exportItem();
 		separator = COMMA;
@@ -161,7 +161,35 @@ bool menu::Menu::checkDuplicates(const std::string commandString) {
 }
 
 menu::Menu::Menu(Menu* parent, const std::string &source, size_t &position, Error &error) {
+	if(source[position] != LEFT_PARENTHESIS) {
+		error.occur(position, LEFT_PARENTHESIS);
+		return;
+	}
+	++position;
 
+	if(!parseElement(source, position, name, error)) {
+		return;
+	}
+
+	if(source[position] != COMMA) {
+		error.occur(position, COMMA);
+		return;
+	}
+	++position;
+
+	if(!parseElement(source, position, commandString, error)) {
+		return;
+	}
+
+	if(source[position] != SEMICOLON) {
+		error.occur(position, SEMICOLON);
+		return;
+	}
+	++position;
+
+	while(source[position] != RIGHT_PARENTHESIS) {
+
+	}
 }
 
 std::string menu::Menu::validateCommandString(const std::string commandString) {

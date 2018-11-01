@@ -4,7 +4,7 @@ namespace menu {
 	struct Error {
 		bool occured;
 		size_t position;
-		char expectedCharacter;
+		char expectedCharacter; // expand to multiple chars (char array)
 
 		Error() : occured(false) {}
 

@@ -22,71 +22,13 @@ void menu::MenuCommand::run() {
 }
 
 menu::MenuCommand::MenuCommand(Menu* parent, const std::string &source, size_t &position, Error &error) {
-	if(source[position] != LEFT_SQUARE_BRACKET) {
-		error.occur(position, LEFT_SQUARE_BRACKET);
-		return;
-	}
-
-	++position;
-
-	if(source[position] != APOSTROPHE) {
-		error.occur(position, APOSTROPHE);
-		return;
-	}
-
-	size_t nameBeginPosition = ++position;
-
-	while(source[position] != APOSTROPHE) {
-		++position;
-	}
-
-	name = source.substr(nameBeginPosition, position - nameBeginPosition);
-	++position;
-
-	if(source[position] != COMMA) {
-		error.occur(position, COMMA);
-		return;
-	}
-
-	++position;
-
-	if(source[position] != APOSTROPHE) {
-		error.occur(position, APOSTROPHE);
-		return;
-	}
-
-	size_t commandStringBeginPosition = ++position;
-
-	while(source[position] != APOSTROPHE) {
-		++position;
-	}
-
-	commandString = source.substr(commandStringBeginPosition, position - commandStringBeginPosition);
-	++position;
-
-	if(source[position] != COMMA) {
-		error.occur(position, COMMA);
-		return;
-	}
-
-	++position;
-
-	if(source[position] != APOSTROPHE) {
-		error.occur(position, APOSTROPHE);
-		return;
-	}
-
-	size_t helpBeginPosition = ++position;
-
-	while(source[position] != APOSTROPHE) {
-		++position;
-	}
-
-	help = source.substr(helpBeginPosition, position - helpBeginPosition);
-	++position;
-
-	if(source[position] != RIGHT_SQUARE_BRACKET) {
-		error.occur(position, RIGHT_SQUARE_BRACKET);
+	if(!parseCharacter(source, position, LEFT_SQUARE_BRACKET, error) ||
+		!parseElement(source, position, name, error) ||
+		!parseCharacter(source, position, COMMA, error) ||
+		!parseElement(source, position, commandString, error) ||
+		!parseCharacter(source, position, COMMA, error) ||
+		!parseElement(source, position, help, error) ||
+		!parseCharacter(source, position, RIGHT_SQUARE_BRACKET, error)) {
 		return;
 	}
 
