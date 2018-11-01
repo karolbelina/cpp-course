@@ -7,7 +7,7 @@
 namespace menu {
 	class MenuCommand : public MenuItem {
 	public:
-		//friend class Menu; // accessing the private constructor
+		friend class Menu; // accessing the private constructor
 		friend MenuItem* importItem(const std::string &string);
 		~MenuCommand();
 		void run() override;

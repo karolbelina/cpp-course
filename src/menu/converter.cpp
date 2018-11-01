@@ -10,7 +10,7 @@ std::string menu::exportItem(const MenuItem &item) {
 menu::MenuItem* menu::importItem(const std::string &string) {
 	Error error;
 	size_t position = 0;
-	menu::MenuItem* item = new menu::MenuCommand(nullptr, string, position, error);
+	menu::MenuItem* item = new menu::Menu(nullptr, string, position, error);
 
 	if(!error.occured) {
 		return item;

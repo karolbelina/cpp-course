@@ -10,6 +10,7 @@
 namespace menu {
 	class Menu : public MenuItem {
 	public:
+		friend MenuItem* importItem(const std::string &string);
 		Menu();
 		~Menu();
 		// Menu* addMenu(std::string name, std::string commandString);

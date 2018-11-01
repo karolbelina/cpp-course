@@ -22,6 +22,8 @@ void menu::MenuCommand::run() {
 }
 
 menu::MenuCommand::MenuCommand(Menu* parent, const std::string &source, size_t &position, Error &error) {
+	this->parent = parent;
+
 	if(!parseCharacter(source, position, LEFT_SQUARE_BRACKET, error) ||
 		!parseElement(source, position, name, error) ||
 		!parseCharacter(source, position, COMMA, error) ||
@@ -32,7 +34,6 @@ menu::MenuCommand::MenuCommand(Menu* parent, const std::string &source, size_t &
 		return;
 	}
 
-	this->parent = parent;
 	command = new Command();
 }
 
