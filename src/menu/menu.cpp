@@ -44,7 +44,7 @@ menu::MenuCommand* menu::Menu::addCommand(const std::string name, const std::str
 
 bool menu::Menu::removeItem(const std::string commandString) {
 	for(std::vector<MenuItem*>::iterator i = items.begin(); i != items.end(); ++i) {
-		if(commandString == (*i)->getCommand()) {
+		if(commandString == (*i)->commandString) {
 			delete *i;
 			items.erase(i);
 
@@ -56,7 +56,7 @@ bool menu::Menu::removeItem(const std::string commandString) {
 }
 
 bool menu::Menu::search(std::string &term, const std::string path, std::ostream &stream) {
-	std::string currentPath = path + getCommand() + "/";
+	std::string currentPath = path + commandString + "/";
 	bool foundCommands = false;
 
 	for(std::vector<MenuItem*>::iterator i = items.begin(); i != items.end(); ++i) {
@@ -100,7 +100,7 @@ void menu::Menu::run() {
 		std::cout << BACK_COMMAND_NAME << SPACE << LEFT_PARENTHESIS << BACK_COMMAND_STRING << RIGHT_PARENTHESIS << std::endl;
 		for(std::vector<MenuItem*>::iterator i = items.begin(); i != items.end(); ++i) {
 			std::cout << std::string(PADDING, SPACE);
-			std::cout << (*i)->getName() << SPACE << LEFT_PARENTHESIS << (*i)->getCommand() << RIGHT_PARENTHESIS << std::endl;
+			std::cout << (*i)->name << SPACE << LEFT_PARENTHESIS << (*i)->commandString << RIGHT_PARENTHESIS << std::endl;
 		}
 		std::cout << std::string(PADDING, SPACE);
 		std::cout << PRINT_LEAVES_COMMAND_NAME << SPACE << LEFT_PARENTHESIS << PRINT_LEAVES_COMMAND_STRING << RIGHT_PARENTHESIS << std::endl;
@@ -119,7 +119,7 @@ void menu::Menu::run() {
 			}
 			else {
 				for(std::vector<MenuItem*>::iterator i = items.begin(); i != items.end(); ++i) {
-					if(input == (*i)->getCommand()) {
+					if(input == (*i)->commandString) {
 						(*i)->run();
 
 						foundValidCommand = true;
@@ -149,7 +149,7 @@ bool menu::Menu::checkKeywords(const std::string commandString) {
 
 bool menu::Menu::checkDuplicates(const std::string commandString) {
 	for(std::vector<MenuItem*>::iterator i = items.begin(); i != items.end(); ++i) {
-		if(commandString == (*i)->getCommand()) {
+		if(commandString == (*i)->commandString) {
 			return false;
 		}
 	}

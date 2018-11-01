@@ -10,14 +10,6 @@ menu::MenuItem::~MenuItem() {}
 	this->importFromString(source, 0);
 }*/
 
-std::string menu::MenuItem::getName() const {
-	return name;
-}
-
-std::string menu::MenuItem::getCommand() const {
-	return commandString;
-}
-
 menu::Menu* menu::MenuItem::getParent() const {
 	return parent;
 }

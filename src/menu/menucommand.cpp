@@ -22,7 +22,7 @@ void menu::MenuCommand::run() {
 }
 
 bool menu::MenuCommand::search(std::string &term, std::string path, std::ostream &stream) {
-	std::string command = getCommand();
+	std::string command = commandString;
 
 	if(term == command) {
 		stream << path << command;
