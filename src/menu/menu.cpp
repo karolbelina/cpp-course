@@ -69,9 +69,8 @@ bool menu::Menu::search(std::string &term, const std::string path, std::ostream 
 	return foundCommands;
 }
 
-// zwroc pustego stringa
-bool menu::Menu::getHelp(std::string &destination) {
-	return false;
+std::string menu::Menu::getHelp() const {
+	return std::string();
 }
 
 std::string menu::Menu::exportItem() const {

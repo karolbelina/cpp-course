@@ -6,6 +6,6 @@ std::string menu::exportItem(const MenuItem &item) {
 	return item.exportItem();
 }
 
-menu::MenuItem& menu::importItem(const std::string &string) {
-	return *(new menu::Menu());
+menu::MenuItem* menu::importItem(const std::string &string) {
+	return new menu::Menu();
 }

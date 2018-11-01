@@ -10,15 +10,11 @@ menu::MenuItem::~MenuItem() {}
 	this->importFromString(source, 0);
 }*/
 
-menu::Menu* menu::MenuItem::getParent() const {
-	return parent;
-}
-
 menu::Menu* menu::MenuItem::getRoot() const {
-	Menu* item = getParent();
+	Menu* item = parent;
 
 	while(item != nullptr) {
-		item->getParent();
+		item->parent;
 	}
 
 	return item;

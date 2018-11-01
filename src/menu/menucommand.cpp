@@ -33,10 +33,8 @@ bool menu::MenuCommand::search(std::string &term, std::string path, std::ostream
 	return false;
 }
 
-bool menu::MenuCommand::getHelp(std::string &destination) {
-	destination = help;
-
-	return true;
+std::string menu::MenuCommand::getHelp() const {
+	return help;
 }
 
 std::string menu::MenuCommand::exportItem() const {
