@@ -11,9 +11,13 @@ namespace menu {
 	public:
 		friend class Menu; // accessing fields directly without the use of getters which may be visible to the user
 		friend std::string exportItem(const MenuItem &item);
-		// MenuItem(std::string name, std::string commandString, Menu* parent);
+
 		MenuItem();
-		virtual ~MenuItem();
+		MenuItem(const MenuItem &other);
+		virtual ~MenuItem() {};
+		MenuItem& operator=(const MenuItem &other);
+		virtual MenuItem* clone() const = 0;
+
 		virtual void run() = 0;
 
 	protected:
@@ -23,6 +27,7 @@ namespace menu {
 		virtual std::string exportItem() const = 0;
 		static bool parseElement(const std::string &source, size_t &position, std::string &destination, Error &error);
 		static bool parseCharacter(const std::string &source, size_t &position, const char character, Error &error);
+
 		std::string name;
 		std::string commandString;
 		Menu* parent;

@@ -6,65 +6,48 @@
 #include <sstream>
 #include <string>
 
-menu::Menu::Menu() : MenuItem() {
-	name = "main";
-	commandString = "";
-	parent = nullptr;
+menu::Menu::Menu(const Menu &other) : MenuItem(other) {
+	for(MenuItem* item : other.items) {
+		items.push_back(item->clone());
+	}
 }
-
-/*menu::Menu::Menu(const std::string name, const std::string commandString, Menu* parent) : MenuItem(name, commandString, parent) {}*/
 
 menu::Menu::~Menu() {
-	for(std::vector<MenuItem*>::iterator i = items.begin(); i != items.end(); ++i) {
-		delete *i;
+	for(MenuItem* item : items) {
+		delete item;
 	}
 }
 
-/*menu::Menu* menu::Menu::addMenu(const std::string name, const std::string commandString) {
-	const std::string validatedCommandString = validateCommandString(commandString);
-
-	if(checkKeywords(validatedCommandString) && checkDuplicates(validatedCommandString)) {
-		Menu* menu = new Menu(name, validatedCommandString, this);
-		items.push_back(menu);
-
-		return menu;
+menu::Menu& menu::Menu::operator=(const Menu &other) {
+	if(this == &other) {
+		return *this;
 	}
 
-	return nullptr;
+	MenuItem::operator=(other);
+
+	for(MenuItem* item : items) {
+		delete item;
+	}
+
+	items.clear();
+
+	for(MenuItem* item : other.items) {
+		items.push_back(item->clone());
+	}
+
+	return *this;
 }
 
-menu::MenuCommand* menu::Menu::addCommand(const std::string name, const std::string commandString, const std::string help, Command* command) {
-	const std::string validatedCommandString = validateCommandString(commandString);
-
-	if(checkKeywords(validatedCommandString) && checkDuplicates(validatedCommandString)) {
-		MenuCommand* menuCommand = new MenuCommand(name, validatedCommandString, help, this, command);
-		items.push_back(menuCommand);
-
-		return menuCommand;
-	}
-
-	return nullptr;
+menu::MenuItem* menu::Menu::clone() const {
+	return new Menu(*this);
 }
-
-bool menu::Menu::removeItem(const std::string commandString) {
-	for(std::vector<MenuItem*>::iterator i = items.begin(); i != items.end(); ++i) {
-		if(commandString == (*i)->commandString) {
-			delete *i;
-			items.erase(i);
-
-			return true;
-		}
-	}
-
-	return false;
-}*/
 
 bool menu::Menu::search(std::string &term, const std::string path, std::ostream &stream) {
 	std::string currentPath = path + commandString + "/";
 	bool foundCommands = false;
 
-	for(std::vector<MenuItem*>::iterator i = items.begin(); i != items.end(); ++i) {
-		if((*i)->search(term, currentPath, stream)) {
+	for(MenuItem* item : items) {
+		if(item->search(term, currentPath, stream)) {
 			stream << std::endl; // separator
 			foundCommands = true;
 		}
@@ -84,8 +67,8 @@ std::string menu::Menu::exportItem() const {
 	stream << APOSTROPHE << commandString << APOSTROPHE << SEMICOLON;
 
 	std::string separator = std::string();
-	for(std::vector<MenuItem*>::const_iterator i = items.begin(); i != items.end(); ++i) {
-		stream << separator << (*i)->exportItem();
+	for(MenuItem* item : items) {
+		stream << separator << item->exportItem();
 		separator = COMMA;
 	}
 
@@ -101,9 +84,9 @@ void menu::Menu::run() {
 		std::cout << std::endl << name << std::endl;
 		std::cout << std::string(PADDING, SPACE);
 		std::cout << BACK_COMMAND_NAME << SPACE << LEFT_PARENTHESIS << BACK_COMMAND_STRING << RIGHT_PARENTHESIS << std::endl;
-		for(std::vector<MenuItem*>::iterator i = items.begin(); i != items.end(); ++i) {
+		for(MenuItem* item : items) {
 			std::cout << std::string(PADDING, SPACE);
-			std::cout << (*i)->name << SPACE << LEFT_PARENTHESIS << (*i)->commandString << RIGHT_PARENTHESIS << std::endl;
+			std::cout << item->name << SPACE << LEFT_PARENTHESIS << item->commandString << RIGHT_PARENTHESIS << std::endl;
 		}
 		std::cout << std::string(PADDING, SPACE);
 		std::cout << PRINT_LEAVES_COMMAND_NAME << SPACE << LEFT_PARENTHESIS << PRINT_LEAVES_COMMAND_STRING << RIGHT_PARENTHESIS << std::endl;
@@ -121,9 +104,9 @@ void menu::Menu::run() {
 				foundValidCommand = true;
 			}
 			else {
-				for(std::vector<MenuItem*>::iterator i = items.begin(); i != items.end(); ++i) {
-					if(input == (*i)->commandString) {
-						(*i)->run();
+				for(MenuItem* item : items) {
+					if(input == item->commandString) {
+						item->run();
 
 						foundValidCommand = true;
 					}
@@ -151,8 +134,8 @@ bool menu::Menu::checkKeywords(const std::string commandString) {
 }
 
 bool menu::Menu::checkDuplicates(const std::string commandString) {
-	for(std::vector<MenuItem*>::iterator i = items.begin(); i != items.end(); ++i) {
-		if(commandString == (*i)->commandString) {
+	for(MenuItem* item : items) {
+		if(commandString == item->commandString) {
 			return false;
 		}
 	}

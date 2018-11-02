@@ -5,11 +5,27 @@
 #include <iostream>
 #include <sstream>
 
-/*menu::MenuCommand::MenuCommand(std::string name, std::string commandString, std::string help, Menu* parent, Command* command) :
-	MenuItem(name, commandString, parent), help(help), command(command) {}*/
+menu::MenuCommand::MenuCommand(const MenuCommand &other) : MenuItem(other), help(other.help), command(other.command->clone()) {}
 
 menu::MenuCommand::~MenuCommand() {
 	delete command;
+}
+
+menu::MenuCommand& menu::MenuCommand::operator=(const MenuCommand &other) {
+	if(this == &other) {
+		return *this;
+	}
+
+	MenuItem::operator=(other);
+
+	help = other.help;
+	command = other.command->clone();
+
+	return *this;
+}
+
+menu::MenuItem* menu::MenuCommand::clone() const {
+	return new MenuCommand(*this);
 }
 
 void menu::MenuCommand::run() {
