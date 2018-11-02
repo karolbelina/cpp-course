@@ -1,5 +1,7 @@
 #pragma once
 
+#include <sstream>
+
 namespace menu {
 	struct Error {
 		bool occured;
@@ -12,6 +14,14 @@ namespace menu {
 			occured = true;
 			this->position = position;
 			this->expectedCharacter = expectedCharacter;
+		}
+
+		friend std::ostream& operator<<(std::ostream &stream, const Error &error) {
+			if(error.occured) {
+				stream << "Error: expected '" << error.expectedCharacter << "' on position " << error.position;
+			}
+
+			return stream;
 		}
 	};
 }
