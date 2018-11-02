@@ -41,10 +41,6 @@ std::string table::Table::getName() {
 }
 
 void table::Table::setTableLength(size_t tableLength) {
-	if(tableLength < 0) {
-		throw std::invalid_argument("negative table length");
-	}
-
 	int* temp = new int[tableLength];
 
 	if(array != nullptr) { // array has been already initialized

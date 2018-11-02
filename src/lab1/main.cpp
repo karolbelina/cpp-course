@@ -35,28 +35,36 @@ bool nextInt(std::istringstream &stream, int &destination, std::string noParamet
 	return false;
 }
 
-void nextString(std::istringstream &stream, std::string &destination) {
-	stream >> destination;
-}
+bool nextUnsignedInt(std::istringstream &stream, size_t &destination, std::string noParameterString, std::string invalidParameterString, std::string negativeParameterString) {
+	int temporary;
 
-bool printError(table::Error &error) {
-	if(error == table::NoError) {
-		return true;
+	if(stream >> temporary) {
+		if(temporary >= 0) {
+			destination = temporary;
+			return true;
+		}
+		else {
+			if(negativeParameterString != "") {
+				std::cout << negativeParameterString << std::endl;
+			}
+		}
 	}
-	else if(error == table::IndexOutOfBounds) {
-		std::cout << INDEX_OUT_OF_BOUNDS_MESSAGE << std::endl;
-	}
-	else if(error == table::InvalidArgument) {
-		std::cout << INVALID_ARGUMENT_MESSAGE << std::endl;
-	}
-	else if(error == table::OutOfMemory) {
-		std::cout << OUT_OF_MEMORY_MESSAGE << std::endl;
+	else if(stream.eof()) {
+		if(noParameterString != "") {
+			std::cout << noParameterString << std::endl;
+		}
 	}
 	else {
-		std::cout << UNKNOWN_ERROR_MESSAGE << std::endl;
+		if(invalidParameterString != "") {
+			std::cout << invalidParameterString << std::endl;
+		}
 	}
 
 	return false;
+}
+
+void nextString(std::istringstream &stream, std::string &destination) {
+	stream >> destination;
 }
 
 int main() {
@@ -73,14 +81,14 @@ int main() {
 		nextString(inputStream, command);
 
 		if(command == CREATE_COMMAND) {
-			int amount;
+			size_t amount;
 
-			if(nextInt(inputStream, amount, NO_PARAMETERS_MESSAGE, INVALID_AMOUNT_MESSAGE)) {
+			if(nextUnsignedInt(inputStream, amount, NO_PARAMETERS_MESSAGE, INVALID_AMOUNT_MESSAGE, AMOUNT_GREATER_THAN_ZERO_MESSAGE)) {
 				int iterator = 0;
 
 				if(amount > 0) {
 					while(iterator < amount) {
-						int index = tableContainer.size();
+						size_t index = tableContainer.tableCount();
 
 						std::cout << ENTER_TABLE_NAME_MESSAGE << index << COLON << std::endl;
 
@@ -90,17 +98,18 @@ int main() {
 
 						std::cout << ENTER_TABLE_LENGTH_MESSAGE << index << COLON << std::endl;
 
-						int length;
+						size_t length;
 						getLine(inputStream);
 
-						if(nextInt(inputStream, length, NO_PARAMETERS_MESSAGE, INVALID_TABLE_LENGTH_MESSAGE)) {
-							table::Error error;
-							tableContainer.addTable(name, length, error);
+						if(nextUnsignedInt(inputStream, length, NO_PARAMETERS_MESSAGE, INVALID_TABLE_LENGTH_MESSAGE, NEGATIVE_TABLE_LENGTH_MESSAGE)) {
+							try {
+								tableContainer.addTable(name, length);
 
-							if(printError(error)) {
 								iterator++;
-
 								std::cout << CREATED_TABLE_MESSAGE << std::endl;
+							}
+							catch(const std::exception &e) {
+								std::cerr << e.what() << std::endl;
 							}
 						}
 					}
@@ -111,23 +120,25 @@ int main() {
 			}
 		}
 		else if(command == REMOVE_COMMAND) {
-			int tableIndex;
+			size_t tableIndex;
 
-			if(nextInt(inputStream, tableIndex, NO_PARAMETERS_MESSAGE, EMPTY_STRING)) { // wczytalo liczbe
-				table::Error error;
-				tableContainer.removeTable(tableIndex, error);
+			if(nextUnsignedInt(inputStream, tableIndex, NO_PARAMETERS_MESSAGE, EMPTY_STRING, NEGATIVE_TABLE_INDEX_MESSAGE)) {
+				try {
+					tableContainer.removeTable(tableIndex);
 
-				if(printError(error)) {
 					std::cout << REMOVED_TABLE_MESSAGE << tableIndex << std::endl;
 				}
+				catch(const std::exception &e) {
+					std::cerr << e.what() << std::endl;
+				}
 			}
-			else { // nie liczba
+			else {
 				inputStream.clear();
 
 				std::string allFlag;
 				nextString(inputStream, allFlag);
 
-				if(allFlag == ALL_COMMAND) { // usun wszystkie tabele
+				if(allFlag == ALL_COMMAND) {
 					tableContainer.removeAllTables();
 
 					std::cout << REMOVED_ALL_TABLES_MESSAGE << std::endl;
@@ -138,81 +149,87 @@ int main() {
 			}
 		}
 		else if(command == RESIZE_COMMAND) {
-			int tableIndex;
+			size_t tableIndex;
 
-			if(nextInt(inputStream, tableIndex, NO_PARAMETERS_MESSAGE, INVALID_TABLE_INDEX_MESSAGE)) { // read the first int
-				int tableLength;
+			if(nextUnsignedInt(inputStream, tableIndex, NO_PARAMETERS_MESSAGE, INVALID_TABLE_INDEX_MESSAGE, NEGATIVE_TABLE_INDEX_MESSAGE)) {
+				size_t tableLength;
 
-				if(nextInt(inputStream, tableLength, NO_SECOND_PARAMETER_MESSAGE, INVALID_TABLE_LENGTH_MESSAGE)) { // read the second int
-					table::Error error;
-					tableContainer.resizeTable(tableIndex, tableLength, error);
+				if(nextUnsignedInt(inputStream, tableLength, NO_SECOND_PARAMETER_MESSAGE, INVALID_TABLE_LENGTH_MESSAGE, NEGATIVE_TABLE_LENGTH_MESSAGE)) {
+					try {
+						tableContainer.resizeTable(tableIndex, tableLength);
 
-					if(printError(error)) {
 						std::cout << TABLE_LENGTH_MESSAGE << tableIndex << SET_TO_MESSAGE << tableLength << std::endl;
+					}
+					catch(const std::exception &e) {
+						std::cerr << e.what() << std::endl;
 					}
 				}
 			}
 		}
 		else if(command == RENAME_COMMAND) {
-			int tableIndex;
+			size_t tableIndex;
 
-			if(nextInt(inputStream, tableIndex, NO_PARAMETERS_MESSAGE, INVALID_TABLE_INDEX_MESSAGE)) { // read an int
+			if(nextUnsignedInt(inputStream, tableIndex, NO_PARAMETERS_MESSAGE, INVALID_TABLE_INDEX_MESSAGE, NEGATIVE_TABLE_INDEX_MESSAGE)) {
 				std::string name;
 
-				nextString(inputStream, name); // read a string
+				nextString(inputStream, name);
 
-				table::Error error;
-				tableContainer.renameTable(tableIndex, name, error);
+				try {
+					tableContainer.renameTable(tableIndex, name);
 
-				if(printError(error)) {
 					std::cout << TABLE_NAME_MESSAGE << tableIndex << SET_TO_MESSAGE << name << std::endl;
+				}
+				catch(const std::exception &e) {
+					std::cerr << e.what() << std::endl;
 				}
 			}
 		}
 		else if(command == STATUS_COMMAND) {
-			int tableIndex;
+			size_t tableIndex;
 
-			if(nextInt(inputStream, tableIndex, EMPTY_STRING, EMPTY_STRING)) { // read an int
-				table::Error error;
-				std::string status = tableContainer.getTableStatus(tableIndex, error);
-
-				if(printError(error)) {
-					std::cout << status << std::endl;
+			if(nextUnsignedInt(inputStream, tableIndex, EMPTY_STRING, EMPTY_STRING, NEGATIVE_TABLE_INDEX_MESSAGE)) {
+				try {
+					std::cout << tableContainer.getTableStatus(tableIndex) << std::endl;
+				}
+				catch(const std::exception &e) {
+					std::cerr << e.what() << std::endl;
 				}
 			}
 			else {
-				// no int has been read
 				std::cout << tableContainer.getStatus() << std::endl;
 			}
 		}
 		else if(command == CLONE_COMMAND) {
-			int tableIndex;
+			size_t tableIndex;
 
-			if(nextInt(inputStream, tableIndex, NO_PARAMETERS_MESSAGE, INVALID_TABLE_INDEX_MESSAGE)) { // read an int
-				// an int has been successfully loaded
-				table::Error error;
-				tableContainer.cloneTable(tableIndex, error);
+			if(nextUnsignedInt(inputStream, tableIndex, NO_PARAMETERS_MESSAGE, INVALID_TABLE_INDEX_MESSAGE, NEGATIVE_TABLE_INDEX_MESSAGE)) {
+				try {
+					tableContainer.cloneTable(tableIndex);
 
-				if(printError(error)) {
 					std::cout << CLONED_TABLE_MESSAGE << tableIndex << std::endl;
+				}
+				catch(const std::exception &e) {
+					std::cerr << e.what() << std::endl;
 				}
 			}
 		}
 		else if(command == EDIT_COMMAND) {
-			int tableIndex;
+			size_t tableIndex;
 
-			if(nextInt(inputStream, tableIndex, NO_PARAMETERS_MESSAGE, INVALID_TABLE_INDEX_MESSAGE)) { // read the first int
-				int cellIndex;
+			if(nextUnsignedInt(inputStream, tableIndex, NO_PARAMETERS_MESSAGE, INVALID_TABLE_INDEX_MESSAGE, NEGATIVE_TABLE_INDEX_MESSAGE)) {
+				size_t cellIndex;
 
-				if(nextInt(inputStream, cellIndex, NO_SECOND_AND_THIRD_PARAMETER_MESSAGE, INVALID_CELL_INDEX_MESSAGE)) { // read the second int
+				if(nextUnsignedInt(inputStream, cellIndex, NO_SECOND_AND_THIRD_PARAMETER_MESSAGE, INVALID_CELL_INDEX_MESSAGE, NEGATIVE_CELL_INDEX_MESSAGE)) {
 					int value;
 
-					if(nextInt(inputStream, value, NO_THIRD_PARAMETER_MESSAGE, INVALID_VALUE_MESSAGE)) { // read the third int
-						table::Error error;
-						tableContainer.editTable(tableIndex, cellIndex, value, error);
+					if(nextInt(inputStream, value, NO_THIRD_PARAMETER_MESSAGE, INVALID_VALUE_MESSAGE)) {
+						try {
+							tableContainer.editTable(tableIndex, cellIndex, value);
 
-						if(printError(error)) {
 							std::cout << CELL_VALUE_MESSAGE << cellIndex << OF_TABLE_MESSAGE << tableIndex << SET_TO_MESSAGE << value << std::endl;
+						}
+						catch(const std::exception &e) {
+							std::cerr << e.what() << std::endl;
 						}
 					}
 				}
@@ -220,19 +237,6 @@ int main() {
 		}
 		else if(command == HELP_COMMAND) {
 			std::cout << HELP_MESSAGE << std::endl;
-		}
-		else if(command == TEST_COMMAND) {
-			int tableIndex;
-
-			if(nextInt(inputStream, tableIndex, NO_PARAMETERS_MESSAGE, INVALID_TABLE_INDEX_MESSAGE)) { // read an int
-				// an int has been successfully loaded
-				table::Error error;
-				tableContainer.testTable(tableIndex, error);
-
-				if(printError(error)) {
-					std::cout << TESTED_TABLE_MESSAGE << tableIndex << std::endl;
-				}
-			}
 		}
 		else if(command != QUIT_COMMAND) {
 			std::cout << INVALID_COMMAND_MESSAGE << std::endl;

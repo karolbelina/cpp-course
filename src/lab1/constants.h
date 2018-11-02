@@ -5,8 +5,7 @@
 const std::string TITLE_MESSAGE = "table creator v1.0";
 const std::string HELP_MESSAGE = "available commands:\n\tcreate <amount>\n\trename <table index> <name>\n\t"
                                  "resize <table index> <size>\n\tremove <table index>\n\tremove all\n\tclone <table index>\n\t"
-                                 "status\n\tstatus <table index>\n\tedit <table index> <cell index> <value>\n\t"
-                                 "test <table index>\n\thelp\n\tquit";
+                                 "status\n\tstatus <table index>\n\tedit <table index> <cell index> <value>\n\thelp\n\tquit";
 const std::string ENTER_TABLE_NAME_MESSAGE = "enter the name of table #";
 const std::string ENTER_TABLE_LENGTH_MESSAGE = "enter the length of table #";
 const std::string COLON = ": ";
@@ -34,6 +33,9 @@ const std::string INVALID_TABLE_INDEX_MESSAGE = "invalid table index";
 const std::string INVALID_CELL_INDEX_MESSAGE = "invalid cell index";
 const std::string INVALID_VALUE_MESSAGE = "invalid value";
 const std::string AMOUNT_GREATER_THAN_ZERO_MESSAGE = "amount must be greater than zero";
+const std::string NEGATIVE_TABLE_INDEX_MESSAGE = "negative table index";
+const std::string NEGATIVE_TABLE_LENGTH_MESSAGE = "negative table length";
+const std::string NEGATIVE_CELL_INDEX_MESSAGE = "negative cell index";
 const std::string NO_PARAMETERS_MESSAGE = "no parameters";
 const std::string NO_SECOND_PARAMETER_MESSAGE = "no second parameter";
 const std::string NO_SECOND_AND_THIRD_PARAMETER_MESSAGE = "no second and third parameter";
