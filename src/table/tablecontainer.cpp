@@ -68,7 +68,7 @@ table::Table* table::TableContainer::getTable(size_t tableIndex) {
 	try {
 		return tables.at(tableIndex);
 	}
-	catch(const std::out_of_range &e) {
+	catch(const std::out_of_range) {
 		throw std::out_of_range("table index out of range");
 	}
 }

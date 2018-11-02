@@ -23,6 +23,6 @@ namespace table {
 	private:
 		std::string name;
 		int* array;
-		int arraySize;
+		size_t arraySize;
 	};
 }

@@ -14,7 +14,7 @@ namespace menu {
 
 		MenuItem();
 		MenuItem(const MenuItem &other);
-		virtual ~MenuItem() {};
+		virtual ~MenuItem();
 		MenuItem& operator=(const MenuItem &other);
 		virtual MenuItem* clone() const = 0;
 

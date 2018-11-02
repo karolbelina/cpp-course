@@ -4,9 +4,11 @@
 
 menu::MenuItem::MenuItem() {}
 
-menu::MenuItem::MenuItem(const MenuItem & other) :
+menu::MenuItem::MenuItem(const MenuItem &other) :
 	name(other.name), commandString(other.commandString), parent(other.parent) {
 }
+
+menu::MenuItem::~MenuItem() {}
 
 menu::MenuItem& menu::MenuItem::operator=(const MenuItem &other) {
 	if(this == &other) {

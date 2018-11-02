@@ -84,7 +84,7 @@ int main() {
 			size_t amount;
 
 			if(nextUnsignedInt(inputStream, amount, NO_PARAMETERS_MESSAGE, INVALID_AMOUNT_MESSAGE, AMOUNT_GREATER_THAN_ZERO_MESSAGE)) {
-				int iterator = 0;
+				size_t iterator = 0;
 
 				if(amount > 0) {
 					while(iterator < amount) {

@@ -45,22 +45,22 @@ void table::Table::setTableLength(size_t tableLength) {
 
 	if(array != nullptr) { // array has been already initialized
 		if(tableLength <= arraySize) {
-			for(int i = 0; i < tableLength; i++) {
+			for(size_t i = 0; i < tableLength; i++) {
 				temp[i] = array[i];
 			}
 		}
 		else if(tableLength > arraySize) {
-			for(int i = 0; i < arraySize; i++) {
+			for(size_t i = 0; i < arraySize; i++) {
 				temp[i] = array[i];
 			}
 
-			for(int i = arraySize; i < tableLength; i++) {
+			for(size_t i = arraySize; i < tableLength; i++) {
 				temp[i] = DEFAULT_VALUE;
 			}
 		}
 	}
 	else { // array is being initialized for the first time
-		for(int i = 0; i < tableLength; i++) {
+		for(size_t i = 0; i < tableLength; i++) {
 			temp[i] = DEFAULT_VALUE;
 		}
 	}
@@ -77,7 +77,7 @@ void table::Table::setElement(size_t offset, int value) {
 	try {
 		array[offset] = value;
 	}
-	catch(const std::out_of_range &e) {
+	catch(const std::out_of_range) {
 		throw std::out_of_range("cell index out of range");
 	}
 }
@@ -86,7 +86,7 @@ int table::Table::getElement(size_t offset) {
 	try {
 		return array[offset];
 	}
-	catch(const std::out_of_range &e) {
+	catch(const std::out_of_range) {
 		throw std::out_of_range("cell index out of range");
 	}
 }
@@ -96,12 +96,10 @@ table::Table* table::Table::clone() {
 }
 
 void table::Table::setTable(const Table &other) {
-	int length = other.arraySize;
-	int* otherArray = other.array;
-	int* temp = new int[length];
+	int* temp = new int[other.arraySize];
 
-	for(int i = 0; i < length; i++) {
-		temp[i] = otherArray[i];
+	for(size_t i = 0; i < other.arraySize; i++) {
+		temp[i] = other.array[i];
 	}
 
 	if(array != nullptr) {
@@ -109,7 +107,7 @@ void table::Table::setTable(const Table &other) {
 	}
 
 	array = temp;
-	arraySize = length;
+	arraySize = other.arraySize;
 }
 
 std::string table::Table::getStatus() {

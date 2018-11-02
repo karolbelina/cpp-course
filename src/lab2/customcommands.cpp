@@ -59,7 +59,7 @@ void CreateCommand::runCommand() const {
 	size_t amount;
 
 	if(getUnsignedIntFromUserInput(amount)) {
-		int i = 0;
+		size_t i = 0;
 
 		if(amount > 0) {
 			while(i < amount) {
