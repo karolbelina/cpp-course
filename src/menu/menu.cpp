@@ -160,7 +160,7 @@ bool menu::Menu::checkDuplicates(const std::string commandString) {
 	return true;
 }
 
-menu::Menu::Menu(Menu* parent, const std::string &source, size_t &position, const std::map<std::string, std::unique_ptr<menu::Command>> &environment, Error &error) {
+menu::Menu::Menu(Menu* parent, const std::string &source, size_t &position, const Environment &environment, Error &error) {
 	this->parent = parent;
 
 	if(source[position] != LEFT_PARENTHESIS) {

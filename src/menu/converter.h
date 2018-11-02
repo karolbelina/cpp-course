@@ -1,6 +1,7 @@
 #pragma once
 
 #include "command.h"
+#include "environment.h"
 #include "menuitem.h"
 
 #include <map>
@@ -8,5 +9,5 @@
 
 namespace menu {
 	std::string exportItem(const MenuItem &item);
-	MenuItem* importItem(const std::string &source, const std::map<std::string, std::unique_ptr<menu::Command>> &environment, Error &error);
+	MenuItem* importItem(const std::string &source, const Environment &environment, Error &error);
 }
