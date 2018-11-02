@@ -48,7 +48,7 @@ std::string table::TableContainer::getStatus() {
 	std::string separator;
 	for(table::Table* table : tables) {
 		stream << separator << table->getName();
-		separator = COMMA;
+		separator = COMMA + SPACE;
 	}
 
 	stream << CLOSE_PARENTHESIS;
@@ -66,7 +66,7 @@ size_t table::TableContainer::tableCount() {
 
 table::Table* table::TableContainer::getTable(size_t tableIndex) {
 	try {
-		return tables[tableIndex];
+		return tables.at(tableIndex);
 	}
 	catch(const std::out_of_range &e) {
 		throw std::out_of_range("table index out of range");
