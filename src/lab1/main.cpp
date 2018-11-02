@@ -1,5 +1,4 @@
 #include "constants.h"
-#include "error.h"
 #include "table.h"
 #include "tablecontainer.h"
 

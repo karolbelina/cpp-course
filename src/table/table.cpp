@@ -2,39 +2,34 @@
 #include "table.h"
 
 #include <iostream>
-#include <new>			// std::nothrow
 #include <sstream>
+#include <stdexcept>
 #include <string>
 
-table::Table::Table() {
-	name = DEFAULT_NAME;
-	Error error;
-	setTableLength(DEFAULT_LENGTH, error);
+table::Table::Table() : name(DEFAULT_NAME) {
+	setTableLength(DEFAULT_LENGTH);
 
-	std::cout << NOARG_CONSTRUCTOR_MESSAGE + name << std::endl;
+	std::cout << std::string(PADDING, SPACE) << NOARG_CONSTRUCTOR_MESSAGE << COLON << SPACE << name << std::endl;
 }
 
-table::Table::Table(std::string name, int tableLength, Error &error) {
-	this->name = name;
-	setTableLength(tableLength, error);
+table::Table::Table(std::string name, size_t tableLength) : name(name) {
+	setTableLength(tableLength);
 
-	std::cout << PARAM_CONSTRUCTOR_MESSAGE + this->name << std::endl;
+	std::cout << std::string(PADDING, SPACE) << PARAM_CONSTRUCTOR_MESSAGE << COLON << SPACE << this->name << std::endl;
 }
 
-table::Table::Table(const Table &other) {
-	name = other.name + COPY_STRING;
-	Error error;
-	setTable(other, error);
+table::Table::Table(const Table &other) : name(other.name + COPY_STRING) {
+	setTable(other);
 
-	std::cout << COPYING_CONSTRUCTOR_MESSAGE + name << std::endl;
+	std::cout << std::string(PADDING, SPACE) << COPYING_CONSTRUCTOR_MESSAGE << COLON << SPACE << name << std::endl;
 }
 
 table::Table::~Table() {
-	if(array != NULL) {
+	if(array != nullptr) {
 		delete[] array;
 	}
 
-	std::cout << DESTRUCTOR_MESSAGE + name << std::endl;
+	std::cout << std::string(PADDING, SPACE) << DESTRUCTOR_MESSAGE << COLON << SPACE << name << std::endl;
 }
 
 void table::Table::setName(std::string name) {
@@ -45,20 +40,14 @@ std::string table::Table::getName() {
 	return name;
 }
 
-void table::Table::setTableLength(int tableLength, Error &error) {
+void table::Table::setTableLength(size_t tableLength) {
 	if(tableLength < 0) {
-		error = InvalidArgument;
-		return;
+		throw std::invalid_argument("negative table length");
 	}
 
-	int* temp = new (std::nothrow) int[tableLength];
+	int* temp = new int[tableLength];
 
-	if(temp == NULL) {
-		error = OutOfMemory;
-		return;
-	}
-
-	if(array != NULL) { // array has been already initialized
+	if(array != nullptr) { // array has been already initialized
 		if(tableLength <= arraySize) {
 			for(int i = 0; i < tableLength; i++) {
 				temp[i] = array[i];
@@ -80,81 +69,65 @@ void table::Table::setTableLength(int tableLength, Error &error) {
 		}
 	}
 
-	if(array != NULL) {
+	if(array != nullptr) {
 		delete[] array;
 	}
 
 	array = temp;
 	arraySize = tableLength;
-
-	error = NoError;
 }
 
-void table::Table::setElement(int offset, int value, Error &error) {
-	if(offset < 0 || offset > arraySize - 1) {
-		error = IndexOutOfBounds;
-		return;
+void table::Table::setElement(size_t offset, int value) {
+	try {
+		array[offset] = value;
 	}
-	error = NoError;
-	array[offset] = value;
+	catch(const std::out_of_range &e) {
+		throw std::out_of_range("cell index out of range");
+	}
 }
 
-int table::Table::getElement(int offset, Error &error) {
-	if(offset < 0 || offset > arraySize - 1) {
-		error = IndexOutOfBounds;
-		return NULL;
+int table::Table::getElement(size_t offset) {
+	try {
+		return array[offset];
 	}
-	error = NoError;
-	return array[offset];
+	catch(const std::out_of_range &e) {
+		throw std::out_of_range("cell index out of range");
+	}
 }
 
 table::Table* table::Table::clone() {
 	return new Table(*this);
 }
 
-void table::Table::setTable(const Table &other, Error &error) {
+void table::Table::setTable(const Table &other) {
 	int length = other.arraySize;
 	int* otherArray = other.array;
-	int* temp = new (std::nothrow) int[length];
-
-	if(temp == NULL) {
-		error = OutOfMemory;
-		return;
-	}
+	int* temp = new int[length];
 
 	for(int i = 0; i < length; i++) {
 		temp[i] = otherArray[i];
 	}
 
-	if(array != NULL) {
+	if(array != nullptr) {
 		delete[] array;
 	}
 
 	array = temp;
 	arraySize = length;
-
-	error = NoError;
 }
 
 std::string table::Table::getStatus() {
 	std::ostringstream stream;
 
-	stream << OPEN_PARENTHESIS << name << LENGTH_STRING << arraySize << VALUES_STRING;
+	stream << OPEN_PARENTHESIS << name << SPACE << LENGTH_STRING << COLON << SPACE << arraySize << SPACE << VALUES_STRING << COLON << SPACE;
 
-	for(int i = 0; i < arraySize - 1; i++) {
-		stream << array[i] << COMMA;
-	}
-
-	if(arraySize > 0) {
-		stream << array[arraySize - 1];
+	std::string separator;
+	for(size_t i = 0; i < arraySize; i++) {
+		stream << separator << array[i];
+		separator = COMMA + SPACE;
 	}
 
 	stream << CLOSE_PARENTHESIS;
 
 	return stream.str();
-}
-
-void table::Table::test(Table table) {
-	Error error;
-	table.setTableLength(1, error);
 }

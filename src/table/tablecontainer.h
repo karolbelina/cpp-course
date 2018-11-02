@@ -1,7 +1,6 @@
 #pragma once
 
 #include "table.h"
-#include "error.h"
 
 #include <vector>
 
@@ -10,20 +9,19 @@ namespace table {
 	public:
 		~TableContainer();
 
-		void addTable(std::string name, int tableLength, Error &error);
-		void removeTable(int tableIndex, Error &error);
+		void addTable(std::string name, size_t tableLength);
+		void removeTable(size_t tableIndex);
 		void removeAllTables();
-		void renameTable(int tableIndex, std::string name, Error &error);
-		void resizeTable(int tableIndex, int tableLength, Error &error);
-		void cloneTable(int tableIndex, Error &error);
-		std::string getTableStatus(int tableIndex, Error &error);
+		void renameTable(size_t tableIndex, std::string name);
+		void resizeTable(size_t tableIndex, size_t tableLength);
+		void cloneTable(size_t tableIndex);
+		std::string getTableStatus(size_t tableIndex);
 		std::string getStatus();
-		void editTable(int tableIndex, int cellIndex, int value, Error &error);
-		int size();
-		void testTable(int tableIndex, Error &error);
+		void editTable(size_t tableIndex, size_t cellIndex, int value);
+		size_t tableCount();
 
 	private:
+		Table* getTable(size_t tableIndex);
 		std::vector<Table*> tables;
-		bool checkIndex(int tableIndex, Error &error);
 	};
 }

@@ -1,7 +1,5 @@
 #pragma once
 
-#include "error.h"
-
 #include <iostream>
 #include <string>
 
@@ -9,19 +7,18 @@ namespace table {
 	class Table {
 	public:
 		Table();
-		Table(std::string name, int tableLength, Error &error);
+		Table(std::string name, size_t tableLength);
 		Table(const Table &other);
 		~Table();
 
 		void setName(std::string name);
 		std::string getName();
-		void setTableLength(int tableLength, Error &error);
-		void setElement(int offset, int value, Error &error);
-		int getElement(int offset, Error &error);
+		void setTableLength(size_t tableLength);
+		void setElement(size_t offset, int value);
+		int getElement(size_t offset);
 		Table* clone();
-		void setTable(const Table &other, Error &error);
+		void setTable(const Table &other);
 		std::string getStatus();
-		static void test(Table table);
 
 	private:
 		std::string name;

@@ -7,69 +7,37 @@ table::TableContainer::~TableContainer() {
 	removeAllTables();
 }
 
-void table::TableContainer::addTable(std::string name, int tableLength, Error &error) {
-	Table* table = new Table(name, tableLength, error);
-
-	if(error == NoError) {
-		tables.push_back(table);
-	}
-	else {
-		delete table;
-	}
+void table::TableContainer::addTable(std::string name, size_t tableLength) {
+	tables.push_back(new Table(name, tableLength));
 }
 
-void table::TableContainer::removeTable(int tableIndex, Error &error) {
-	if(checkIndex(tableIndex, error)) {
-		return;
-	}
-
-	error = NoError;
-	delete tables[tableIndex];
+void table::TableContainer::removeTable(size_t tableIndex) {
+	delete getTable(tableIndex);
 	tables.erase(tables.begin() + tableIndex);
 }
 
 void table::TableContainer::removeAllTables() {
-	for(size_t i = 0, size = tables.size(); i < size; i++) {
-		delete tables[i];
+	for(table::Table* table : tables) {
+		delete table;
 	}
 
 	tables.clear();
 }
 
-void table::TableContainer::renameTable(int tableIndex, std::string name, Error &error) {
-	if(checkIndex(tableIndex, error)) {
-		return;
-	}
-
-	error = NoError;
-	tables[tableIndex]->setName(name);
+void table::TableContainer::renameTable(size_t tableIndex, std::string name) {
+	getTable(tableIndex)->setName(name);
 }
 
-void table::TableContainer::resizeTable(int tableIndex, int tableLength, Error &error) {
-	if(checkIndex(tableIndex, error)) {
-		return;
-	}
-
-	tables[tableIndex]->setTableLength(tableLength, error);
+void table::TableContainer::resizeTable(size_t tableIndex, size_t tableLength) {
+	getTable(tableIndex)->setTableLength(tableLength);
 }
 
-void table::TableContainer::cloneTable(int tableIndex, Error &error) {
-	if(checkIndex(tableIndex, error)) {
-		return;
-	}
-
-	error = NoError;
-	Table* table = tables[tableIndex]->clone();
-	tables.push_back(table);
+void table::TableContainer::cloneTable(size_t tableIndex) {
+	tables.push_back(getTable(tableIndex)->clone());
 }
 
-std::string table::TableContainer::getTableStatus(int tableIndex, Error & error) {
-	if(checkIndex(tableIndex, error)) {
-		return EMPTY_STRING;
-	}
-
-	error = NoError;
-	return tables[tableIndex]->getStatus();
+std::string table::TableContainer::getTableStatus(size_t tableIndex) {
+	return getTable(tableIndex)->getStatus();
 }
 
 std::string table::TableContainer::getStatus() {
@@ -77,12 +45,10 @@ std::string table::TableContainer::getStatus() {
 
 	stream << OPEN_PARENTHESIS;
 
-	for(int i = 0; i < (int)(tables.size()) - 1; i++) {
-		stream << tables[i]->getName() << COMMA;
-	}
-
-	if(tables.size() > 0) {
-		stream << tables[tables.size() - 1]->getName();
+	std::string separator;
+	for(table::Table* table : tables) {
+		stream << separator << table->getName();
+		separator = COMMA;
 	}
 
 	stream << CLOSE_PARENTHESIS;
@@ -90,32 +56,19 @@ std::string table::TableContainer::getStatus() {
 	return stream.str();
 }
 
-void table::TableContainer::editTable(int tableIndex, int cellIndex, int value, Error &error) {
-	if(checkIndex(tableIndex, error)) {
-		return;
-	}
-
-	tables[tableIndex]->setElement(cellIndex, value, error);
+void table::TableContainer::editTable(size_t tableIndex, size_t cellIndex, int value) {
+	getTable(tableIndex)->setElement(cellIndex, value);
 }
 
-int table::TableContainer::size() {
+size_t table::TableContainer::tableCount() {
 	return tables.size();
 }
 
-void table::TableContainer::testTable(int tableIndex, Error &error) {
-	if(checkIndex(tableIndex, error)) {
-		return;
+table::Table* table::TableContainer::getTable(size_t tableIndex) {
+	try {
+		return tables[tableIndex];
 	}
-
-	error = NoError;
-	Table::test(*tables[tableIndex]);
-}
-
-bool table::TableContainer::checkIndex(int tableIndex, Error &error) {
-	if(tableIndex < 0 || tableIndex >= (int) tables.size()) {
-		error = IndexOutOfBounds;
-		return true;
+	catch(const std::out_of_range &e) {
+		throw std::out_of_range("table index out of range");
 	}
-
-	return false;
 }
