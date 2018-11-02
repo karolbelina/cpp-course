@@ -23,9 +23,15 @@ static bool getIntFromUserInput(int &destination) {
 
 CustomCommand::CustomCommand(table::TableContainer* tableContainer) : Command(), tableContainer(tableContainer) {}
 
+menu::Command* CustomCommand::clone() const {
+	return new CustomCommand(*this);
+}
+
 CreateCommand::CreateCommand(table::TableContainer* tableContainer) : CustomCommand(tableContainer) {}
 
-void CreateCommand::runCommand() {
+menu::Command* CreateCommand::clone() const {return new CreateCommand(*this);}
+
+void CreateCommand::runCommand() const {
 	std::cout << ENTER_THE_AMOUNT_MESSAGE << COLON << std::endl;
 
 	int amount;
@@ -80,7 +86,9 @@ void CreateCommand::runCommand() {
 
 RemoveCommand::RemoveCommand(table::TableContainer* tableContainer): CustomCommand(tableContainer) {}
 
-void RemoveCommand::runCommand() {
+menu::Command* RemoveCommand::clone() const {return new RemoveCommand(*this);}
+
+void RemoveCommand::runCommand() const {
 	std::cout << ENTER_THE_TABLE_INDEX_MESSAGE << COLON << std::endl;
 
 	int tableIndex;
@@ -106,7 +114,9 @@ void RemoveCommand::runCommand() {
 
 RemoveAllCommand::RemoveAllCommand(table::TableContainer* tableContainer): CustomCommand(tableContainer) {}
 
-void RemoveAllCommand::runCommand() {
+menu::Command* RemoveAllCommand::clone() const {return new RemoveAllCommand(*this);}
+
+void RemoveAllCommand::runCommand() const {
 	tableContainer->removeAllTables();
 
 	std::cout << REMOVED_ALL_TABLES_MESSAGE << std::endl;
@@ -114,7 +124,9 @@ void RemoveAllCommand::runCommand() {
 
 ResizeCommand::ResizeCommand(table::TableContainer* tableContainer): CustomCommand(tableContainer) {}
 
-void ResizeCommand::runCommand() {
+menu::Command* ResizeCommand::clone() const {return new ResizeCommand(*this);}
+
+void ResizeCommand::runCommand() const {
 	std::cout << ENTER_THE_TABLE_INDEX_MESSAGE << COLON << std::endl;
 
 	int tableIndex;
@@ -155,7 +167,9 @@ void ResizeCommand::runCommand() {
 
 RenameCommand::RenameCommand(table::TableContainer* tableContainer): CustomCommand(tableContainer) {}
 
-void RenameCommand::runCommand() {
+menu::Command* RenameCommand::clone() const {return new RenameCommand(*this);}
+
+void RenameCommand::runCommand() const {
 	std::cout << ENTER_THE_TABLE_INDEX_MESSAGE << COLON << std::endl;
 
 	int tableIndex;
@@ -186,7 +200,9 @@ void RenameCommand::runCommand() {
 
 StatusCommand::StatusCommand(table::TableContainer* tableContainer): CustomCommand(tableContainer) {}
 
-void StatusCommand::runCommand() {
+menu::Command* StatusCommand::clone() const {return new StatusCommand(*this);}
+
+void StatusCommand::runCommand() const {
 	std::cout << ENTER_THE_TABLE_INDEX_MESSAGE << COLON << std::endl;
 
 	int tableIndex;
@@ -212,13 +228,17 @@ void StatusCommand::runCommand() {
 
 StatusAllCommand::StatusAllCommand(table::TableContainer* tableContainer): CustomCommand(tableContainer) {}
 
-void StatusAllCommand::runCommand() {
+menu::Command* StatusAllCommand::clone() const {return new StatusAllCommand(*this);}
+
+void StatusAllCommand::runCommand() const {
 	std::cout << tableContainer->getStatus() << std::endl;
 }
 
 CloneCommand::CloneCommand(table::TableContainer* tableContainer): CustomCommand(tableContainer) {}
 
-void CloneCommand::runCommand() {
+menu::Command* CloneCommand::clone() const {return new CloneCommand(*this);}
+
+void CloneCommand::runCommand() const {
 	std::cout << ENTER_THE_TABLE_INDEX_MESSAGE << COLON << std::endl;
 
 	int tableIndex;
@@ -247,7 +267,9 @@ void CloneCommand::runCommand() {
 
 EditCommand::EditCommand(table::TableContainer* tableContainer): CustomCommand(tableContainer) {}
 
-void EditCommand::runCommand() {
+menu::Command* EditCommand::clone() const {return new EditCommand(*this);}
+
+void EditCommand::runCommand() const {
 	std::cout << ENTER_THE_TABLE_INDEX_MESSAGE << COLON << std::endl;
 
 	int tableIndex;

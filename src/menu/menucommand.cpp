@@ -21,8 +21,9 @@ void menu::MenuCommand::run() {
 	}
 }
 
-menu::MenuCommand::MenuCommand(Menu* parent, const std::string &source, size_t &position, Error &error) {
+menu::MenuCommand::MenuCommand(Menu* parent, const std::string &source, size_t &position, const std::map<std::string, std::unique_ptr<menu::Command>> &environment, Error &error) {
 	this->parent = parent;
+	std::string environmentKey;
 
 	if(!parseCharacter(source, position, LEFT_SQUARE_BRACKET, error) ||
 		!parseElement(source, position, name, error) ||
@@ -30,11 +31,18 @@ menu::MenuCommand::MenuCommand(Menu* parent, const std::string &source, size_t &
 		!parseElement(source, position, commandString, error) ||
 		!parseCharacter(source, position, COMMA, error) ||
 		!parseElement(source, position, help, error) ||
+		!parseCharacter(source, position, COMMA, error) ||
+		!parseElement(source, position, environmentKey, error) ||
 		!parseCharacter(source, position, RIGHT_SQUARE_BRACKET, error)) {
 		return;
 	}
 
-	command = new Command();
+	if(environment.find(environmentKey) != environment.end()) {
+		command = environment.find(environmentKey)->second->clone();
+	}
+	else {
+		command = new Command();
+	}
 }
 
 bool menu::MenuCommand::search(std::string &term, std::string path, std::ostream &stream) {

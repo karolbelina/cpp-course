@@ -10,7 +10,7 @@
 namespace menu {
 	class Menu : public MenuItem {
 	public:
-		friend MenuItem* importItem(const std::string &source, Error &error);
+		friend MenuItem* importItem(const std::string &source, const std::map<std::string, std::unique_ptr<menu::Command>> &environment, Error &error);
 		Menu();
 		~Menu();
 		// Menu* addMenu(std::string name, std::string commandString);
@@ -20,7 +20,7 @@ namespace menu {
 
 	private:
 		// Menu(std::string name, std::string commandString, Menu* parent);
-		Menu(Menu* parent, const std::string &source, size_t &position, Error &error);
+		Menu(Menu* parent, const std::string &source, size_t &position, const std::map<std::string, std::unique_ptr<menu::Command>> &environment, Error &error);
 		std::string validateCommandString(std::string commandString);
 		bool checkKeywords(std::string commandString);
 		bool checkDuplicates(std::string commandString);

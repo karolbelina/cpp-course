@@ -160,7 +160,7 @@ bool menu::Menu::checkDuplicates(const std::string commandString) {
 	return true;
 }
 
-menu::Menu::Menu(Menu* parent, const std::string &source, size_t &position, Error &error) {
+menu::Menu::Menu(Menu* parent, const std::string &source, size_t &position, const std::map<std::string, std::unique_ptr<menu::Command>> &environment, Error &error) {
 	this->parent = parent;
 
 	if(source[position] != LEFT_PARENTHESIS) {
@@ -196,7 +196,7 @@ menu::Menu::Menu(Menu* parent, const std::string &source, size_t &position, Erro
 
 	while(source[position] == LEFT_PARENTHESIS || source[position] == LEFT_SQUARE_BRACKET) {
 		if(source[position] == LEFT_PARENTHESIS) { // menu
-			MenuItem* item = new Menu(this, source, position, error);
+			MenuItem* item = new Menu(this, source, position, environment, error);
 
 			if(error.occured) {
 				return;
@@ -205,7 +205,7 @@ menu::Menu::Menu(Menu* parent, const std::string &source, size_t &position, Erro
 			items.push_back(item);
 		}
 		else if(source[position] == LEFT_SQUARE_BRACKET) { // menucommand
-			MenuItem* item = new MenuCommand(this, source, position, error);
+			MenuItem* item = new MenuCommand(this, source, position, environment, error);
 
 			if(error.occured) {
 				return;

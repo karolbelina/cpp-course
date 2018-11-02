@@ -3,6 +3,7 @@
 namespace menu {
 	class Command {
 	public:
-		virtual void runCommand();
+		virtual Command* clone() const;
+		virtual void runCommand() const;
 	};
 }
