@@ -10,7 +10,7 @@ namespace menu {
 	class MenuItem {
 	public:
 		friend class Menu; // accessing fields directly without the use of getters which may be visible to the user
-		friend std::string exportItem(const MenuItem &item);
+		friend std::string exportItem(const MenuItem &);
 
 		MenuItem();
 		MenuItem(const MenuItem &other);

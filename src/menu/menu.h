@@ -11,8 +11,8 @@
 namespace menu {
 	class Menu : public MenuItem {
 	public:
-		friend class MenuItem; // checkDuplicates
-		friend MenuItem* importItem(const std::string &source, const Environment &environment, Error &error);
+		friend bool MenuItem::checkDuplicates(const std::string);
+		friend MenuItem* importItem(const std::string&, const Environment&, Error&);
 
 		Menu() = delete;
 		Menu(const Menu &other);

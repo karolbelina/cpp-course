@@ -11,7 +11,7 @@ namespace menu {
 	class MenuCommand : public MenuItem {
 	public:
 		friend class Menu; // accessing the private constructor
-		friend MenuItem* importItem(const std::string &source, const Environment &environment, Error &error);
+		friend MenuItem* importItem(const std::string &, const Environment &, Error &);
 
 		MenuCommand() = delete;
 		MenuCommand(const MenuCommand &other);
