@@ -65,3 +65,22 @@ bool menu::MenuItem::parseCharacter(const std::string &source, size_t &position,
 
 	return true;
 }
+
+std::string menu::MenuItem::validateCommandString(const std::string commandString) {
+	std::istringstream stream(commandString);
+	std::string retVal;
+
+	stream >> retVal;
+
+	return retVal;
+}
+
+bool menu::MenuItem::checkKeywords(const std::string commandString) {
+	// TODO: also check if the commandString contains any apostophes
+
+	if(commandString.empty() || commandString == BACK_COMMAND_STRING) {
+		return false;
+	}
+
+	return true;
+}

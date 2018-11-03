@@ -16,8 +16,6 @@ namespace menu {
 
 	const char PROMPT = '>';
 
-	const std::string EMPTY_STRING = "";
-
 	const std::string BACK_COMMAND_NAME = "back";
 	const std::string BACK_COMMAND_STRING = "..";
 

@@ -17,7 +17,6 @@ public:
 	CreateCommand(table::TableContainer* tableContainer);
 	virtual Command* clone() const override;
 	void runCommand() const override final;
-
 };
 
 class RemoveCommand : public CustomCommand {

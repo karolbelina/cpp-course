@@ -123,16 +123,6 @@ void menu::Menu::run() {
 	} while(retryInput);
 }
 
-bool menu::Menu::checkKeywords(const std::string commandString) {
-	// TODO: also check if the commandString contains any apostophes
-
-	if(commandString == EMPTY_STRING || commandString == BACK_COMMAND_STRING) {
-		return false;
-	}
-
-	return true;
-}
-
 bool menu::Menu::checkDuplicates(const std::string commandString) {
 	for(MenuItem* item : items) {
 		if(commandString == item->commandString) {
@@ -166,6 +156,18 @@ menu::Menu::Menu(Menu* parent, const std::string &source, size_t &position, cons
 		return;
 	}
 
+	commandString = validateCommandString(commandString);
+
+	if(!checkKeywords(commandString)) {
+		// invalid commandString
+		return;
+	}
+
+	if(!this->parent->checkDuplicates(commandString)) {
+		// duplicate commandString
+		return;
+	}
+
 	if(source[position] != SEMICOLON) {
 		error.occur(position, SEMICOLON);
 		return;
@@ -178,7 +180,7 @@ menu::Menu::Menu(Menu* parent, const std::string &source, size_t &position, cons
 	}
 
 	while(source[position] == LEFT_PARENTHESIS || source[position] == LEFT_SQUARE_BRACKET) {
-		if(source[position] == LEFT_PARENTHESIS) { // menu
+		if(source[position] == LEFT_PARENTHESIS) {
 			MenuItem* item = new Menu(this, source, position, environment, error);
 
 			if(error.occured) {
@@ -187,7 +189,7 @@ menu::Menu::Menu(Menu* parent, const std::string &source, size_t &position, cons
 
 			items.push_back(item);
 		}
-		else if(source[position] == LEFT_SQUARE_BRACKET) { // menucommand
+		else if(source[position] == LEFT_SQUARE_BRACKET) {
 			MenuItem* item = new MenuCommand(this, source, position, environment, error);
 
 			if(error.occured) {
@@ -211,13 +213,4 @@ menu::Menu::Menu(Menu* parent, const std::string &source, size_t &position, cons
 		}
 		++position;
 	}
-}
-
-std::string menu::Menu::validateCommandString(const std::string commandString) {
-	std::istringstream stream(commandString);
-	std::string retVal;
-
-	stream >> retVal;
-
-	return retVal;
 }
