@@ -29,7 +29,8 @@ namespace menu {
 		static bool parseElement(const std::string &source, size_t &position, std::string &destination, Error &error);
 		static bool parseCharacter(const std::string &source, size_t &position, const char character, Error &error);
 		static std::string validateCommandString(std::string commandString);
-		static bool checkKeywords(std::string commandString);
+		bool checkKeywords(std::string commandString);
+		bool checkDuplicates(std::string commandString);
 
 		std::string name;
 		std::string commandString;

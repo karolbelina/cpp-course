@@ -88,8 +88,6 @@ void menu::Menu::run() {
 			std::cout << std::string(PADDING, SPACE);
 			std::cout << item->name << SPACE << LEFT_PARENTHESIS << item->commandString << RIGHT_PARENTHESIS << std::endl;
 		}
-		std::cout << std::string(PADDING, SPACE);
-		std::cout << PRINT_LEAVES_COMMAND_NAME << SPACE << LEFT_PARENTHESIS << PRINT_LEAVES_COMMAND_STRING << RIGHT_PARENTHESIS << std::endl;
 		std::cout << PROMPT << SPACE;
 
 		std::string input;
@@ -123,59 +121,39 @@ void menu::Menu::run() {
 	} while(retryInput);
 }
 
-bool menu::Menu::checkDuplicates(const std::string commandString) {
-	for(MenuItem* item : items) {
-		if(commandString == item->commandString) {
-			return false;
-		}
-	}
-
-	return true;
-}
-
 menu::Menu::Menu(Menu* parent, const std::string &source, size_t &position, const Environment &environment, Error &error) {
 	this->parent = parent;
+	std::string temporaryCommandString;
 
-	if(source[position] != LEFT_PARENTHESIS) {
-		error.occur(position, LEFT_PARENTHESIS);
+	if(!parseCharacter(source, position, LEFT_PARENTHESIS, error)) {
 		return;
 	}
-	++position;
 
 	if(!parseElement(source, position, name, error)) {
 		return;
 	}
 
-	if(source[position] != COMMA) {
-		error.occur(position, COMMA);
-		return;
-	}
-	++position;
-
-	if(!parseElement(source, position, commandString, error)) {
+	if(!parseCharacter(source, position, COMMA, error)) {
 		return;
 	}
 
-	commandString = validateCommandString(commandString);
+	if(!parseElement(source, position, temporaryCommandString, error)) {
+		return;
+	}
+
+	commandString = validateCommandString(temporaryCommandString);
 
 	if(!checkKeywords(commandString)) {
-		// invalid commandString
+		error.invalidElementError(position - 1);
 		return;
 	}
 
-	if(!this->parent->checkDuplicates(commandString)) {
-		// duplicate commandString
+	if(!checkDuplicates(commandString)) {
+		error.duplicateElementError(position - 1);
 		return;
 	}
 
-	if(source[position] != SEMICOLON) {
-		error.occur(position, SEMICOLON);
-		return;
-	}
-	++position;
-
-	if(source[position] == RIGHT_PARENTHESIS) {
-		++position;
+	if(!parseCharacter(source, position, SEMICOLON, error)) {
 		return;
 	}
 
@@ -183,7 +161,7 @@ menu::Menu::Menu(Menu* parent, const std::string &source, size_t &position, cons
 		if(source[position] == LEFT_PARENTHESIS) {
 			MenuItem* item = new Menu(this, source, position, environment, error);
 
-			if(error.occured) {
+			if(error) {
 				return;
 			}
 
@@ -192,25 +170,37 @@ menu::Menu::Menu(Menu* parent, const std::string &source, size_t &position, cons
 		else if(source[position] == LEFT_SQUARE_BRACKET) {
 			MenuItem* item = new MenuCommand(this, source, position, environment, error);
 
-			if(error.occured) {
+			if(error) {
 				return;
 			}
 
 			items.push_back(item);
-		}
-		else {
-			error.occur(position, RIGHT_PARENTHESIS); // expected ( or [
-			return;
 		}
 
 		if(source[position] == RIGHT_PARENTHESIS) {
 			++position;
 			return;
 		}
-		else if(source[position] != COMMA) {
-			error.occur(position, COMMA); // expected ) or ,
+		else if(source[position] == COMMA) {
+			++position;
+		}
+		else {
+			error.syntaxError(position, {RIGHT_PARENTHESIS, COMMA}); // expected ) or ,
 			return;
 		}
+
+		if(source[position] != LEFT_PARENTHESIS && source[position] != LEFT_SQUARE_BRACKET) {
+			error.syntaxError(position, {LEFT_PARENTHESIS, LEFT_SQUARE_BRACKET}); // expected ( or [
+			return;
+		}
+	}
+
+	if(source[position] == RIGHT_PARENTHESIS) {
 		++position;
+		return;
+	}
+	else {
+		error.syntaxError(position, {RIGHT_PARENTHESIS, LEFT_PARENTHESIS, LEFT_SQUARE_BRACKET}); // expected ), ( or [
+		return;
 	}
 }

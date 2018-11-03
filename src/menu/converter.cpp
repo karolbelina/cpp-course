@@ -21,10 +21,10 @@ menu::MenuItem* menu::importItem(const std::string &source, const Environment &e
 		item = new menu::MenuCommand(nullptr, source, position, environment, error);
 	}
 	else {
-		error.occur(position, LEFT_PARENTHESIS); // expected ( or [
+		error.syntaxError(position, {LEFT_PARENTHESIS, LEFT_SQUARE_BRACKET}); // expected ( or [
 	}
 
-	if(!error.occured) {
+	if(!error) {
 		return item;
 	}
 	else {

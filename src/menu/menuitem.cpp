@@ -34,7 +34,7 @@ menu::Menu* menu::MenuItem::getRoot() const {
 
 bool menu::MenuItem::parseElement(const std::string &source, size_t &position, std::string &destination, Error &error) {
 	if(source[position] != APOSTROPHE) {
-		error.occur(position, APOSTROPHE);
+		error.syntaxError(position, APOSTROPHE);
 		return false;
 	}
 
@@ -42,7 +42,7 @@ bool menu::MenuItem::parseElement(const std::string &source, size_t &position, s
 
 	while(source[position] != APOSTROPHE) {
 		if(source[position] == NULL) { // end of string
-			error.occur(position, APOSTROPHE);
+			error.syntaxError(position, APOSTROPHE);
 			return false;
 		}
 
@@ -57,7 +57,7 @@ bool menu::MenuItem::parseElement(const std::string &source, size_t &position, s
 
 bool menu::MenuItem::parseCharacter(const std::string &source, size_t &position, const char character, Error &error) {
 	if(source[position] != character) {
-		error.occur(position, character);
+		error.syntaxError(position, character);
 		return false;
 	}
 
@@ -76,11 +76,28 @@ std::string menu::MenuItem::validateCommandString(const std::string commandStrin
 }
 
 bool menu::MenuItem::checkKeywords(const std::string commandString) {
-	// TODO: also check if the commandString contains any apostophes
+	if(commandString.empty() && parent != nullptr) { // root can be ''
+		return false;
+	}
 
-	if(commandString.empty() || commandString == BACK_COMMAND_STRING) {
+	if(commandString == BACK_COMMAND_STRING) {
 		return false;
 	}
 
 	return true;
+}
+
+bool menu::MenuItem::checkDuplicates(const std::string commandString) {
+	if(parent == nullptr) {
+		return true;
+	}
+	else {
+		for(MenuItem* item : parent->items) {
+			if(commandString == item->commandString) {
+				return false;
+			}
+		}
+
+		return true;
+	}
 }

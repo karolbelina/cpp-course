@@ -39,17 +39,50 @@ void menu::MenuCommand::run() {
 
 menu::MenuCommand::MenuCommand(Menu* parent, const std::string &source, size_t &position, const Environment &environment, Error &error) {
 	this->parent = parent;
+	std::string temporaryCommandString;
 	std::string environmentKey;
 
-	if(!parseCharacter(source, position, LEFT_SQUARE_BRACKET, error) ||
-		!parseElement(source, position, name, error) ||
-		!parseCharacter(source, position, COMMA, error) ||
-		!parseElement(source, position, commandString, error) ||
-		!parseCharacter(source, position, COMMA, error) ||
-		!parseElement(source, position, help, error) ||
-		!parseCharacter(source, position, COMMA, error) ||
-		!parseElement(source, position, environmentKey, error) ||
-		!parseCharacter(source, position, RIGHT_SQUARE_BRACKET, error)) {
+	if(!parseCharacter(source, position, LEFT_SQUARE_BRACKET, error)) {
+		return;
+	}
+
+	if(!parseElement(source, position, name, error)) {
+		return;
+	}
+
+	if(!parseCharacter(source, position, COMMA, error)) {
+		return;
+	}
+
+	if(!parseElement(source, position, temporaryCommandString, error)) {
+		return;
+	}
+
+	commandString = validateCommandString(temporaryCommandString);
+
+	if(!checkKeywords(commandString)) {
+		error.invalidElementError(position - 1);
+		return;
+	}
+
+	if(!checkDuplicates(commandString)) {
+		error.duplicateElementError(position - 1);
+		return;
+	}
+
+	if(!parseCharacter(source, position, COMMA, error)) {
+		return;
+	}
+
+	if(!parseElement(source, position, help, error)) {
+		return;
+	}
+
+	if(!parseCharacter(source, position, COMMA, error)) {
+		return;
+	}
+
+	if(!parseElement(source, position, environmentKey, error)) {
 		return;
 	}
 
@@ -58,6 +91,10 @@ menu::MenuCommand::MenuCommand(Menu* parent, const std::string &source, size_t &
 	}
 	else {
 		command = new Command();
+	}
+
+	if(!parseCharacter(source, position, RIGHT_SQUARE_BRACKET, error)) {
+		return;
 	}
 }
 
