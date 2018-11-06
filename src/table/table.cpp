@@ -74,21 +74,19 @@ void table::Table::setTableLength(size_t tableLength) {
 }
 
 void table::Table::setElement(size_t offset, int value) {
-	try {
-		array[offset] = value;
+	if(offset < 0 || offset >= arraySize) {
+		throw std::out_of_range("table index out of range");
 	}
-	catch(const std::out_of_range) {
-		throw std::out_of_range("cell index out of range");
-	}
+
+	array[offset] = value;
 }
 
 int table::Table::getElement(size_t offset) {
-	try {
-		return array[offset];
+	if(offset < 0 || offset >= arraySize) {
+		throw std::out_of_range("table index out of range");
 	}
-	catch(const std::out_of_range) {
-		throw std::out_of_range("cell index out of range");
-	}
+
+	return array[offset];
 }
 
 table::Table* table::Table::clone() {
