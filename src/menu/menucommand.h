@@ -24,7 +24,7 @@ namespace menu {
 	private:
 		MenuCommand(Menu* parent, const std::string &source, size_t &position, const Environment &environment, Error &error);
 
-		bool search(std::string &term, std::string path, std::ostream &stream) override;
+		bool search(std::string &term, std::string path, std::ostream &stream, bool &separator) override;
 		std::string getHelp() const override;
 		std::string exportItem() const override;
 

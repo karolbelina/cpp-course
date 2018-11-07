@@ -98,11 +98,13 @@ menu::MenuCommand::MenuCommand(Menu* parent, const std::string &source, size_t &
 	}
 }
 
-bool menu::MenuCommand::search(std::string &term, std::string path, std::ostream &stream) {
-	std::string command = commandString;
-
-	if(term == command) {
-		stream << path << command;
+bool menu::MenuCommand::search(std::string &term, std::string path, std::ostream &stream, bool &separator) {
+	if(term == commandString) {
+		if(separator) {
+			stream << std::endl;
+		}
+		stream << path << commandString;
+		separator = true;
 
 		return true;
 	}

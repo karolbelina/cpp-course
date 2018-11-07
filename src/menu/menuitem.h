@@ -21,8 +21,7 @@ namespace menu {
 		virtual void run() = 0;
 
 	protected:
-		Menu* getRoot() const;
-		virtual bool search(std::string &term, std::string path, std::ostream &stream) = 0;
+		virtual bool search(std::string &term, std::string path, std::ostream &stream, bool &separator) = 0;
 		virtual std::string getHelp() const = 0;
 		virtual std::string exportItem() const = 0;
 

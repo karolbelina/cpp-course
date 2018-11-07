@@ -22,16 +22,6 @@ menu::MenuItem& menu::MenuItem::operator=(const MenuItem &other) {
 	return *this;
 }
 
-menu::Menu* menu::MenuItem::getRoot() const {
-	Menu* item = parent;
-
-	while(item != nullptr) {
-		item->parent;
-	}
-
-	return item;
-}
-
 bool menu::MenuItem::parseElement(const std::string &source, size_t &position, std::string &destination, Error &error) {
 	if(source[position] != APOSTROPHE) {
 		error.syntaxError(position, APOSTROPHE);
@@ -80,7 +70,7 @@ bool menu::MenuItem::checkKeywords(const std::string commandString) {
 		return false;
 	}
 
-	if(commandString == BACK_COMMAND_STRING) {
+	if(commandString == BACK_COMMAND || commandString == SEARCH_COMMAND || commandString == HELP_COMMAND) {
 		return false;
 	}
 

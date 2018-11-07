@@ -42,13 +42,12 @@ menu::MenuItem* menu::Menu::clone() const {
 	return new Menu(*this);
 }
 
-bool menu::Menu::search(std::string &term, const std::string path, std::ostream &stream) {
-	std::string currentPath = path + commandString + "/";
+bool menu::Menu::search(std::string &term, const std::string path, std::ostream &stream, bool &separator) {
+	std::string currentPath = path + commandString + SLASH;
 	bool foundCommands = false;
 
 	for(MenuItem* item : items) {
-		if(item->search(term, currentPath, stream)) {
-			stream << std::endl; // separator
+		if(item->search(term, currentPath, stream, separator)) {
 			foundCommands = true;
 		}
 	}
@@ -83,7 +82,7 @@ void menu::Menu::run() {
 	do {
 		std::cout << std::endl << name << std::endl;
 		std::cout << std::string(PADDING, SPACE);
-		std::cout << BACK_COMMAND_NAME << SPACE << LEFT_PARENTHESIS << BACK_COMMAND_STRING << RIGHT_PARENTHESIS << std::endl;
+		std::cout << BACK_COMMAND << std::endl;
 		for(MenuItem* item : items) {
 			std::cout << std::string(PADDING, SPACE);
 			std::cout << item->name << SPACE << LEFT_PARENTHESIS << item->commandString << RIGHT_PARENTHESIS << std::endl;
@@ -93,11 +92,48 @@ void menu::Menu::run() {
 		std::string input;
 		std::getline(std::cin, input);
 
-		if(input != BACK_COMMAND_STRING) {
+		if(input != BACK_COMMAND) {
 			bool foundValidCommand = false;
 
-			if(input == PRINT_LEAVES_COMMAND_STRING) {
-				//printLeaves();
+			std::istringstream stream(input);
+			std::string command;
+			stream >> command;
+
+			if(command == SEARCH_COMMAND) {
+				std::string parameter;
+				stream >> parameter;
+
+				std::ostringstream output;
+				bool separator = false;
+
+				if(getRoot()->search(parameter, std::string(), output, separator)) {
+					std::cout << output.str() << std::endl;
+				}
+				else {
+					std::cout << NO_MATCHES_MESSAGE << std::endl;
+				}
+
+				foundValidCommand = true;
+			}
+			else if(command == HELP_COMMAND) {
+				std::string parameter;
+				stream >> parameter;
+
+				bool foundCommand = false;
+				for(MenuItem* item : items) {
+					if(parameter == item->commandString) {
+						std::string help = item->getHelp();
+
+						if(!help.empty()) {
+							foundCommand = true;
+							std::cout << help << std::endl;
+						}
+					}
+				}
+
+				if(!foundCommand) {
+					std::cout << NO_HELP_AVAILABLE_MESSAGE << std::endl;
+				}
 
 				foundValidCommand = true;
 			}
@@ -203,4 +239,18 @@ menu::Menu::Menu(Menu* parent, const std::string &source, size_t &position, cons
 		error.syntaxError(position, {RIGHT_PARENTHESIS, LEFT_PARENTHESIS, LEFT_SQUARE_BRACKET}); // expected ), ( or [
 		return;
 	}
+}
+
+menu::Menu* menu::Menu::getRoot() {
+	Menu* item = parent;
+
+	if(item == nullptr) {
+		return this;
+	}
+
+	while(item != nullptr) {
+		item->parent;
+	}
+
+	return item;
 }
