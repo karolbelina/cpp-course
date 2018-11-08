@@ -20,6 +20,7 @@ namespace menu {
 	const std::string BACK_COMMAND = "back";
 	const std::string SEARCH_COMMAND = "search";
 	const std::string HELP_COMMAND = "help";
+	const std::string PRINT_COMMAND = "print";
 
 	const std::string INVALID_COMMAND_MESSAGE = "Invalid command";
 	const std::string DEFAULT_COMMAND_MESSAGE = "Default command";

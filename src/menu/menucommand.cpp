@@ -125,3 +125,17 @@ std::string menu::MenuCommand::exportItem() const {
 
 	return stream.str();
 }
+
+void menu::MenuCommand::printTree(size_t currentRow, std::vector<std::vector<MenuItem*>>& rows) {
+	if(rows.size() > 0) {
+		if(rows.size() - 1 < currentRow) {
+			rows.push_back(std::vector<MenuItem*>({this}));
+		}
+		else {
+			rows.at(currentRow).push_back(this);
+		}
+	}
+	else {
+		rows.push_back(std::vector<MenuItem*>({this}));
+	}
+}

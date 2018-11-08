@@ -76,6 +76,24 @@ std::string menu::Menu::exportItem() const {
 	return stream.str();
 }
 
+void menu::Menu::printTree(size_t currentRow, std::vector<std::vector<MenuItem*>>& rows) {
+	if(rows.size() > 0) {
+		if(rows.size() - 1 < currentRow) {
+			rows.push_back(std::vector<MenuItem*>({this}));
+		}
+		else {
+			rows.at(currentRow).push_back(this);
+		}
+	}
+	else {
+		rows.push_back(std::vector<MenuItem*>({this}));
+	}
+	
+	for(MenuItem* item : items) {
+		item->printTree(currentRow + 1, rows);
+	}
+}
+
 void menu::Menu::run() {
 	bool retryInput = true;
 
@@ -133,6 +151,21 @@ void menu::Menu::run() {
 
 				if(!foundCommand) {
 					std::cout << NO_HELP_AVAILABLE_MESSAGE << std::endl;
+				}
+
+				foundValidCommand = true;
+			}
+			else if(input == PRINT_COMMAND) {
+				std::vector<std::vector<MenuItem*>> rows;
+
+				getRoot()->printTree(0, rows);
+
+				for(std::vector<MenuItem*> row : rows) {
+					for(MenuItem* item : row) {
+						std::cout << item->commandString << SPACE;
+					}
+
+					std::cout << std::endl;
 				}
 
 				foundValidCommand = true;
