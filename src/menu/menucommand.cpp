@@ -37,65 +37,25 @@ void menu::MenuCommand::run() {
 	}
 }
 
-menu::MenuCommand::MenuCommand(Menu* parent, const std::string &source, size_t &position, const Environment &environment, Error &error) {
+menu::MenuCommand::MenuCommand(Menu* parent, const std::string &source, size_t &position, const Environment &environment) {
 	this->parent = parent;
-	std::string temporaryCommandString;
 	std::string environmentKey;
 
-	if(!parseCharacter(source, position, LEFT_SQUARE_BRACKET, error)) {
-		return;
+	parseCharacter(source, position, LEFT_SQUARE_BRACKET);
+	parseString(source, position, name);
+	parseCharacter(source, position, COMMA);
+	parseAndValidateString(source, position, commandString, parent);
+	parseCharacter(source, position, COMMA);
+	parseString(source, position, help);
+	parseCharacter(source, position, COMMA);
+	parseString(source, position, environmentKey);
+
+	std::map<std::string, Command*>::const_iterator foundValue = environment.map.find(environmentKey);
+	if(foundValue != environment.map.end()) {
+		command = foundValue->second->clone();
 	}
 
-	if(!parseElement(source, position, name, error)) {
-		return;
-	}
-
-	if(!parseCharacter(source, position, COMMA, error)) {
-		return;
-	}
-
-	if(!parseElement(source, position, temporaryCommandString, error)) {
-		return;
-	}
-
-	commandString = validateCommandString(temporaryCommandString);
-
-	if(!checkKeywords(commandString)) {
-		error.invalidElementError(position - 1);
-		return;
-	}
-
-	if(!checkDuplicates(commandString)) {
-		error.duplicateElementError(position - 1);
-		return;
-	}
-
-	if(!parseCharacter(source, position, COMMA, error)) {
-		return;
-	}
-
-	if(!parseElement(source, position, help, error)) {
-		return;
-	}
-
-	if(!parseCharacter(source, position, COMMA, error)) {
-		return;
-	}
-
-	if(!parseElement(source, position, environmentKey, error)) {
-		return;
-	}
-
-	if(environment.map.find(environmentKey) != environment.map.end()) {
-		command = environment.map.find(environmentKey)->second->clone();
-	}
-	else {
-		command = new Command();
-	}
-
-	if(!parseCharacter(source, position, RIGHT_SQUARE_BRACKET, error)) {
-		return;
-	}
+	parseCharacter(source, position, RIGHT_SQUARE_BRACKET);
 }
 
 bool menu::MenuCommand::search(std::string &term, std::string path, std::ostream &stream, bool &separator) {
@@ -124,18 +84,4 @@ std::string menu::MenuCommand::exportItem() const {
 	stream << APOSTROPHE << help << APOSTROPHE << RIGHT_SQUARE_BRACKET;
 
 	return stream.str();
-}
-
-void menu::MenuCommand::printTree(size_t currentRow, std::vector<std::vector<MenuItem*>>& rows) {
-	if(rows.size() > 0) {
-		if(rows.size() - 1 < currentRow) {
-			rows.push_back(std::vector<MenuItem*>({this}));
-		}
-		else {
-			rows.at(currentRow).push_back(this);
-		}
-	}
-	else {
-		rows.push_back(std::vector<MenuItem*>({this}));
-	}
 }

@@ -76,24 +76,6 @@ std::string menu::Menu::exportItem() const {
 	return stream.str();
 }
 
-void menu::Menu::printTree(size_t currentRow, std::vector<std::vector<MenuItem*>>& rows) {
-	if(rows.size() > 0) {
-		if(rows.size() - 1 < currentRow) {
-			rows.push_back(std::vector<MenuItem*>({this}));
-		}
-		else {
-			rows.at(currentRow).push_back(this);
-		}
-	}
-	else {
-		rows.push_back(std::vector<MenuItem*>({this}));
-	}
-	
-	for(MenuItem* item : items) {
-		item->printTree(currentRow + 1, rows);
-	}
-}
-
 void menu::Menu::run() {
 	bool retryInput = true;
 
@@ -155,21 +137,6 @@ void menu::Menu::run() {
 
 				foundValidCommand = true;
 			}
-			else if(input == PRINT_COMMAND) {
-				std::vector<std::vector<MenuItem*>> rows;
-
-				getRoot()->printTree(0, rows);
-
-				for(std::vector<MenuItem*> row : rows) {
-					for(MenuItem* item : row) {
-						std::cout << item->commandString << SPACE;
-					}
-
-					std::cout << std::endl;
-				}
-
-				foundValidCommand = true;
-			}
 			else {
 				for(MenuItem* item : items) {
 					if(input == item->commandString) {
@@ -190,60 +157,22 @@ void menu::Menu::run() {
 	} while(retryInput);
 }
 
-menu::Menu::Menu(Menu* parent, const std::string &source, size_t &position, const Environment &environment, Error &error) {
+menu::Menu::Menu(Menu* parent, const std::string &source, size_t &position, const Environment &environment) {
 	this->parent = parent;
 	std::string temporaryCommandString;
 
-	if(!parseCharacter(source, position, LEFT_PARENTHESIS, error)) {
-		return;
-	}
-
-	if(!parseElement(source, position, name, error)) {
-		return;
-	}
-
-	if(!parseCharacter(source, position, COMMA, error)) {
-		return;
-	}
-
-	if(!parseElement(source, position, temporaryCommandString, error)) {
-		return;
-	}
-
-	commandString = validateCommandString(temporaryCommandString);
-
-	if(!checkKeywords(commandString)) {
-		error.invalidElementError(position - 1);
-		return;
-	}
-
-	if(!checkDuplicates(commandString)) {
-		error.duplicateElementError(position - 1);
-		return;
-	}
-
-	if(!parseCharacter(source, position, SEMICOLON, error)) {
-		return;
-	}
+	parseCharacter(source, position, LEFT_PARENTHESIS);
+	parseString(source, position, name);
+	parseCharacter(source, position, COMMA);
+	parseAndValidateString(source, position, commandString, parent);
+	parseCharacter(source, position, SEMICOLON);
 
 	while(source[position] == LEFT_PARENTHESIS || source[position] == LEFT_SQUARE_BRACKET) {
 		if(source[position] == LEFT_PARENTHESIS) {
-			MenuItem* item = new Menu(this, source, position, environment, error);
-
-			if(error) {
-				return;
-			}
-
-			items.push_back(item);
+			items.push_back(new Menu(this, source, position, environment));
 		}
 		else if(source[position] == LEFT_SQUARE_BRACKET) {
-			MenuItem* item = new MenuCommand(this, source, position, environment, error);
-
-			if(error) {
-				return;
-			}
-
-			items.push_back(item);
+			items.push_back(new MenuCommand(this, source, position, environment));
 		}
 
 		if(source[position] == RIGHT_PARENTHESIS) {
@@ -254,13 +183,11 @@ menu::Menu::Menu(Menu* parent, const std::string &source, size_t &position, cons
 			++position;
 		}
 		else {
-			error.syntaxError(position, {RIGHT_PARENTHESIS, COMMA}); // expected ) or ,
-			return;
+			throw menu::parse_error("expected ')' or ',' on position " + std::to_string(position));
 		}
 
 		if(source[position] != LEFT_PARENTHESIS && source[position] != LEFT_SQUARE_BRACKET) {
-			error.syntaxError(position, {LEFT_PARENTHESIS, LEFT_SQUARE_BRACKET}); // expected ( or [
-			return;
+			throw menu::parse_error("expected '(' or '[' on position " + std::to_string(position));
 		}
 	}
 
@@ -269,8 +196,7 @@ menu::Menu::Menu(Menu* parent, const std::string &source, size_t &position, cons
 		return;
 	}
 	else {
-		error.syntaxError(position, {RIGHT_PARENTHESIS, LEFT_PARENTHESIS, LEFT_SQUARE_BRACKET}); // expected ), ( or [
-		return;
+		throw menu::parse_error("expected ')', '(' or '[' on position " + std::to_string(position));
 	}
 }
 

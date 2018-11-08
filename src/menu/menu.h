@@ -11,8 +11,8 @@
 namespace menu {
 	class Menu : public MenuItem {
 	public:
-		friend bool MenuItem::checkDuplicates(const std::string);
-		friend static MenuItem* MenuItem::importItem(const std::string&, const Environment&, Error&);
+		friend void MenuItem::parseAndValidateString(const std::string &, size_t &, std::string &, Menu*);
+		friend static MenuItem* MenuItem::importItem(const std::string&, const Environment&);
 
 		Menu() = delete;
 		Menu(const Menu &other);
@@ -23,13 +23,12 @@ namespace menu {
 		void run() override;
 
 	private:
-		Menu(Menu* parent, const std::string &source, size_t &position, const Environment &environment, Error &error);
+		Menu(Menu* parent, const std::string &source, size_t &position, const Environment &environment);
 
 		Menu* getRoot();
 		bool search(std::string &term, std::string path, std::ostream &stream, bool &separator) override;
 		std::string getHelp() const override;
 		std::string exportItem() const override;
-		void printTree(size_t currentRow, std::vector<std::vector<MenuItem*>> &rows);
 
 		std::vector<MenuItem*> items;
 	};
