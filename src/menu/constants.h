@@ -21,9 +21,9 @@ namespace menu {
 	const std::string SEARCH_COMMAND = "search";
 	const std::string HELP_COMMAND = "help";
 
-	const std::string INVALID_COMMAND_MESSAGE = "invalid command";
-	const std::string DEFAULT_COMMAND_MESSAGE = "default command";
-	const std::string EMPTY_COMMAND_MESSAGE = "empty command";
-	const std::string NO_MATCHES_MESSAGE = "no matches";
-	const std::string NO_HELP_AVAILABLE_MESSAGE = "no help available";
+	const std::string INVALID_COMMAND_MESSAGE = "Invalid command";
+	const std::string DEFAULT_COMMAND_MESSAGE = "Default command";
+	const std::string EMPTY_COMMAND_MESSAGE = "Empty command";
+	const std::string NO_MATCHES_MESSAGE = "No matches";
+	const std::string NO_HELP_AVAILABLE_MESSAGE = "No help available";
 }
