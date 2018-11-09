@@ -8,16 +8,31 @@ namespace genalg {
 		class Individual {
 		public:
 			class Gene {
-				virtual int evaluate() = 0;
-				virtual void mutate() = 0;
+			public:
+				Gene() = delete;
+				Gene(bool value);
+				Gene(const Gene &other);
+				Gene* clone();
+
+				bool evaluate();
+				void mutate();
+
+			private:
+				bool value;
 			};
 
-			virtual double getFitness() = 0;
-			virtual void mutate() = 0;
-			virtual std::vector<Individual> crossover(Individual &other) = 0;
+			Individual() = delete;
+			Individual(std::vector<Gene*> genotype);
+			Individual(const Individual &other);
 
-		private:
-			std::vector<Gene> genotype;
+			std::vector<bool> getGenotype() const;
+			void mutate(double probability);
+			std::vector<Individual*> crossover(Individual &other, double probability);
+
+		protected:
+			std::vector<Gene*> genotype;
 		};
+
+		virtual double evaluate(const Individual &individual) = 0;
 	};
 }

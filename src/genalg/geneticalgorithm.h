@@ -1,19 +1,21 @@
 #pragma once
 
+#include "problem.h"
+
 #include <vector>
 
 namespace genalg {
-	template<class T>
 	class GeneticAlgorithm {
 	public:
-		GeneticAlgorithm(size_t populationSize, double crossoverProbability, double mutationProbability);
+		GeneticAlgorithm(Problem* problem, size_t populationSize, double crossoverProbability, double mutationProbability);
 		void run(size_t iterationCount);
 
 	private:
+		Problem* problem;
 		size_t populationSize;
 		double crossoverProbability;
 		double mutationProbability;
 
-		std::vector<Individual*> population;
+		std::vector<Problem::Individual*> population;
 	};
 }
