@@ -63,7 +63,7 @@ void setValue(int x, int y, int z, int value, int*** table) {
 	}
 }
 
-double getAverage(int x, int y, int z, int *** table) {
+double getAverage(int x, int y, int z, int*** table) {
 	int sum = 0;
 
 	for(int i = 0; i < x; i++) {
