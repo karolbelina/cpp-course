@@ -1,5 +1,33 @@
 #include "knapsackproblem.h"
 
+#include <random>
+
+KnapsackProblem::Gene::Gene() {
+	std::random_device rd;
+	std::mt19937 gen(rd());
+	std::uniform_int_distribution<> distrubution(0, 1);
+
+	value = distrubution(gen) == 1;
+}
+
+KnapsackProblem::Gene::Gene(bool value): value(value) {
+}
+
+KnapsackProblem::Gene::Gene(const Gene &other) : value(other.value) {
+}
+
+KnapsackProblem::Gene* KnapsackProblem::Gene::clone() {
+	return new Gene(*this);
+}
+
+bool KnapsackProblem::Gene::evaluate() {
+	return value;
+}
+
+void KnapsackProblem::Gene::mutate() {
+	value = !value;
+}
+
 KnapsackProblem::Item::Item(double mass, double value) : mass(mass), value(value) {
 	if(mass <= 0) {
 		throw std::invalid_argument("mass must be greater than zero");
@@ -21,7 +49,7 @@ KnapsackProblem::KnapsackProblem(std::initializer_list<std::pair<double, double>
 	}
 }
 
-double KnapsackProblem::evaluate(const genalg::Problem::Individual &individual) {
+double KnapsackProblem::evaluate(const genalg::Individual<Gene> &individual) {
 	double mass = 0;
 	double value = 0;
 
