@@ -20,10 +20,6 @@ KnapsackProblem::Gene* KnapsackProblem::Gene::clone() {
 	return new Gene(*this);
 }
 
-bool KnapsackProblem::Gene::evaluate() {
-	return value;
-}
-
 void KnapsackProblem::Gene::mutate() {
 	value = !value;
 }

@@ -14,17 +14,14 @@ public:
 		double value;
 	};
 
-	class Gene {
-	public:
+	struct Gene {
 		Gene();
 		Gene(bool value);
 		Gene(const Gene &other);
 		Gene* clone();
 
-		bool evaluate();
 		void mutate();
 
-	private:
 		bool value;
 	};
 
