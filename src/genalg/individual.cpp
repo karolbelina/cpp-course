@@ -13,17 +13,6 @@ template<class Gene>
 genalg::Individual<Gene>::Individual(const Individual &other) : Individual(other.genotype) {}
 
 template<class Gene>
-std::vector<bool> genalg::Individual<Gene>::getGenotype() const {
-	std::vector<bool> vector;
-
-	for(Gene* gene : genotype) {
-		vector.push_back(gene->evaluate());
-	}
-
-	return vector;
-}
-
-template<class Gene>
 void genalg::Individual<Gene>::mutate(double probability) {
 	std::random_device rd;
 	std::mt19937 gen(rd());
