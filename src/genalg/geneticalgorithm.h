@@ -14,7 +14,7 @@ namespace genalg {
 		void run(size_t iterationCount);
 
 	private:
-		void step();
+		template<class Gene> void step();
 		template<class Gene> std::map<Individual<Gene>*, double> evaluatePopulation();
 
 		Problem* problem;

@@ -26,12 +26,11 @@ namespace genalg {
 
 template<class Gene>
 void genalg::Individual<Gene>::mutate(double probability) {
-	std::random_device rd;
-	std::mt19937 gen(rd());
+	std::mt19937 rng(std::random_device{}());
 	std::uniform_real_distribution<> distribution(0, 1);
 
 	for(Problem::Individual::Gene* gene : genotype) {
-		if(distribution(gen) < probability) {
+		if(distribution(rng) < probability) {
 			gene->mutate();
 		}
 	}
@@ -39,15 +38,16 @@ void genalg::Individual<Gene>::mutate(double probability) {
 
 template<class Gene>
 std::vector<genalg::Individual<Gene>*> genalg::Individual<Gene>::crossover(genalg::Individual<Gene> &other, double probability) {
-	std::random_device rd;
-	std::mt19937 gen(rd());
+	std::mt19937 rng(std::random_device{}());
 	std::uniform_real_distribution<> distribution(0, 1);
 
-	if(distribution(gen) < probability) {
-		std::uniform_int_distribution<> distrubution(1, 6);
+	if(distribution(rng) < probability) {
+		std::uniform_int_distribution<> distrubution(1, genotype.size() - 1);
+
+		// TODO: swap_ranges http://www.cplusplus.com/reference/algorithm/swap_ranges/
+
+		// reserve i wtedy iteratorem wstawiamy copy_n
 	}
 
 	return std::vector<genalg::Problem::Individual*>();
 }
-
-

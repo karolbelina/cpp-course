@@ -15,12 +15,13 @@ void genalg::GeneticAlgorithm<Problem>::run(size_t iterationCount) {
 }
 
 template<class Problem>
+template<class Gene>
 void genalg::GeneticAlgorithm<Problem>::step() {
-
+	std::map<genalg::Individual<Gene>*, double> fitnessMap = evaluatePopulation();
 }
 
 template<class Problem>
-template<typename Gene>
+template<class Gene>
 std::map<genalg::Individual<Gene>*, double> genalg::GeneticAlgorithm<Problem>::evaluatePopulation() {
 	std::map<genalg::Individual<Gene>*, double> map;
 
