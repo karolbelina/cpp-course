@@ -20,6 +20,12 @@ KnapsackProblem::Gene* KnapsackProblem::Gene::clone() {
 	return new Gene(*this);
 }
 
+std::ostream& operator<<(std::ostream &stream, const KnapsackProblem::Gene &gene) {
+	stream << gene.value ? '1' : '0';
+
+	return stream;
+}
+
 void KnapsackProblem::Gene::mutate() {
 	value = !value;
 }
@@ -49,17 +55,22 @@ double KnapsackProblem::evaluate(const genalg::Individual<Gene> &individual) {
 	double mass = 0;
 	double value = 0;
 
-	for(size_t i = 0; i < individual.getGenotype().size(); i++) {
-		int multiplier = individual.getGenotype().at(i) ? 1 : 0;
+	if(individual.genotype.size() != items.size()) {
+		for(size_t i = 0; i < individual.genotype.size(); i++) {
+			int multiplier = individual.genotype.at(i)->value ? 1 : 0;
 
-		mass += multiplier * items.at(i).mass;
-		value += multiplier * items.at(i).value;
-	}
+			mass += multiplier * items.at(i).mass;
+			value += multiplier * items.at(i).value;
+		}
 
-	if(mass <= capacity) {
-		return value;
+		if(mass <= capacity) {
+			return value;
+		}
+		else {
+			return 0;
+		}
 	}
 	else {
-		return 0;
+		throw new std::out_of_range("mismatched amount of items and genotype length");
 	}
 }

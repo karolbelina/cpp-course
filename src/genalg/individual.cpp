@@ -10,7 +10,19 @@ genalg::Individual<Gene>::Individual(std::vector<Gene*> genotype) {
 }
 
 template<class Gene>
-genalg::Individual<Gene>::Individual(const Individual &other) : Individual(other.genotype) {}
+genalg::Individual<Gene>::Individual(const Individual<Gene> &other) : Individual<Gene>(other.genotype) {}
+
+// TODO: try to fix this ugly piece of shit
+namespace genalg {
+	template<class Gene>
+	std::ostream& operator<<(std::ostream &stream, const Individual<Gene> &individual) {
+		for(Gene* gene : individual.genotype) {
+			stream << gene;
+		}
+
+		return stream;
+	}
+}
 
 template<class Gene>
 void genalg::Individual<Gene>::mutate(double probability) {
@@ -37,3 +49,5 @@ std::vector<genalg::Individual<Gene>*> genalg::Individual<Gene>::crossover(genal
 
 	return std::vector<genalg::Problem::Individual*>();
 }
+
+
