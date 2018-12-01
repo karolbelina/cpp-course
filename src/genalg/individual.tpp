@@ -3,15 +3,15 @@
 #include <random>
 
 template<class Gene>
-genalg::Individual<Gene>::Individual(std::vector<Gene> genotype) {
+inline genalg::Individual<Gene>::Individual(std::vector<Gene> genotype) {
 	this->genotype = std::vector<Gene>(genotype);
 }
 
 template<class Gene>
-genalg::Individual<Gene>::Individual(const Individual<Gene> &other) : Individual<Gene>(other.genotype) {}
+inline genalg::Individual<Gene>::Individual(const Individual<Gene> &other) : Individual<Gene>(other.genotype) {}
 
 template<class Gene>
-void genalg::Individual<Gene>::mutate(double probability) {
+inline void genalg::Individual<Gene>::mutate(double probability) {
 	std::mt19937 rng(std::random_device{}());
 	std::uniform_real_distribution<> distribution(0, 1);
 
@@ -23,7 +23,7 @@ void genalg::Individual<Gene>::mutate(double probability) {
 }
 
 template<class Gene>
-std::vector<genalg::Individual<Gene>> genalg::Individual<Gene>::crossover(const genalg::Individual<Gene> &other, double probability) const {
+inline std::vector<genalg::Individual<Gene>> genalg::Individual<Gene>::crossover(const genalg::Individual<Gene> &other, double probability) const {
 	std::mt19937 rng(std::random_device{}());
 	std::uniform_real_distribution<> distribution(0, 1);
 
