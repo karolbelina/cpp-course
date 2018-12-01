@@ -18,7 +18,6 @@ public:
 		Gene();
 		Gene(bool value);
 		Gene(const Gene &other);
-		Gene* clone();
 		friend std::ostream& operator<<(std::ostream &stream, const Gene &gene);
 
 		void mutate();

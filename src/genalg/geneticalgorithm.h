@@ -9,18 +9,21 @@ namespace genalg {
 	template<class Problem>
 	class GeneticAlgorithm {
 	public:
+		GeneticAlgorithm() = delete;
 		GeneticAlgorithm(Problem* problem, size_t populationSize, double crossoverProbability, double mutationProbability);
 
 		void run(size_t iterationCount);
 
 	private:
-		template<class Gene> void step();
-		template<class Gene> std::map<Individual<Gene>*, double> evaluatePopulation();
+		void step();
+		std::map<Individual<typename Problem::Gene>, double> evaluatePopulation();
 
 		Problem* problem;
 		size_t populationSize;
 		double crossoverProbability;
 		double mutationProbability;
-		template<class Gene> std::vector<Individual<Gene>*> population;
+		std::vector<Individual<typename Problem::Gene>> population; // TODO: class Problem::Gene?
 	};
 }
+
+#include "geneticalgorithm.tpp"

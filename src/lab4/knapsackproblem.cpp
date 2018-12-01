@@ -10,18 +10,12 @@ KnapsackProblem::Gene::Gene() {
 	value = distrubution(gen) == 1;
 }
 
-KnapsackProblem::Gene::Gene(bool value): value(value) {
-}
+KnapsackProblem::Gene::Gene(bool value): value(value) {}
 
-KnapsackProblem::Gene::Gene(const Gene &other) : value(other.value) {
-}
-
-KnapsackProblem::Gene* KnapsackProblem::Gene::clone() {
-	return new Gene(*this);
-}
+KnapsackProblem::Gene::Gene(const Gene &other) : value(other.value) {}
 
 std::ostream& operator<<(std::ostream &stream, const KnapsackProblem::Gene &gene) {
-	stream << gene.value ? '1' : '0';
+	stream << gene.value;
 
 	return stream;
 }
@@ -57,7 +51,7 @@ double KnapsackProblem::evaluate(const genalg::Individual<Gene> &individual) {
 
 	if(individual.genotype.size() != items.size()) {
 		for(size_t i = 0; i < individual.genotype.size(); i++) {
-			int multiplier = individual.genotype.at(i)->value ? 1 : 0;
+			int multiplier = individual.genotype.at(i).value ? 1 : 0;
 
 			mass += multiplier * items.at(i).mass;
 			value += multiplier * items.at(i).value;
