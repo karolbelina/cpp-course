@@ -3,9 +3,10 @@
 #include <random>
 
 template<class Gene>
-inline genalg::Individual<Gene>::Individual(std::vector<Gene> genotype) {
-	this->genotype = std::vector<Gene>(genotype);
-}
+genalg::Individual<Gene>::Individual(size_t genotypeSize) : genotype(genotypeSize) {}
+
+template<class Gene>
+inline genalg::Individual<Gene>::Individual(std::vector<Gene> genotype) : genotype(genotype) {}
 
 template<class Gene>
 inline genalg::Individual<Gene>::Individual(const Individual<Gene> &other) : Individual<Gene>(other.genotype) {}

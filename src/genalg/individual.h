@@ -7,6 +7,7 @@ namespace genalg {
 	template<class Gene>
 	struct Individual {
 		Individual() = default;
+        Individual(size_t genotypeSize);
 		Individual(std::vector<Gene> genotype);
 		Individual(const Individual &other);
 

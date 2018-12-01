@@ -45,7 +45,11 @@ KnapsackProblem::KnapsackProblem(std::initializer_list<std::pair<double, double>
 	}
 }
 
-double KnapsackProblem::evaluate(const genalg::Individual<Gene> &individual) {
+size_t KnapsackProblem::getGenotypeSize() const {
+    return items.size();
+}
+
+double KnapsackProblem::evaluate(const genalg::Individual<Gene> &individual) const {
 	double mass = 0;
 	double value = 0;
 

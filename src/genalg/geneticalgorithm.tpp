@@ -3,7 +3,11 @@
 #include <random>
 
 template<class Problem>
-inline genalg::GeneticAlgorithm<Problem>::GeneticAlgorithm(Problem* problem, size_t populationSize, double crossoverProbability, double mutationProbability) : problem(problem), populationSize(populationSize), crossoverProbability(crossoverProbability), mutationProbability(mutationProbability), population(populationSize) {}
+inline genalg::GeneticAlgorithm<Problem>::GeneticAlgorithm(Problem* problem, size_t populationSize, double crossoverProbability, double mutationProbability) : problem(problem), populationSize(populationSize), crossoverProbability(crossoverProbability), mutationProbability(mutationProbability) {
+    for(size_t i = 0; i < populationSize; i++) {
+        population.push_back(genalg::Individual<typename Problem::Gene>(problem->getGenotypeSize()));
+    }
+}
 
 template<class Problem>
 inline void genalg::GeneticAlgorithm<Problem>::run(size_t iterationCount) {
@@ -12,12 +16,12 @@ inline void genalg::GeneticAlgorithm<Problem>::run(size_t iterationCount) {
 	}
 }
 
-template<class Problem>
-genalg::Individual<typename Problem::Gene> genalg::GeneticAlgorithm<Problem>::getFittestIndividual() {
-    std::map<genalg::Individual<typename Problem::Gene>, double> fitnessMap = evaluatePopulation();
-
-    return std::max_element(fitnessMap.begin(), fitnessMap.end(), [](const auto &left, const auto &right) {return left.second < right.second; })->first;
-}
+//template<class Problem>
+//genalg::Individual<typename Problem::Gene> genalg::GeneticAlgorithm<Problem>::getFittestIndividual() {
+//    std::map<genalg::Individual<typename Problem::Gene>, double> fitnessMap = evaluatePopulation();
+//
+//    return std::max_element(fitnessMap.begin(), fitnessMap.end(), [](const auto &left, const auto &right) {return left.second < right.second; })->first;
+//}
 
 template<class Problem>
 inline void genalg::GeneticAlgorithm<Problem>::step() {

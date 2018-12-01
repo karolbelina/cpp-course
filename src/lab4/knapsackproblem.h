@@ -27,7 +27,8 @@ public:
 
 	KnapsackProblem(std::initializer_list<std::pair<double, double>> list, double capacity);
 
-	double evaluate(const genalg::Individual<Gene> &individual);
+    size_t getGenotypeSize() const;
+	double evaluate(const genalg::Individual<Gene> &individual) const;
 
 private:
 	std::vector<Item> items;

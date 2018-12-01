@@ -13,7 +13,7 @@ namespace genalg {
 		GeneticAlgorithm(Problem* problem, size_t populationSize, double crossoverProbability, double mutationProbability);
 
 		void run(size_t iterationCount);
-        Individual<typename Problem::Gene> getFittestIndividual();
+        //Individual<typename Problem::Gene> getFittestIndividual();
 
 	private:
 		void step();
