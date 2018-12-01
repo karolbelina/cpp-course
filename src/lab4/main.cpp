@@ -4,7 +4,10 @@
 #include "knapsackproblem.h"
 
 int main() {
-	KnapsackProblem* problem = new KnapsackProblem({{5.0, 4.0}, {1.0, 1.0}, {4.0, 3.0}, {5.0, 2.0}}, 5.0);
-
-	genalg::GeneticAlgorithm<KnapsackProblem>::GeneticAlgorithm(problem, 40, 0.7, 0.1);
+	genalg::GeneticAlgorithm<KnapsackProblem> ag(&KnapsackProblem::KnapsackProblem({{5.0, 4.0}, {1.0, 1.0}, {4.0, 3.0}, {5.0, 2.0}}, 5.0), 40, 0.7, 0.1);
+    ag.run(40);
+    
+    for(KnapsackProblem::Gene gene : ag.getFittestIndividual().genotype) {
+        std::cout << gene;
+    }
 }

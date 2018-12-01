@@ -11,7 +11,7 @@ namespace genalg {
 		Individual(const Individual &other);
 
 		void mutate(double probability);
-		std::vector<Individual> crossover(const Individual &other, double probability) const;
+		static std::pair<Individual, Individual> crossover(std::pair<Individual, Individual> parents, double probability);
 
 		std::vector<Gene> genotype;
 	};

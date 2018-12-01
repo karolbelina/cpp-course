@@ -17,26 +17,26 @@ inline void genalg::Individual<Gene>::mutate(double probability) {
 
 	for(Gene gene : genotype) {
 		if(distribution(rng) < probability) {
-			gene->mutate();
+            gene.mutate();
 		}
 	}
 }
 
 template<class Gene>
-inline std::vector<genalg::Individual<Gene>> genalg::Individual<Gene>::crossover(const genalg::Individual<Gene> &other, double probability) const {
+inline std::pair<genalg::Individual<Gene>, genalg::Individual<Gene>> genalg::Individual<Gene>::crossover(std::pair<genalg::Individual<Gene>, genalg::Individual<Gene>> parents, double probability) {
 	std::mt19937 rng(std::random_device{}());
 	std::uniform_real_distribution<> distribution(0, 1);
 
 	if(distribution(rng) < probability) {
-		std::uniform_int_distribution<> distrubution(1, genotype.size() - 1);
+		std::uniform_int_distribution<> distribution(1, parents.first.genotype.size() - 1);
 
-		genalg::Individual<Gene> first(genotype);
-		genalg::Individual<Gene> second(other.genotype);
+		genalg::Individual<Gene> first(parents.first.genotype);
+		genalg::Individual<Gene> second(parents.second.genotype);
 
 		std::swap_ranges(first.genotype.begin(), first.genotype.begin() + distribution(rng), second.genotype.begin());
 
-		return std::vector<genalg::Individual<Gene>>({first, second});
+		return std::pair<genalg::Individual<Gene>, genalg::Individual<Gene>>(first, second);
 	}
 
-	return std::vector<genalg::Individual<Gene>>();
+	return parents;
 }
