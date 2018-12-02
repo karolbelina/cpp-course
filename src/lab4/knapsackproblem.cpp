@@ -38,7 +38,7 @@ void KnapsackProblem::Gene::mutate() {
 	value = !value;
 }
 
-KnapsackProblem::Item::Item(double mass, double value) : mass(mass), value(value) {
+KnapsackProblem::Item::Item(double value, double mass) : value(value), mass(mass) {
 	if(mass <= 0) {
 		throw std::invalid_argument("mass must be greater than zero");
 	}
@@ -64,15 +64,15 @@ size_t KnapsackProblem::getGenotypeSize() const {
 }
 
 double KnapsackProblem::evaluate(const genalg::Individual<Gene> &individual) const {
-	double mass = 0;
 	double value = 0;
+	double mass = 0;
 
 	if(individual.genotype.size() == items.size()) {
 		for(size_t i = 0; i < individual.genotype.size(); i++) {
 			int multiplier = individual.genotype.at(i).value ? 1 : 0;
 
-			mass += multiplier * items.at(i).mass;
 			value += multiplier * items.at(i).value;
+			mass += multiplier * items.at(i).mass;
 		}
 
         return mass <= capacity ? value : 0;

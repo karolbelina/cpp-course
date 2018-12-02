@@ -7,11 +7,11 @@
 class KnapsackProblem {
 public:
 	struct Item {
-		Item(double mass, double value);
+		Item(double value, double mass);
 		Item(std::pair<double, double> pair);
 
-		double mass;
 		double value;
+		double mass;
 	};
 
 	struct Gene {
