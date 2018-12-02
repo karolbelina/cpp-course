@@ -15,13 +15,13 @@ KnapsackProblem::Gene::Gene(bool value): value(value) {}
 KnapsackProblem::Gene::Gene(const Gene &other) : value(other.value) {}
 
 KnapsackProblem::Gene& KnapsackProblem::Gene::operator=(const Gene &other) {
-    if(this == &other) {
-        return *this;
-    }
+	if(this == &other) {
+		return *this;
+	}
 
-    value = other.value;
+	value = other.value;
 
-    return *this;
+	return *this;
 }
 
 std::ostream& operator<<(std::ostream &stream, const KnapsackProblem::Gene &gene) {
@@ -31,7 +31,7 @@ std::ostream& operator<<(std::ostream &stream, const KnapsackProblem::Gene &gene
 }
 
 bool KnapsackProblem::Gene::operator==(const Gene &other) const {
-    return value == other.value;
+ return value == other.value;
 }
 
 void KnapsackProblem::Gene::mutate() {
@@ -60,7 +60,7 @@ KnapsackProblem::KnapsackProblem(std::initializer_list<std::pair<double, double>
 }
 
 size_t KnapsackProblem::getGenotypeSize() const {
-    return items.size();
+	return items.size();
 }
 
 double KnapsackProblem::evaluate(const genalg::Individual<Gene> &individual) const {
@@ -75,7 +75,7 @@ double KnapsackProblem::evaluate(const genalg::Individual<Gene> &individual) con
 			mass += multiplier * items.at(i).mass;
 		}
 
-        return mass <= capacity ? value : 0;
+		return mass <= capacity ? value : 0;
 	}
 	else {
 		throw new std::out_of_range("mismatched amount of items and genotype length");

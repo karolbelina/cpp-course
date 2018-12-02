@@ -7,12 +7,12 @@ namespace genalg {
 	template<class Gene>
 	struct Individual {
 		Individual() = default;
-        Individual(size_t genotypeSize);
+		Individual(size_t genotypeSize);
 		Individual(std::vector<Gene> genotype);
 		Individual(const Individual &other);
-        Individual& operator=(const Individual &other);
+		Individual& operator=(const Individual &other);
 
-        bool operator==(const Individual &other) const;
+		bool operator==(const Individual &other) const;
 
 		void mutate(double probability);
 		static std::pair<Individual, Individual> crossover(std::pair<Individual, Individual> parents, double probability);
@@ -22,18 +22,18 @@ namespace genalg {
 }
 
 namespace std {
-    template<class Gene>
-    struct hash<genalg::Individual<Gene>> {
-        size_t operator()(const genalg::Individual<Gene> &individual) const {
-            size_t seed = 0;
+	template<class Gene>
+	struct hash<genalg::Individual<Gene>> {
+		size_t operator()(const genalg::Individual<Gene> &individual) const {
+			size_t seed = 0;
 
-            for(Gene gene : individual.genotype) {
-                seed ^= std::hash<Gene>()(gene);
-            }
+			for(Gene gene : individual.genotype) {
+				seed ^= std::hash<Gene>()(gene);
+			}
 
-            return seed;
-        }
-    };
+			return seed;
+		}
+	};
 }
 
 #include "individual.tpp"

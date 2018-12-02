@@ -13,12 +13,12 @@ namespace genalg {
 		GeneticAlgorithm(Problem* problem, size_t populationSize, double crossoverProbability, double mutationProbability);
 
 		void run(size_t iterationCount);
-        Individual<typename Problem::Gene> getFittestIndividual();
+		Individual<typename Problem::Gene> getFittestIndividual();
 
 	private:
 		void step();
 		std::unordered_map<Individual<typename Problem::Gene>, double> evaluatePopulation();
-        Individual<typename Problem::Gene> selectParent(std::unordered_map<Individual<typename Problem::Gene>, double> fitnessMap);
+		Individual<typename Problem::Gene> selectParent(std::unordered_map<Individual<typename Problem::Gene>, double> fitnessMap);
 
 		Problem* problem;
 		size_t populationSize;

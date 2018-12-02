@@ -13,18 +13,18 @@ inline genalg::Individual<Gene>::Individual(const Individual<Gene> &other) : Ind
 
 template<class Gene>
 genalg::Individual<Gene>& genalg::Individual<Gene>::operator=(const Individual &other) {
-    if(this == &other) {
-        return *this;
-    }
+	if(this == &other) {
+		return *this;
+	}
 
-    genotype = other.genotype;
+	genotype = other.genotype;
 
-    return *this;
+	return *this;
 }
 
 template<class Gene>
 bool genalg::Individual<Gene>::operator==(const Individual &other) const {
-    return genotype == other.genotype;
+	return genotype == other.genotype;
 }
 
 template<class Gene>
@@ -34,7 +34,7 @@ inline void genalg::Individual<Gene>::mutate(double probability) {
 
 	for(Gene gene : genotype) {
 		if(distribution(rng) < probability) {
-            gene.mutate();
+			gene.mutate();
 		}
 	}
 }
