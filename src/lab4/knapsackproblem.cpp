@@ -50,12 +50,12 @@ KnapsackProblem::Item::Item(double value, double mass) : value(value), mass(mass
 KnapsackProblem::Item::Item(std::pair<double, double> pair) : Item(pair.first, pair.second) {}
 
 KnapsackProblem::KnapsackProblem(std::initializer_list<std::pair<double, double>> list, double capacity) : capacity(capacity) {
-	for(std::pair<double, double> pair : list) {
-		items.push_back(Item(pair));
-	}
-
 	if(capacity <= 0) {
 		throw std::invalid_argument("capacity must be greater than zero");
+	}
+
+	for(std::pair<double, double> pair : list) {
+		items.push_back(Item(pair));
 	}
 }
 
@@ -78,6 +78,6 @@ double KnapsackProblem::evaluate(const genalg::Individual<Gene> &individual) con
 		return mass <= capacity ? value : 0;
 	}
 	else {
-		throw new std::out_of_range("mismatched amount of items and genotype length");
+		throw new std::runtime_error("mismatched amount of items and genotype length");
 	}
 }

@@ -4,6 +4,13 @@
 
 template<class Problem>
 inline genalg::GeneticAlgorithm<Problem>::GeneticAlgorithm(Problem* problem, size_t populationSize, double crossoverProbability, double mutationProbability) : problem(problem), populationSize(populationSize), crossoverProbability(crossoverProbability), mutationProbability(mutationProbability) {
+	if(crossoverProbability < 0 || crossoverProbability > 1) {
+		throw std::invalid_argument("crossover probability must be a value between 0 and 1 inclusive")
+	}
+	else if(mutationProbability < 0 || mutationProbability > 1) {
+		throw std::invalid_argument("mutation probability must be a value between 0 and 1 inclusive")
+	}
+
 	for(size_t i = 0; i < populationSize; i++) {
 		population.push_back(genalg::Individual<typename Problem::Gene>(problem->getGenotypeSize()));
 	}
