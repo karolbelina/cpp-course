@@ -24,7 +24,7 @@ namespace genalg {
 		size_t populationSize;
 		double crossoverProbability;
 		double mutationProbability;
-		std::vector<Individual<typename Problem::Gene>> population; // TODO: class Problem::Gene?
+		std::vector<Individual<typename Problem::Gene>> population;
 	};
 }
 
