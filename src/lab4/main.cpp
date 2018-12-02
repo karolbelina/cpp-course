@@ -6,9 +6,18 @@
 int main() {
 	KnapsackProblem kp({{5.0, 4.0}, {1.0, 1.0}, {4.0, 3.0}, {5.0, 2.0}}, 5.0);
 	genalg::GeneticAlgorithm<KnapsackProblem> ag(&kp, 100, 0.5, 0.1);
-	ag.run(400);
+
+	std::cout << "Running..." << std::endl;
+
+	ag.run(10);
+
+	std::cout << "Done" << std::endl;
+
+	std::cout << "Fittest individual: ";
 	
 	for(KnapsackProblem::Gene gene : ag.getFittestIndividual().genotype) {
 		std::cout << gene;
 	}
+
+	std::cout << std::endl;
 }
