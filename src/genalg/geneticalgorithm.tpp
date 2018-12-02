@@ -16,21 +16,21 @@ inline void genalg::GeneticAlgorithm<Problem>::run(size_t iterationCount) {
 	}
 }
 
-//template<class Problem>
-//genalg::Individual<typename Problem::Gene> genalg::GeneticAlgorithm<Problem>::getFittestIndividual() {
-//    std::map<genalg::Individual<typename Problem::Gene>, double> fitnessMap = evaluatePopulation();
-//
-//    return std::max_element(fitnessMap.begin(), fitnessMap.end(), [](const auto &left, const auto &right) {return left.second < right.second; })->first;
-//}
+template<class Problem>
+genalg::Individual<typename Problem::Gene> genalg::GeneticAlgorithm<Problem>::getFittestIndividual() {
+    std::unordered_map<genalg::Individual<typename Problem::Gene>, double> fitnessMap = evaluatePopulation();
+
+    return std::max_element(fitnessMap.begin(), fitnessMap.end(), [](const auto &left, const auto &right) {return left.second < right.second; })->first;
+}
 
 template<class Problem>
 inline void genalg::GeneticAlgorithm<Problem>::step() {
-	std::map<genalg::Individual<typename Problem::Gene>, double> fitnessMap = evaluatePopulation();
+	std::unordered_map<genalg::Individual<typename Problem::Gene>, double> fitnessMap = evaluatePopulation();
 
     std::vector<Individual<typename Problem::Gene>> nextGeneration;
 
     while(nextGeneration.size() < populationSize) {
-        std::pair<genalg::Individual<typename Problem::Gene>, genalg::Individual<typename Problem::Gene>> children = genalg::Individual<typename Problem::Gene>::crossover({selectParent(fitnessMap), selectParent(fitnessMap)}, crossoverProbability);
+        std::pair<genalg::Individual<typename Problem::Gene>, genalg::Individual<typename Problem::Gene>> children = genalg::Individual<typename Problem::Gene>::crossover(std::pair<genalg::Individual<typename Problem::Gene>, genalg::Individual<typename Problem::Gene>>(selectParent(fitnessMap), selectParent(fitnessMap)), crossoverProbability);
 
         nextGeneration.push_back(children.first);
 
@@ -47,8 +47,8 @@ inline void genalg::GeneticAlgorithm<Problem>::step() {
 }
 
 template<class Problem>
-inline std::map<genalg::Individual<typename Problem::Gene>, double> genalg::GeneticAlgorithm<Problem>::evaluatePopulation() {
-	std::map<genalg::Individual<typename Problem::Gene>, double> map;
+inline std::unordered_map<genalg::Individual<typename Problem::Gene>, double> genalg::GeneticAlgorithm<Problem>::evaluatePopulation() {
+	std::unordered_map<genalg::Individual<typename Problem::Gene>, double> map;
 
 	for(genalg::Individual<typename Problem::Gene> individual : population) {
 		map.insert(std::pair<genalg::Individual<typename Problem::Gene>, double>(individual, problem->evaluate(individual)));
@@ -58,9 +58,9 @@ inline std::map<genalg::Individual<typename Problem::Gene>, double> genalg::Gene
 }
 
 template<class Problem>
-genalg::Individual<typename Problem::Gene> genalg::GeneticAlgorithm<Problem>::selectParent(std::map<Individual<typename Problem::Gene>, double> fitnessMap) {
+genalg::Individual<typename Problem::Gene> genalg::GeneticAlgorithm<Problem>::selectParent(std::unordered_map<Individual<typename Problem::Gene>, double> fitnessMap) {
     std::mt19937 rng(std::random_device{}());
-    std::uniform_int_distribution<> distribution(0, population.size());
+    std::uniform_int_distribution<> distribution(0, population.size() - 1);
 
     Individual<typename Problem::Gene> first = population.at(distribution(rng)), second = population.at(distribution(rng));
 

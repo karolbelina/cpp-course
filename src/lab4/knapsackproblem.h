@@ -18,7 +18,10 @@ public:
 		Gene();
 		Gene(bool value);
 		Gene(const Gene &other);
+        Gene& operator=(const Gene &other);
+
 		friend std::ostream& operator<<(std::ostream &stream, const Gene &gene);
+        bool operator==(const Gene &other) const;
 
 		void mutate();
 
@@ -34,3 +37,12 @@ private:
 	std::vector<Item> items;
 	double capacity;
 };
+
+namespace std {
+    template<>
+    struct hash<KnapsackProblem::Gene> {
+        size_t operator()(const KnapsackProblem::Gene &gene) const {
+            return hash<bool>()(gene.value);
+        }
+    }; 
+}
