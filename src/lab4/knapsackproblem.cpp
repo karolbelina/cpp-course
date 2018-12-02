@@ -31,7 +31,7 @@ std::ostream& operator<<(std::ostream &stream, const KnapsackProblem::Gene &gene
 }
 
 bool KnapsackProblem::Gene::operator==(const Gene &other) const {
- return value == other.value;
+	return value == other.value;
 }
 
 void KnapsackProblem::Gene::mutate() {
