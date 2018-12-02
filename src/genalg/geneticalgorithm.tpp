@@ -20,7 +20,7 @@ template<class Problem>
 genalg::Individual<typename Problem::Gene> genalg::GeneticAlgorithm<Problem>::getFittestIndividual() {
 	std::unordered_map<genalg::Individual<typename Problem::Gene>, double> fitnessMap = evaluatePopulation();
 
-	return std::max_element(fitnessMap.begin(), fitnessMap.end(), [](const auto &left, const auto &right) {return left.second < right.second; })->first;
+	return std::max_element(fitnessMap.begin(), fitnessMap.end(), [](const std::pair<genalg::Individual<typename Problem::Gene>, double> &left, const std::pair<genalg::Individual<typename Problem::Gene>, double> &right) {return left.second < right.second;})->first;
 }
 
 template<class Problem>
