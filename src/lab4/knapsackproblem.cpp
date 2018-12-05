@@ -3,11 +3,10 @@
 #include <random>
 
 KnapsackProblem::Gene::Gene() {
-	std::random_device rd;
-	std::mt19937 gen(rd());
-	std::uniform_int_distribution<> distrubution(0, 1);
+	std::mt19937 rng(std::random_device{}());
+	std::uniform_int_distribution<> distribution(0, 1);
 
-	value = distrubution(gen) == 1;
+	value = distribution(rng) == 1;
 }
 
 KnapsackProblem::Gene::Gene(bool value): value(value) {}
