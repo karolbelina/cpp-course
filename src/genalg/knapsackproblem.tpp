@@ -3,17 +3,7 @@
 #include <random>
 
 template<typename Variation>
-inline KnapsackProblemBase<Variation>::Item::Item(double value, double mass) : value(value), mass(std::max<double>(0, mass)) {}
-
-template<typename Variation>
-inline KnapsackProblemBase<Variation>::Item::Item(std::pair<double, double> pair) : Item(pair.first, pair.second) {}
-
-template<typename Variation>
-inline KnapsackProblemBase<Variation>::KnapsackProblemBase(std::initializer_list<std::pair<double, double>> list, double capacity) : capacity(std::max<double>(0, capacity)) {
-	for(std::pair<double, double> pair : list) {
-		items.push_back(Item(pair));
-	}
-}
+inline KnapsackProblemBase<Variation>::KnapsackProblemBase(std::initializer_list<std::pair<double, double>> items, double capacity) : items(items), capacity(capacity) {}
 
 template<typename Variation>
 inline size_t KnapsackProblemBase<Variation>::getGenotypeSize() const {
@@ -26,8 +16,6 @@ inline KnapsackProblem<bool>::Gene::Gene() {
 
 	value = distribution(rng) == 1;
 }
-
-inline KnapsackProblem<bool>::Gene::Gene(bool value): value(value) {}
 
 inline KnapsackProblem<bool>::Gene::Gene(const Gene &other) : value(other.value) {}
 
@@ -63,8 +51,8 @@ inline double KnapsackProblem<bool>::evaluate(const typename genalg::GeneticAlgo
 		for(size_t i = 0; i < individual.genotype.size(); i++) {
 			int multiplier = individual.genotype.at(i).value ? 1 : 0;
 
-			value += multiplier * items.at(i).value;
-			mass += multiplier * items.at(i).mass;
+			value += multiplier * items.at(i).first;
+			mass += multiplier * items.at(i).second;
 		}
 
 		return mass <= capacity ? value : 0;
@@ -80,8 +68,6 @@ inline KnapsackProblem<int>::Gene::Gene() {
 
 	value = distribution(rng);
 }
-
-inline KnapsackProblem<int>::Gene::Gene(size_t value): value(value) {}
 
 inline KnapsackProblem<int>::Gene::Gene(const Gene &other) : value(other.value) {}
 
@@ -121,8 +107,8 @@ inline double KnapsackProblem<int>::evaluate(const typename genalg::GeneticAlgor
 		for(size_t i = 0; i < individual.genotype.size(); i++) {
 			size_t multiplier = individual.genotype.at(i).value;
 
-			value += multiplier * items.at(i).value;
-			mass += multiplier * items.at(i).mass;
+			value += multiplier * items.at(i).first;
+			mass += multiplier * items.at(i).second;
 		}
 
 		return mass <= capacity ? value : 0;

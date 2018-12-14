@@ -7,23 +7,13 @@
 template<typename Variation>
 class KnapsackProblemBase {
 public:
-	struct Item {
-		Item(double value, double mass);
-		Item(std::pair<double, double> pair);
-
-		double value;
-		double mass;
-	};
-
-	struct Gene;
-
 	KnapsackProblemBase(std::initializer_list<std::pair<double, double>> list, double capacity);
 	virtual ~KnapsackProblemBase() = default;
 
 	size_t getGenotypeSize() const;
 
 protected:
-	std::vector<Item> items;
+	std::vector<std::pair<double, double>> items;
 	double capacity;
 };
 
@@ -37,7 +27,6 @@ class KnapsackProblem<bool> : public KnapsackProblemBase<bool> {
 public:
 	struct Gene {
 		Gene();
-		Gene(bool value);
 		Gene(const Gene &other);
 		Gene& operator=(const Gene &other);
 
@@ -59,7 +48,6 @@ class KnapsackProblem<int> : public KnapsackProblemBase<int> {
 public:
 	struct Gene {
 		Gene();
-		Gene(size_t value);
 		Gene(const Gene &other);
 		Gene& operator=(const Gene &other);
 
