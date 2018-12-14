@@ -76,7 +76,7 @@ inline double KnapsackProblem<bool>::evaluate(const typename genalg::GeneticAlgo
 
 inline KnapsackProblem<int>::Gene::Gene() {
 	std::mt19937 rng(std::random_device{}());
-	std::uniform_int_distribution<> distribution(0, 2);
+	std::uniform_int_distribution<> distribution(0, 3);
 
 	value = distribution(rng);
 }
@@ -109,7 +109,8 @@ inline void KnapsackProblem<int>::Gene::mutate() {
 	std::mt19937 rng(std::random_device{}());
 	std::uniform_int_distribution<> distribution(0, 1);
 
-	value = std::max(0, value + distribution(rng) == 1 ? 1 : -1);
+	int delta = distribution(rng) == 1 ? 1 : -1;
+	value = std::max<size_t>(0, static_cast<int>(value) + delta);
 }
 
 inline double KnapsackProblem<int>::evaluate(const typename genalg::GeneticAlgorithm<KnapsackProblem<int>>::Individual &individual) const {

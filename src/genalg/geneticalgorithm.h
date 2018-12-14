@@ -16,7 +16,7 @@ namespace genalg {
 
 			bool operator==(const Individual &other) const;
 
-			Individual operator++(int);
+			Individual& operator++(int);
 			Individual operator+(const Individual &other);
 
 			std::vector<typename Problem::Gene> genotype;

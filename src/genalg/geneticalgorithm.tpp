@@ -29,11 +29,11 @@ inline bool genalg::GeneticAlgorithm<Problem>::Individual::operator==(const Indi
 }
 
 template<class Problem>
-inline typename genalg::GeneticAlgorithm<Problem>::Individual genalg::GeneticAlgorithm<Problem>::Individual::operator++(int) {
+inline typename genalg::GeneticAlgorithm<Problem>::Individual& genalg::GeneticAlgorithm<Problem>::Individual::operator++(int) {
 	std::mt19937 rng(std::random_device{}());
 	std::uniform_real_distribution<> distribution(0, 1);
 
-	for(typename Problem::Gene gene : genotype) {
+	for(typename Problem::Gene &gene : genotype) {
 		if(distribution(rng) < owner->mutationProbability) {
 			gene.mutate();
 		}
@@ -100,7 +100,7 @@ inline void genalg::GeneticAlgorithm<Problem>::step() {
 		nextGeneration.push_back(distribution(rng) < crossoverProbability ? firstParent + selectParent(fitnessMap) : firstParent);
 	}
 
-	for(Individual individual : nextGeneration) {
+	for(Individual &individual : nextGeneration) {
 		individual++;
 	}
 
@@ -111,7 +111,7 @@ template<class Problem>
 inline std::unordered_map<typename genalg::GeneticAlgorithm<Problem>::Individual, double, typename genalg::GeneticAlgorithm<Problem>::Individual::hash> genalg::GeneticAlgorithm<Problem>::assessPopulation() {
 	std::unordered_map<Individual, double, Individual::hash> map;
 
-	for(Individual individual : population) {
+	for(const Individual &individual : population) {
 		map.insert(std::pair<Individual, double>(individual, problem->evaluate(individual)));
 	}
 
