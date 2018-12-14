@@ -96,9 +96,8 @@ inline void genalg::GeneticAlgorithm<Problem>::step() {
 		std::mt19937 rng(std::random_device{}());
 		std::uniform_real_distribution<> distribution(0, 1);
 
-		if(distribution(rng) < crossoverProbability) {
-			nextGeneration.push_back(selectParent(fitnessMap) + selectParent(fitnessMap));
-		}
+		Individual firstParent = selectParent(fitnessMap);
+		nextGeneration.push_back(distribution(rng) < crossoverProbability ? firstParent + selectParent(fitnessMap) : firstParent);
 	}
 
 	for(Individual individual : nextGeneration) {
