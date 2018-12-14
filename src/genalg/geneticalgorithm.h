@@ -10,7 +10,6 @@ namespace genalg {
 		struct Individual {
 			Individual() = delete;
 			Individual(size_t genotypeSize, GeneticAlgorithm* owner);
-			Individual(std::vector<typename Problem::Gene> genotype, GeneticAlgorithm* owner);
 			Individual(const Individual &other);
 			Individual& operator=(const Individual &other);
 

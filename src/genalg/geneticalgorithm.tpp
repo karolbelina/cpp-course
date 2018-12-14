@@ -8,10 +8,7 @@ template<class Problem>
 inline genalg::GeneticAlgorithm<Problem>::Individual::Individual(size_t genotypeSize, GeneticAlgorithm* owner) : genotype(genotypeSize), owner(owner) {}
 
 template<class Problem>
-inline genalg::GeneticAlgorithm<Problem>::Individual::Individual(std::vector<typename Problem::Gene> genotype, GeneticAlgorithm* owner) : genotype(genotype), owner(owner) {}
-
-template<class Problem>
-inline genalg::GeneticAlgorithm<Problem>::Individual::Individual(const Individual &other) : Individual(other.genotype, other.owner) {}
+inline genalg::GeneticAlgorithm<Problem>::Individual::Individual(const Individual &other) : genotype(other.genotype), owner(other.owner) {}
 
 template<class Problem>
 inline typename genalg::GeneticAlgorithm<Problem>::Individual& genalg::GeneticAlgorithm<Problem>::Individual::operator=(const Individual &other) {
@@ -49,7 +46,7 @@ inline typename genalg::GeneticAlgorithm<Problem>::Individual genalg::GeneticAlg
 	std::mt19937 rng(std::random_device{}());
 	std::uniform_int_distribution<> distribution(1, other.genotype.size() - 1);
 
-	typename genalg::GeneticAlgorithm<Problem>::Individual child(genotype, owner);
+	typename genalg::GeneticAlgorithm<Problem>::Individual child(*this);
 
 	std::copy_n(other.genotype.begin(), distribution(rng), child.genotype.begin());
 
