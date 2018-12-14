@@ -30,11 +30,10 @@ namespace genalg {
 		GeneticAlgorithm() = delete;
 		GeneticAlgorithm(Problem* problem, size_t populationSize, double crossoverProbability, double mutationProbability);
 
-		void run(size_t iterationCount);
+		void run(double time);
 		Individual getFittestIndividual();
 
 	private:
-		void step();
 		std::unordered_map<Individual, double, typename Individual::hash> assessPopulation();
 		Individual selectParent(std::unordered_map<Individual, double, typename Individual::hash> fitnessMap);
 

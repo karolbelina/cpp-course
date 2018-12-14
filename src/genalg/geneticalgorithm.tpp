@@ -1,5 +1,7 @@
 #include "geneticalgorithm.h"
 
+#include <chrono>
+#include <ctime>
 #include <random>
 
 template<class Problem>
@@ -55,7 +57,7 @@ inline typename genalg::GeneticAlgorithm<Problem>::Individual genalg::GeneticAlg
 }
 
 template<class Problem>
-inline size_t genalg::GeneticAlgorithm<Problem>::Individual::hash::operator()(const Individual & individual) const {
+inline size_t genalg::GeneticAlgorithm<Problem>::Individual::hash::operator()(const Individual &individual) const {
 	size_t seed = individual.genotype.size();
 
 	for(typename Problem::Gene gene : individual.genotype) {
@@ -73,9 +75,23 @@ inline genalg::GeneticAlgorithm<Problem>::GeneticAlgorithm(Problem* problem, siz
 }
 
 template<class Problem>
-inline void genalg::GeneticAlgorithm<Problem>::run(size_t iterationCount) {
-	for(size_t i = 0; i < iterationCount; i++) {
-		step();
+inline void genalg::GeneticAlgorithm<Problem>::run(double time) {
+	std::chrono::high_resolution_clock::time_point startTime = std::chrono::high_resolution_clock::now();
+
+	while(std::chrono::duration<double>(std::chrono::high_resolution_clock::now() - startTime).count() < time){
+		std::unordered_map<Individual, double, typename Individual::hash> fitnessMap = assessPopulation();
+
+		std::vector<Individual> nextGeneration;
+
+		while(nextGeneration.size() < populationSize) {
+			std::mt19937 rng(std::random_device{}());
+			std::uniform_real_distribution<> distribution(0, 1);
+
+			Individual firstParent = selectParent(fitnessMap);
+			nextGeneration.push_back((distribution(rng) < crossoverProbability ? firstParent + selectParent(fitnessMap) : firstParent)++);
+		}
+
+		population = nextGeneration;
 	}
 }
 
@@ -84,27 +100,6 @@ inline typename genalg::GeneticAlgorithm<Problem>::Individual genalg::GeneticAlg
 	std::unordered_map<Individual, double, typename Individual::hash> fitnessMap = assessPopulation();
 
 	return std::max_element(fitnessMap.begin(), fitnessMap.end(), [](const std::pair<Individual, double> &left, const std::pair<Individual, double> &right) {return left.second < right.second;})->first;
-}
-
-template<class Problem>
-inline void genalg::GeneticAlgorithm<Problem>::step() {
-	std::unordered_map<Individual, double, typename Individual::hash> fitnessMap = assessPopulation();
-
-	std::vector<Individual> nextGeneration;
-
-	while(nextGeneration.size() < populationSize) {
-		std::mt19937 rng(std::random_device{}());
-		std::uniform_real_distribution<> distribution(0, 1);
-
-		Individual firstParent = selectParent(fitnessMap);
-		nextGeneration.push_back(distribution(rng) < crossoverProbability ? firstParent + selectParent(fitnessMap) : firstParent);
-	}
-
-	for(Individual &individual : nextGeneration) {
-		individual++;
-	}
-
-	population = nextGeneration;
 }
 
 template<class Problem>

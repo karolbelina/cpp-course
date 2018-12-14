@@ -1,4 +1,5 @@
 #include <iostream>
+#include <string>
 
 #include "geneticalgorithm.h"
 #include "knapsackproblem.h"
@@ -9,15 +10,15 @@ int main() {
 
 	std::cout << "Running..." << std::endl;
 
-	ag.run(100);
+	ag.run(15);
 
-	std::cout << "Done" << std::endl;
-
-	std::cout << "Fittest individual: ";
+	std::cout << "Done" << std::endl << "Fittest individual: [";
+	std::string separator;
 
 	for(KnapsackProblem<int>::Gene gene : ag.getFittestIndividual().genotype) {
-		std::cout << gene << " ";
+		std::cout << separator << gene;
+		separator = ", ";
 	}
 
-	std::cout << std::endl;
+	std::cout << ']' << std::endl;
 }
