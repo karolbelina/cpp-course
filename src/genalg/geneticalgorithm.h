@@ -1,7 +1,5 @@
 #pragma once
 
-#include "individual.h"
-
 #include <unordered_map>
 #include <vector>
 
@@ -9,22 +7,42 @@ namespace genalg {
 	template<class Problem>
 	class GeneticAlgorithm {
 	public:
-		GeneticAlgorithm() = default;
+		struct Individual {
+			Individual() = delete;
+			Individual(size_t genotypeSize, GeneticAlgorithm* owner);
+			Individual(std::vector<typename Problem::Gene> genotype, GeneticAlgorithm* owner);
+			Individual(const Individual &other);
+			Individual& operator=(const Individual &other);
+
+			bool operator==(const Individual &other) const;
+
+			Individual operator++(int);
+			Individual operator+(const Individual &other);
+
+			std::vector<typename Problem::Gene> genotype;
+			GeneticAlgorithm* owner;
+
+			struct hash {
+				size_t operator()(const Individual &individual) const;
+			};
+		};
+
+		GeneticAlgorithm() = delete;
 		GeneticAlgorithm(Problem* problem, size_t populationSize, double crossoverProbability, double mutationProbability);
 
 		void run(size_t iterationCount);
-		Individual<typename Problem::Gene> getFittestIndividual();
+		Individual getFittestIndividual();
 
 	private:
 		void step();
-		std::unordered_map<Individual<typename Problem::Gene>, double> evaluatePopulation();
-		Individual<typename Problem::Gene> selectParent(std::unordered_map<Individual<typename Problem::Gene>, double> fitnessMap);
+		std::unordered_map<Individual, double, typename Individual::hash> assessPopulation();
+		Individual selectParent(std::unordered_map<Individual, double, typename Individual::hash> fitnessMap);
 
 		Problem* problem;
 		size_t populationSize;
 		double crossoverProbability;
 		double mutationProbability;
-		std::vector<Individual<typename Problem::Gene>> population;
+		std::vector<Individual> population;
 	};
 }
 
