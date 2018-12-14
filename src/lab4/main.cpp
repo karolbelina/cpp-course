@@ -15,7 +15,7 @@ int main() {
 	std::cout << "Done" << std::endl << "Fittest individual: [";
 	std::string separator;
 
-	for(KnapsackProblem<int>::Gene gene : ag.getFittestIndividual().genotype) {
+	for(KnapsackProblem<bool>::Gene gene : ag.getFittestIndividual().genotype) {
 		std::cout << separator << gene;
 		separator = ", ";
 	}
