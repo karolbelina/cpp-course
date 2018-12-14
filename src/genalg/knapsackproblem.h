@@ -36,6 +36,10 @@ public:
 		void mutate();
 
 		bool value;
+
+		struct hash {
+			size_t operator()(const Gene &gene) const;
+		};
 	};
 
 	using KnapsackProblemBase<bool>::KnapsackProblemBase;
@@ -57,27 +61,15 @@ public:
 		void mutate();
 
 		size_t value;
+
+		struct hash {
+			size_t operator()(const Gene &gene) const;
+		};
 	};
 
 	using KnapsackProblemBase<int>::KnapsackProblemBase;
 
 	double evaluate(const typename genalg::GeneticAlgorithm<KnapsackProblem<int>>::Individual &individual) const;
 };
-
-namespace std {
-	template<>
-	struct hash<KnapsackProblem<bool>::Gene> {
-		size_t operator()(const KnapsackProblem<bool>::Gene &gene) const {
-			return hash<bool>()(gene.value);
-		}
-	};
-
-	template<>
-	struct hash<KnapsackProblem<int>::Gene> {
-		size_t operator()(const KnapsackProblem<int>::Gene &gene) const {
-			return hash<int>()(gene.value);
-		}
-	};
-}
 
 #include "knapsackproblem.tpp"

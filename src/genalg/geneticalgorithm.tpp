@@ -59,7 +59,7 @@ inline size_t genalg::GeneticAlgorithm<Problem>::Individual::hash::operator()(co
 	size_t seed = individual.genotype.size();
 
 	for(typename Problem::Gene gene : individual.genotype) {
-		seed ^= std::hash<typename Problem::Gene>()(gene) + 0x9e3779b9 + (seed << 6) + (seed >> 2);
+		seed ^= typename Problem::Gene::hash()(gene) + 0x9e3779b9 + (seed << 6) + (seed >> 2);
 	}
 
 	return seed;

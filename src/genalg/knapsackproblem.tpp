@@ -43,6 +43,10 @@ inline void KnapsackProblem<bool>::Gene::mutate() {
 	value = !value;
 }
 
+inline size_t KnapsackProblem<bool>::Gene::hash::operator()(const Gene &gene) const {
+	return std::hash<bool>()(gene.value);
+}
+
 inline double KnapsackProblem<bool>::evaluate(const typename genalg::GeneticAlgorithm<KnapsackProblem<bool>>::Individual &individual) const {
 	double value = 0;
 	double mass = 0;
@@ -97,6 +101,10 @@ inline void KnapsackProblem<int>::Gene::mutate() {
 
 	int delta = distribution(rng) == 1 ? 1 : -1;
 	value = std::max<size_t>(0, static_cast<int>(value) + delta);
+}
+
+inline size_t KnapsackProblem<int>::Gene::hash::operator()(const Gene &gene) const {
+	return std::hash<int>()(gene.value);
 }
 
 inline double KnapsackProblem<int>::evaluate(const typename genalg::GeneticAlgorithm<KnapsackProblem<int>>::Individual &individual) const {
