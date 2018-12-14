@@ -30,7 +30,6 @@ protected:
 template<typename Variation>
 class KnapsackProblem : public KnapsackProblemBase<Variation> {
 	using KnapsackProblemBase<Variation>::KnapsackProblemBase;
-	//KnapsackProblem(std::initializer_list<std::pair<double, double>> list, double capacity) : KnapsackProblemBase(list, capacity) {}
 };
 
 template<>

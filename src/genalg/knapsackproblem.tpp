@@ -76,9 +76,9 @@ inline double KnapsackProblem<bool>::evaluate(const typename genalg::GeneticAlgo
 
 inline KnapsackProblem<int>::Gene::Gene() {
 	std::mt19937 rng(std::random_device{}());
-	std::uniform_int_distribution<> distribution(0, 1);
+	std::uniform_int_distribution<> distribution(0, 2);
 
-	value = distribution(rng) == 1;
+	value = distribution(rng);
 }
 
 inline KnapsackProblem<int>::Gene::Gene(size_t value): value(value) {}
@@ -106,5 +106,27 @@ inline bool KnapsackProblem<int>::Gene::operator==(const Gene &other) const {
 }
 
 inline void KnapsackProblem<int>::Gene::mutate() {
-	// TODO
+	std::mt19937 rng(std::random_device{}());
+	std::uniform_int_distribution<> distribution(0, 1);
+
+	value = std::max(0, value + distribution(rng) == 1 ? 1 : -1);
+}
+
+inline double KnapsackProblem<int>::evaluate(const typename genalg::GeneticAlgorithm<KnapsackProblem<int>>::Individual &individual) const {
+	double value = 0;
+	double mass = 0;
+
+	if(individual.genotype.size() == items.size()) {
+		for(size_t i = 0; i < individual.genotype.size(); i++) {
+			size_t multiplier = individual.genotype.at(i).value;
+
+			value += multiplier * items.at(i).value;
+			mass += multiplier * items.at(i).mass;
+		}
+
+		return mass <= capacity ? value : 0;
+	}
+	else {
+		throw new std::runtime_error("mismatched amount of items and genotype length");
+	}
 }
