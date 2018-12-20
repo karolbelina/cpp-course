@@ -7,7 +7,7 @@
 template<typename Variation>
 class KnapsackProblemBase {
 public:
-	KnapsackProblemBase(std::initializer_list<std::pair<double, double>> list, double capacity);
+	KnapsackProblemBase(std::vector<std::pair<double, double>> list, double capacity);
 	virtual ~KnapsackProblemBase() = default;
 
 	size_t getGenotypeSize() const;
@@ -70,6 +70,31 @@ public:
 	using KnapsackProblemBase<int>::KnapsackProblemBase;
 
 	double evaluate(const typename genalg::GeneticAlgorithm<KnapsackProblem<int>>::Individual &individual) const;
+};
+
+template<>
+class KnapsackProblem<double> : public KnapsackProblemBase<double> {
+public:
+	struct Gene {
+		Gene();
+		Gene(const Gene &other);
+		Gene& operator=(const Gene &other);
+
+		friend std::ostream& operator<<(std::ostream &stream, const Gene &gene);
+		bool operator==(const Gene &other) const;
+
+		void mutate();
+
+		double value;
+
+		struct hash {
+			size_t operator()(const Gene &gene) const;
+		};
+	};
+
+	using KnapsackProblemBase<double>::KnapsackProblemBase;
+
+	double evaluate(const typename genalg::GeneticAlgorithm<KnapsackProblem<double>>::Individual &individual) const;
 };
 
 #include "knapsackproblem.tpp"

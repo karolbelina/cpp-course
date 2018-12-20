@@ -1,24 +1,31 @@
+#include "customcommands.h"
+#include "geneticalgorithm.h"
+#include "knapsackproblem.h"
+#include "manager.h"
+#include "menuitem.h"
+
 #include <iostream>
 #include <string>
 
-#include "geneticalgorithm.h"
-#include "knapsackproblem.h"
-
 int main() {
-	KnapsackProblem<int> kp({{5.0, 4.0}, {1.0, 1.0}, {4.0, 3.0}, {3.0, 2.0}}, 50.0);
-	genalg::GeneticAlgorithm<KnapsackProblem<int>> ag(&kp, 100, 0.5, 0.1);
+	KnapsackProblemManagerMultiplexer manager(std::vector<std::pair<double, double>>{ {5.0, 4.0}, {1.0, 1.0}, {4.0, 3.0}, {3.0, 2.0}}, 5.0, 100, 0.5, 0.1);
 
-	std::cout << "Running..." << std::endl;
+	const std::string source = "('Main menu','main';('Knapsack problem settings','kp';['Change variation','var','','ChangeVariationCommand'],['Load items','items','','LoadItemsCommand'],['Set capacity','cap','','SetCapacityCommand']),('Genetic algorithm settings','ga';['Set population size','popsize','','SetPopulationSizCommand'],['Set crossover probability','crossprob','','SetCrossoverProbability'],['Set mutation probability','mutprob','','SetMutationProbability']),['Run algorithm','run','','RunAlgorithmCommand'],['Get fittest individual','fittest','','GetFittestIndividualCommand'])";
+	const menu::Environment environment = {
+		{"ChangeVariationCommand", new ChangeVariationCommand(&manager)},
+		{"LoadItemsCommand", new LoadItemsCommand(&manager)},
+		{"SetCapacityCommand", new SetCapacityCommand(&manager)},
+		{"SetPopulationSizeCommand", new SetPopulationSizeCommand(&manager)},
+		{"SetMutationProbability", new SetMutationProbability(&manager)},
+		{"SetCrossoverProbability", new SetCrossoverProbability(&manager)},
+		{"RunAlgorithmCommand", new RunAlgorithmCommand(&manager)},
+		{"GetFittestIndividualCommand", new GetFittestIndividualCommand(&manager)}
+	};
 
-	ag.run(15);
-
-	std::cout << "Done" << std::endl << "Fittest individual: [";
-	std::string separator;
-
-	for(KnapsackProblem<int>::Gene gene : ag.getFittestIndividual().genotype) {
-		std::cout << separator << gene;
-		separator = ", ";
+	try {
+		menu::MenuItem::importItem(source, environment)->run();
 	}
-
-	std::cout << ']' << std::endl;
+	catch(const menu::parse_error &e) {
+		std::cerr << e.what() << std::endl;
+	}
 }
