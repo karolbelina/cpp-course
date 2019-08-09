@@ -1,8 +1,8 @@
 #include <iostream>
 #include <string>
 
-#include "geneticalgorithm.h"
-#include "knapsackproblem.h"
+#include "geneticalgorithm.hpp"
+#include "knapsackproblem.hpp"
 
 int main()
 {

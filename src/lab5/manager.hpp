@@ -1,7 +1,7 @@
 #pragma once
 
-#include "geneticalgorithm.h"
-#include "knapsackproblem.h"
+#include "geneticalgorithm.hpp"
+#include "knapsackproblem.hpp"
 
 #include <vector>
 

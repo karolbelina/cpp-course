@@ -1,8 +1,8 @@
-#include "customcommands.h"
-#include "geneticalgorithm.h"
-#include "knapsackproblem.h"
-#include "manager.h"
-#include "menuitem.h"
+#include "customcommands.hpp"
+#include "geneticalgorithm.hpp"
+#include "knapsackproblem.hpp"
+#include "manager.hpp"
+#include "menuitem.hpp"
 
 #include <iostream>
 #include <string>

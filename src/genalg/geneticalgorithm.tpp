@@ -1,4 +1,4 @@
-#include "geneticalgorithm.h"
+#include "geneticalgorithm.hpp"
 
 #include <chrono>
 #include <ctime>

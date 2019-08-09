@@ -1,4 +1,4 @@
-#include "3darray.h"
+#include "3darray.hpp"
 
 bool createTable(int x, int y, int z, int**** table)
 {

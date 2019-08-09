@@ -1,7 +1,7 @@
 #pragma once
 
-#include "command.h"
-#include "manager.h"
+#include "command.hpp"
+#include "manager.hpp"
 
 class ChangeVariationCommand : public menu::Command
 {

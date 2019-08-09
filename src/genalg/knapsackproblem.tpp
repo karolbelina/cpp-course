@@ -1,4 +1,4 @@
-#include "knapsackproblem.h"
+#include "knapsackproblem.hpp"
 
 #include <random>
 

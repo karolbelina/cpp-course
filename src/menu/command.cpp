@@ -1,5 +1,5 @@
-#include "command.h"
-#include "constants.h"
+#include "command.hpp"
+#include "constants.hpp"
 
 #include <iostream>
 

@@ -1,9 +1,9 @@
 #pragma once
 
-#include "command.h"
-#include "error.h"
-#include "environment.h"
-#include "menuitem.h"
+#include "command.hpp"
+#include "error.hpp"
+#include "environment.hpp"
+#include "menuitem.hpp"
 
 #include <map>
 

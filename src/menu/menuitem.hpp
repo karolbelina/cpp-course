@@ -1,8 +1,8 @@
 #pragma once
 
-#include "command.h"
-#include "environment.h"
-#include "error.h"
+#include "command.hpp"
+#include "environment.hpp"
+#include "error.hpp"
 
 #include <map>
 #include <string>

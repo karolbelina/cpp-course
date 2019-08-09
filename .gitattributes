@@ -1,5 +1,0 @@
-* text=auto
-*.h linguist-language=C++
-
-.gitattributes export-ignore
-.gitignore export-ignore

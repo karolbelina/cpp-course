@@ -1,6 +1,6 @@
-#include "constants.h"
-#include "menu.h"
-#include "menuitem.h"
+#include "constants.hpp"
+#include "menu.hpp"
+#include "menuitem.hpp"
 
 menu::MenuItem::MenuItem()
 {

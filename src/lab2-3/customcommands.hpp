@@ -1,7 +1,7 @@
 #pragma once
 
-#include "command.h"
-#include "tablecontainer.h"
+#include "command.hpp"
+#include "tablecontainer.hpp"
 
 class CustomCommand : public menu::Command
 {

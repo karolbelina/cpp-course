@@ -1,5 +1,5 @@
-#include "constants.h"
-#include "customcommands.h"
+#include "constants.hpp"
+#include "customcommands.hpp"
 
 #include <fstream>
 #include <iostream>

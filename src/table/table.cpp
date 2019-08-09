@@ -1,5 +1,5 @@
-#include "constants.h"
-#include "table.h"
+#include "constants.hpp"
+#include "table.hpp"
 
 #include <iostream>
 #include <sstream>

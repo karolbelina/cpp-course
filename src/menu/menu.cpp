@@ -1,6 +1,6 @@
-#include "constants.h"
-#include "menu.h"
-#include "menucommand.h"
+#include "constants.hpp"
+#include "menu.hpp"
+#include "menucommand.hpp"
 
 #include <iostream>
 #include <sstream>

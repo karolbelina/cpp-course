@@ -1,6 +1,6 @@
 #pragma once
 
-#include "geneticalgorithm.h"
+#include "geneticalgorithm.hpp"
 
 #include <vector>
 

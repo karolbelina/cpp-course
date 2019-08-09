@@ -1,10 +1,10 @@
 #pragma once
 
-#include "command.h"
-#include "environment.h"
-#include "error.h"
-#include "menucommand.h"
-#include "menuitem.h"
+#include "command.hpp"
+#include "environment.hpp"
+#include "error.hpp"
+#include "menucommand.hpp"
+#include "menuitem.hpp"
 
 #include <vector>
 
