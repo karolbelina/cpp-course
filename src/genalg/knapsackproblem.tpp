@@ -3,186 +3,230 @@
 #include <random>
 
 template<typename Variation>
-inline KnapsackProblemBase<Variation>::KnapsackProblemBase(std::vector<std::pair<double, double>> items, double capacity) : items(items), capacity(capacity) {}
+inline KnapsackProblemBase<Variation>::KnapsackProblemBase(std::vector<std::pair<double, double>> items, double capacity) : items(items), capacity(capacity)
+{
+}
 
 template<typename Variation>
-inline size_t KnapsackProblemBase<Variation>::getGenotypeSize() const {
-	return items.size();
+inline size_t KnapsackProblemBase<Variation>::getGenotypeSize() const
+{
+  return items.size();
 }
 
-inline KnapsackProblem<bool>::Gene::Gene() {
-	std::mt19937 rng(std::random_device{}());
-	std::uniform_int_distribution<> distribution(0, 1);
+inline KnapsackProblem<bool>::Gene::Gene()
+{
+  std::mt19937 rng(std::random_device{}());
+  std::uniform_int_distribution<> distribution(0, 1);
 
-	value = distribution(rng) == 1;
+  value = distribution(rng) == 1;
 }
 
-inline KnapsackProblem<bool>::Gene::Gene(const Gene &other) : value(other.value) {}
-
-inline KnapsackProblem<bool>::Gene& KnapsackProblem<bool>::Gene::operator=(const KnapsackProblem::Gene &other) {
-	if(this == &other) {
-		return *this;
-	}
-
-	value = other.value;
-
-	return *this;
+inline KnapsackProblem<bool>::Gene::Gene(const Gene &other) : value(other.value)
+{
 }
 
-inline std::ostream& operator<<(std::ostream &stream, const KnapsackProblem<bool>::Gene &gene) {
-	stream << gene.value;
+inline KnapsackProblem<bool>::Gene& KnapsackProblem<bool>::Gene::operator=(const KnapsackProblem::Gene &other)
+{
+  if (this == &other)
+  {
+    return *this;
+  }
 
-	return stream;
+  value = other.value;
+
+  return *this;
 }
 
-inline bool KnapsackProblem<bool>::Gene::operator==(const Gene &other) const {
-	return value == other.value;
+inline std::ostream& operator<<(std::ostream &stream, const KnapsackProblem<bool>::Gene &gene)
+{
+  stream << gene.value;
+
+  return stream;
 }
 
-inline void KnapsackProblem<bool>::Gene::mutate() {
-	value = !value;
+inline bool KnapsackProblem<bool>::Gene::operator==(const Gene &other) const
+{
+  return value == other.value;
 }
 
-inline size_t KnapsackProblem<bool>::Gene::hash::operator()(const Gene &gene) const {
-	return std::hash<bool>()(gene.value);
+inline void KnapsackProblem<bool>::Gene::mutate()
+{
+  value = !value;
 }
 
-inline double KnapsackProblem<bool>::evaluate(const typename genalg::GeneticAlgorithm<KnapsackProblem<bool>>::Individual &individual) const {
-	double value = 0;
-	double mass = 0;
-
-	if(individual.genotype.size() == items.size()) {
-		for(size_t i = 0; i < individual.genotype.size(); i++) {
-			int multiplier = individual.genotype.at(i).value ? 1 : 0;
-
-			value += multiplier * items.at(i).first;
-			mass += multiplier * items.at(i).second;
-		}
-
-		return mass <= capacity ? value : 0;
-	}
-	else {
-		throw new std::runtime_error("mismatched amount of items and genotype length");
-	}
+inline size_t KnapsackProblem<bool>::Gene::hash::operator()(const Gene &gene) const
+{
+  return std::hash<bool>()(gene.value);
 }
 
-inline KnapsackProblem<int>::Gene::Gene() {
-	std::mt19937 rng(std::random_device{}());
-	std::uniform_int_distribution<> distribution(0, 3);
+inline double KnapsackProblem<bool>::evaluate(const typename genalg::GeneticAlgorithm<KnapsackProblem<bool>>::Individual &individual, bool &error) const
+{
+  double value = 0;
+  double mass = 0;
 
-	value = distribution(rng);
+  if (individual.genotype.size() == items.size())
+  {
+    for (size_t i = 0; i < individual.genotype.size(); i++)
+    {
+      int multiplier = individual.genotype.at(i).value ? 1 : 0;
+
+      value += multiplier * items.at(i).first;
+      mass += multiplier * items.at(i).second;
+    }
+
+    error = false;
+    return mass <= capacity ? value : 0;
+  }
+  else
+  {
+    error = true;
+  }
 }
 
-inline KnapsackProblem<int>::Gene::Gene(const Gene &other) : value(other.value) {}
+inline KnapsackProblem<int>::Gene::Gene()
+{
+  std::mt19937 rng(std::random_device{}());
+  std::uniform_int_distribution<> distribution(0, 3);
 
-inline KnapsackProblem<int>::Gene& KnapsackProblem<int>::Gene::operator=(const KnapsackProblem::Gene &other) {
-	if(this == &other) {
-		return *this;
-	}
-
-	value = other.value;
-
-	return *this;
+  value = distribution(rng);
 }
 
-inline std::ostream& operator<<(std::ostream &stream, const KnapsackProblem<int>::Gene &gene) {
-	stream << gene.value;
-
-	return stream;
+inline KnapsackProblem<int>::Gene::Gene(const Gene &other) : value(other.value)
+{
 }
 
-inline bool KnapsackProblem<int>::Gene::operator==(const Gene &other) const {
-	return value == other.value;
+inline KnapsackProblem<int>::Gene& KnapsackProblem<int>::Gene::operator=(const KnapsackProblem::Gene &other)
+{
+  if (this == &other)
+  {
+    return *this;
+  }
+
+  value = other.value;
+
+  return *this;
 }
 
-inline void KnapsackProblem<int>::Gene::mutate() {
-	std::mt19937 rng(std::random_device{}());
-	std::uniform_int_distribution<> distribution(0, 1);
+inline std::ostream& operator<<(std::ostream &stream, const KnapsackProblem<int>::Gene &gene)
+{
+  stream << gene.value;
 
-	int delta = distribution(rng) == 1 ? 1 : -1;
-	value = std::max<size_t>(0, static_cast<int>(value) + delta);
+  return stream;
 }
 
-inline size_t KnapsackProblem<int>::Gene::hash::operator()(const Gene &gene) const {
-	return std::hash<int>()(gene.value);
+inline bool KnapsackProblem<int>::Gene::operator==(const Gene &other) const
+{
+  return value == other.value;
 }
 
-inline double KnapsackProblem<int>::evaluate(const typename genalg::GeneticAlgorithm<KnapsackProblem<int>>::Individual &individual) const {
-	double value = 0;
-	double mass = 0;
+inline void KnapsackProblem<int>::Gene::mutate()
+{
+  std::mt19937 rng(std::random_device{}());
+  std::uniform_int_distribution<> distribution(0, 1);
 
-	if(individual.genotype.size() == items.size()) {
-		for(size_t i = 0; i < individual.genotype.size(); i++) {
-			size_t multiplier = individual.genotype.at(i).value;
-
-			value += multiplier * items.at(i).first;
-			mass += multiplier * items.at(i).second;
-		}
-
-		return mass <= capacity ? value : 0;
-	}
-	else {
-		throw new std::runtime_error("mismatched amount of items and genotype length");
-	}
+  int delta = distribution(rng) == 1 ? 1 : -1;
+  value = std::max<size_t>(0, static_cast<int>(value) + delta);
 }
 
-inline KnapsackProblem<double>::Gene::Gene() {
-	std::mt19937 rng(std::random_device{}());
-	std::uniform_real_distribution<> distribution(0, 3);
-
-	value = distribution(rng);
+inline size_t KnapsackProblem<int>::Gene::hash::operator()(const Gene &gene) const
+{
+  return std::hash<int>()(gene.value);
 }
 
-inline KnapsackProblem<double>::Gene::Gene(const Gene &other) : value(other.value) {
+inline double KnapsackProblem<int>::evaluate(const typename genalg::GeneticAlgorithm<KnapsackProblem<int>>::Individual &individual, bool &error) const
+{
+  double value = 0;
+  double mass = 0;
+
+  if (individual.genotype.size() == items.size())
+  {
+    for (size_t i = 0; i < individual.genotype.size(); i++)
+    {
+      size_t multiplier = individual.genotype.at(i).value;
+
+      value += multiplier * items.at(i).first;
+      mass += multiplier * items.at(i).second;
+    }
+
+    error = false;
+    return mass <= capacity ? value : 0;
+  }
+  else
+  {
+    error = true;
+  }
 }
 
-inline KnapsackProblem<double>::Gene& KnapsackProblem<double>::Gene::operator=(const KnapsackProblem::Gene &other) {
-	if(this == &other) {
-		return *this;
-	}
+inline KnapsackProblem<double>::Gene::Gene()
+{
+  std::mt19937 rng(std::random_device{}());
+  std::uniform_real_distribution<> distribution(0, 3);
 
-	value = other.value;
-
-	return *this;
+  value = distribution(rng);
 }
 
-inline std::ostream& operator<<(std::ostream &stream, const KnapsackProblem<double>::Gene &gene) {
-	stream << gene.value;
-
-	return stream;
+inline KnapsackProblem<double>::Gene::Gene(const Gene &other) : value(other.value)
+{
 }
 
-inline bool KnapsackProblem<double>::Gene::operator==(const Gene &other) const {
-	return value == other.value;
+inline KnapsackProblem<double>::Gene& KnapsackProblem<double>::Gene::operator=(const KnapsackProblem::Gene &other)
+{
+  if (this == &other)
+  {
+    return *this;
+  }
+
+  value = other.value;
+
+  return *this;
 }
 
-inline void KnapsackProblem<double>::Gene::mutate() {
-	std::mt19937 rng(std::random_device{}());
-	std::uniform_real_distribution<> distribution(-1, 1);
+inline std::ostream& operator<<(std::ostream &stream, const KnapsackProblem<double>::Gene &gene)
+{
+  stream << gene.value;
 
-	double delta = distribution(rng);
-	value = std::max<double>(0, value + delta);
+  return stream;
 }
 
-inline size_t KnapsackProblem<double>::Gene::hash::operator()(const Gene &gene) const {
-	return std::hash<double>()(gene.value);
+inline bool KnapsackProblem<double>::Gene::operator==(const Gene &other) const
+{
+  return value == other.value;
 }
 
-inline double KnapsackProblem<double>::evaluate(const typename genalg::GeneticAlgorithm<KnapsackProblem<double>>::Individual &individual) const {
-	double value = 0;
-	double mass = 0;
+inline void KnapsackProblem<double>::Gene::mutate()
+{
+  std::mt19937 rng(std::random_device{}());
+  std::uniform_real_distribution<> distribution(-1, 1);
 
-	if(individual.genotype.size() == items.size()) {
-		for(size_t i = 0; i < individual.genotype.size(); i++) {
-			double multiplier = individual.genotype.at(i).value;
+  double delta = distribution(rng);
+  value = std::max<double>(0, value + delta);
+}
 
-			value += multiplier * items.at(i).first;
-			mass += multiplier * items.at(i).second;
-		}
+inline size_t KnapsackProblem<double>::Gene::hash::operator()(const Gene &gene) const
+{
+  return std::hash<double>()(gene.value);
+}
 
-		return mass <= capacity ? value : 0;
-	}
-	else {
-		throw new std::runtime_error("mismatched amount of items and genotype length");
-	}
+inline double KnapsackProblem<double>::evaluate(const typename genalg::GeneticAlgorithm<KnapsackProblem<double>>::Individual &individual, bool &error) const
+{
+  double value = 0;
+  double mass = 0;
+
+  if (individual.genotype.size() == items.size())
+  {
+    for (size_t i = 0; i < individual.genotype.size(); i++)
+    {
+      double multiplier = individual.genotype.at(i).value;
+
+      value += multiplier * items.at(i).first;
+      mass += multiplier * items.at(i).second;
+    }
+
+    error = false;
+    return mass <= capacity ? value : 0;
+  }
+  else
+  {
+    error = true;
+  }
 }

@@ -3,74 +3,84 @@
 #include "command.h"
 #include "tablecontainer.h"
 
-class CustomCommand : public menu::Command {
+class CustomCommand : public menu::Command
+{
 public:
-	CustomCommand(table::TableContainer* tableContainer);
-	virtual Command* clone() const override;
+  CustomCommand(table::TableContainer* tableContainer);
+  virtual Command* clone() const override;
 
 protected:
-	table::TableContainer* tableContainer;
+  table::TableContainer* tableContainer;
 };
 
-class CreateCommand : public CustomCommand {
+class CreateCommand : public CustomCommand
+{
 public:
-	CreateCommand(table::TableContainer* tableContainer);
-	virtual Command* clone() const override;
-	void runCommand() const override final;
+  CreateCommand(table::TableContainer* tableContainer);
+  virtual Command* clone() const override;
+  void runCommand() const override final;
 };
 
-class RemoveCommand : public CustomCommand {
+class RemoveCommand : public CustomCommand
+{
 public:
-	RemoveCommand(table::TableContainer* tableContainer);
-	virtual Command* clone() const override;
-	void runCommand() const override final;
+  RemoveCommand(table::TableContainer* tableContainer);
+  virtual Command* clone() const override;
+  void runCommand() const override final;
 };
 
-class RemoveAllCommand : public CustomCommand {
+class RemoveAllCommand : public CustomCommand
+{
 public:
-	RemoveAllCommand(table::TableContainer* tableContainer);
-	virtual Command* clone() const override;
-	void runCommand() const override final;
+  RemoveAllCommand(table::TableContainer* tableContainer);
+  virtual Command* clone() const override;
+  void runCommand() const override final;
 };
 
-class ResizeCommand : public CustomCommand {
+class ResizeCommand : public CustomCommand
+{
 public:
-	ResizeCommand(table::TableContainer* tableContainer);
-	virtual Command* clone() const override;
-	void runCommand() const override final;
+  ResizeCommand(table::TableContainer* tableContainer);
+  virtual Command* clone() const override;
+  void runCommand() const override final;
 };
 
-class RenameCommand : public CustomCommand {
+class RenameCommand : public CustomCommand
+{
 public:
-	RenameCommand(table::TableContainer* tableContainer);
-	virtual Command* clone() const override;
-	void runCommand() const override final;
+  RenameCommand(table::TableContainer* tableContainer);
+  virtual Command* clone() const override;
+  void runCommand() const override final;
 };
 
-class StatusCommand : public CustomCommand {
+class StatusCommand : public CustomCommand
+{
 public:
-	StatusCommand(table::TableContainer* tableContainer);
-	virtual Command* clone() const override;
-	void runCommand() const override final;
+  StatusCommand(table::TableContainer* tableContainer);
+  virtual Command* clone() const override;
+  void runCommand() const override final;
 };
 
-class StatusAllCommand : public CustomCommand {
+class StatusAllCommand : public CustomCommand
+{
 public:
-	StatusAllCommand(table::TableContainer* tableContainer);
-	virtual Command* clone() const override;
-	void runCommand() const override final;
+  StatusAllCommand(table::TableContainer* tableContainer);
+  virtual Command* clone() const override;
+  void runCommand() const override final;
 };
 
-class CloneCommand : public CustomCommand {
+class CloneCommand : public CustomCommand
+{
 public:
-	CloneCommand(table::TableContainer* tableContainer);
-	virtual Command* clone() const override;
-	void runCommand() const override final;
+  CloneCommand(table::TableContainer* tableContainer);
+  virtual Command* clone() const override;
+  void runCommand() const override final;
 };
 
-class EditCommand : public CustomCommand {
+class EditCommand : public CustomCommand
+{
 public:
-	EditCommand(table::TableContainer* tableContainer);
-	virtual Command* clone() const override;
-	void runCommand() const override final;
+  EditCommand(table::TableContainer* tableContainer);
+  virtual Command* clone() const override;
+  void runCommand() const override final;
 };

@@ -5,96 +5,107 @@
 #include <vector>
 
 template<typename Variation>
-class KnapsackProblemBase {
+class KnapsackProblemBase
+{
 public:
-	KnapsackProblemBase(std::vector<std::pair<double, double>> list, double capacity);
-	virtual ~KnapsackProblemBase() = default;
+  KnapsackProblemBase(std::vector<std::pair<double, double>> list, double capacity);
+  virtual ~KnapsackProblemBase() = default;
 
-	size_t getGenotypeSize() const;
+  size_t getGenotypeSize() const;
 
 protected:
-	std::vector<std::pair<double, double>> items;
-	double capacity;
+  std::vector<std::pair<double, double>> items;
+  double capacity;
 };
 
 template<typename Variation>
-class KnapsackProblem : public KnapsackProblemBase<Variation> {
-	using KnapsackProblemBase<Variation>::KnapsackProblemBase;
+class KnapsackProblem : public KnapsackProblemBase<Variation>
+{
+  using KnapsackProblemBase<Variation>::KnapsackProblemBase;
 };
 
 template<>
-class KnapsackProblem<bool> : public KnapsackProblemBase<bool> {
+class KnapsackProblem<bool> : public KnapsackProblemBase<bool>
+{
 public:
-	struct Gene {
-		Gene();
-		Gene(const Gene &other);
-		Gene& operator=(const Gene &other);
+  struct Gene
+  {
+    Gene();
+    Gene(const Gene &other);
+    Gene& operator=(const Gene &other);
 
-		friend std::ostream& operator<<(std::ostream &stream, const Gene &gene);
-		bool operator==(const Gene &other) const;
+    friend std::ostream& operator<<(std::ostream &stream, const Gene &gene);
+    bool operator==(const Gene &other) const;
 
-		void mutate();
+    void mutate();
 
-		bool value;
+    bool value;
 
-		struct hash {
-			size_t operator()(const Gene &gene) const;
-		};
-	};
+    struct hash
+    {
+      size_t operator()(const Gene &gene) const;
+    };
+  };
 
-	using KnapsackProblemBase<bool>::KnapsackProblemBase;
+  using KnapsackProblemBase<bool>::KnapsackProblemBase;
 
-	double evaluate(const typename genalg::GeneticAlgorithm<KnapsackProblem<bool>>::Individual &individual) const;
+  double evaluate(const typename genalg::GeneticAlgorithm<KnapsackProblem<bool>>::Individual &individual, bool &error) const;
 };
 
 template<>
-class KnapsackProblem<int> : public KnapsackProblemBase<int> {
+class KnapsackProblem<int> : public KnapsackProblemBase<int>
+{
 public:
-	struct Gene {
-		Gene();
-		Gene(const Gene &other);
-		Gene& operator=(const Gene &other);
+  struct Gene
+  {
+    Gene();
+    Gene(const Gene &other);
+    Gene& operator=(const Gene &other);
 
-		friend std::ostream& operator<<(std::ostream &stream, const Gene &gene);
-		bool operator==(const Gene &other) const;
+    friend std::ostream& operator<<(std::ostream &stream, const Gene &gene);
+    bool operator==(const Gene &other) const;
 
-		void mutate();
+    void mutate();
 
-		size_t value;
+    size_t value;
 
-		struct hash {
-			size_t operator()(const Gene &gene) const;
-		};
-	};
+    struct hash
+    {
+      size_t operator()(const Gene &gene) const;
+    };
+  };
 
-	using KnapsackProblemBase<int>::KnapsackProblemBase;
+  using KnapsackProblemBase<int>::KnapsackProblemBase;
 
-	double evaluate(const typename genalg::GeneticAlgorithm<KnapsackProblem<int>>::Individual &individual) const;
+  double evaluate(const typename genalg::GeneticAlgorithm<KnapsackProblem<int>>::Individual &individual, bool &error) const;
 };
 
 template<>
-class KnapsackProblem<double> : public KnapsackProblemBase<double> {
+class KnapsackProblem<double> : public KnapsackProblemBase<double>
+{
 public:
-	struct Gene {
-		Gene();
-		Gene(const Gene &other);
-		Gene& operator=(const Gene &other);
+  struct Gene
+  {
+    Gene();
+    Gene(const Gene &other);
+    Gene& operator=(const Gene &other);
 
-		friend std::ostream& operator<<(std::ostream &stream, const Gene &gene);
-		bool operator==(const Gene &other) const;
+    friend std::ostream& operator<<(std::ostream &stream, const Gene &gene);
+    bool operator==(const Gene &other) const;
 
-		void mutate();
+    void mutate();
 
-		double value;
+    double value;
 
-		struct hash {
-			size_t operator()(const Gene &gene) const;
-		};
-	};
+    struct hash
+    {
+      size_t operator()(const Gene &gene) const;
+    };
+  };
 
-	using KnapsackProblemBase<double>::KnapsackProblemBase;
+  using KnapsackProblemBase<double>::KnapsackProblemBase;
 
-	double evaluate(const typename genalg::GeneticAlgorithm<KnapsackProblem<double>>::Individual &individual) const;
+  double evaluate(const typename genalg::GeneticAlgorithm<KnapsackProblem<double>>::Individual &individual, bool &error) const;
 };
 
 #include "knapsackproblem.tpp"

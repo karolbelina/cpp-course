@@ -3,9 +3,7 @@
 #include <string>
 
 const std::string TITLE_MESSAGE = "table creator v1.0";
-const std::string HELP_MESSAGE = "available commands:\n\tcreate <amount>\n\trename <table index> <name>\n\t"
-                                 "resize <table index> <size>\n\tremove <table index>\n\tremove all\n\tclone <table index>\n\t"
-                                 "status\n\tstatus <table index>\n\tedit <table index> <cell index> <value>\n\thelp\n\tquit";
+const std::string HELP_MESSAGE = "available commands:\n\tcreate <amount>\n\trename <table index> <name>\n\tresize <table index> <size>\n\tremove <table index>\n\tremove all\n\tclone <table index>\n\tstatus\n\tstatus <table index>\n\tedit <table index> <cell index> <value>\n\thelp\n\tquit";
 const std::string ENTER_TABLE_NAME_MESSAGE = "enter the name of table #";
 const std::string ENTER_TABLE_LENGTH_MESSAGE = "enter the length of table #";
 const std::string COLON = ": ";

@@ -3,82 +3,90 @@
 #include "command.h"
 #include "manager.h"
 
-class ChangeVariationCommand : public menu::Command {
+class ChangeVariationCommand : public menu::Command
+{
 public:
-	ChangeVariationCommand(KnapsackProblemManagerMultiplexer* manager);
-	virtual Command* clone() const override;
-	void runCommand() const override final;
+  ChangeVariationCommand(KnapsackProblemManagerMultiplexer* manager);
+  virtual Command* clone() const override;
+  void runCommand() const override final;
 
 protected:
-	KnapsackProblemManagerMultiplexer* manager;
+  KnapsackProblemManagerMultiplexer* manager;
 };
 
-class LoadItemsCommand : public menu::Command {
+class LoadItemsCommand : public menu::Command
+{
 public:
-	LoadItemsCommand(KnapsackProblemManagerMultiplexer* manager);
-	virtual Command* clone() const override;
-	void runCommand() const override final;
+  LoadItemsCommand(KnapsackProblemManagerMultiplexer* manager);
+  virtual Command* clone() const override;
+  void runCommand() const override final;
 
 protected:
-	KnapsackProblemManagerMultiplexer* manager;
+  KnapsackProblemManagerMultiplexer* manager;
 };
 
-class SetCapacityCommand : public menu::Command {
+class SetCapacityCommand : public menu::Command
+{
 public:
-	SetCapacityCommand(KnapsackProblemManagerMultiplexer* manager);
-	virtual Command* clone() const override;
-	void runCommand() const override final;
+  SetCapacityCommand(KnapsackProblemManagerMultiplexer* manager);
+  virtual Command* clone() const override;
+  void runCommand() const override final;
 
 protected:
-	KnapsackProblemManagerMultiplexer* manager;
+  KnapsackProblemManagerMultiplexer* manager;
 };
 
-class SetPopulationSizeCommand : public menu::Command {
+class SetPopulationSizeCommand : public menu::Command
+{
 public:
-	SetPopulationSizeCommand(KnapsackProblemManagerMultiplexer* manager);
-	virtual Command* clone() const override;
-	void runCommand() const override final;
+  SetPopulationSizeCommand(KnapsackProblemManagerMultiplexer* manager);
+  virtual Command* clone() const override;
+  void runCommand() const override final;
 
 protected:
-	KnapsackProblemManagerMultiplexer* manager;
+  KnapsackProblemManagerMultiplexer* manager;
 };
 
-class SetMutationProbability : public menu::Command {
+class SetMutationProbability : public menu::Command
+{
 public:
-	SetMutationProbability(KnapsackProblemManagerMultiplexer* manager);
-	virtual Command* clone() const override;
-	void runCommand() const override final;
+  SetMutationProbability(KnapsackProblemManagerMultiplexer* manager);
+  virtual Command* clone() const override;
+  void runCommand() const override final;
 
 protected:
-	KnapsackProblemManagerMultiplexer* manager;
+  KnapsackProblemManagerMultiplexer* manager;
 };
 
-class SetCrossoverProbability : public menu::Command {
+class SetCrossoverProbability : public menu::Command
+{
 public:
-	SetCrossoverProbability(KnapsackProblemManagerMultiplexer* manager);
-	virtual Command* clone() const override;
-	void runCommand() const override final;
+  SetCrossoverProbability(KnapsackProblemManagerMultiplexer* manager);
+  virtual Command* clone() const override;
+  void runCommand() const override final;
 
 protected:
-	KnapsackProblemManagerMultiplexer* manager;
+  KnapsackProblemManagerMultiplexer* manager;
 };
 
-class RunAlgorithmCommand : public menu::Command {
+class RunAlgorithmCommand : public menu::Command
+{
 public:
-	RunAlgorithmCommand(KnapsackProblemManagerMultiplexer* manager);
-	virtual Command* clone() const override;
-	void runCommand() const override final;
+  RunAlgorithmCommand(KnapsackProblemManagerMultiplexer* manager);
+  virtual Command* clone() const override;
+  void runCommand() const override final;
 
 protected:
-	KnapsackProblemManagerMultiplexer* manager;
+  KnapsackProblemManagerMultiplexer* manager;
 };
 
-class GetFittestIndividualCommand : public menu::Command {
+class GetFittestIndividualCommand : public menu::Command
+{
 public:
-	GetFittestIndividualCommand(KnapsackProblemManagerMultiplexer* manager);
-	virtual Command* clone() const override;
-	void runCommand() const override final;
+  GetFittestIndividualCommand(KnapsackProblemManagerMultiplexer* manager);
+  virtual Command* clone() const override;
+  void runCommand() const override final;
 
 protected:
-	KnapsackProblemManagerMultiplexer* manager;
+  KnapsackProblemManagerMultiplexer* manager;
 };
