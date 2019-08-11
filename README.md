@@ -6,6 +6,8 @@ The assignments given on the course were not self-contained.
 To address that, the code shared by multiple assignments has been separated out into its own static library.
 This library is then linked to the actual assignments through references, by setting the proper `AdditionalIncludeDirectories` in Visual Studio Community 2017, which is the software used throughout the course.
 
+The instructions for the assignments are available in Polish in the [instructions](instructions) directory.
+
 ### assg1
 This assignment acted as an introduction to the C++ language and its many intricacies.
 The task was to define a custom list class based on an array of numbers.
@@ -31,7 +33,7 @@ The program would notify the user of any syntax errors encountered during the pa
 The student also had to define a set of custom commands for manipulating and managing the tables defined in assignment 1.
 
 ### assg4
-The aim of this assignment was to solve the [binary knapsack problem](https://en.wikipedia.org/wiki/Knapsack_problem) with a use of a genetic algorithm.
+The aim of this assignment was to solve the [0/1 knapsack problem](https://en.wikipedia.org/wiki/Knapsack_problem) with a use of a genetic algorithm.
 
 The `GeneticAlgorithm` class is a template for any _problem_, as long as that _problem_ defines a gene, a mutation function of that gene, and a fitness function for a genotype.
 The algorithm itself uses a simple two-point crossover for the creation of new individuals. The user can also define the population size, the probabilities of a mutation and a crossover, as well as the size of the elitist selection.
@@ -46,7 +48,7 @@ Every task assigned to each lab group was a little different to prevent cheating
 
 ### assg5
 This time the student had to make an extension to the knapsack problem defined in assignment 4.
-Apart from the binary, the genetic algorithm should also solve the unbounded and the continuous knapsack problem variation.
+Apart from the 0/1, the genetic algorithm should also solve the unbounded and the continuous knapsack problem variation.
 Everything had to be wrapped in a menu from assignments 2 and 3.
 
 ## Notes
